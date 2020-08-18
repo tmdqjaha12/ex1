@@ -1,0 +1,225 @@
+/* 노말라이즈 */
+body, ul, li, h1 {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: inherit;
+}
+
+label[for] {
+	cursor: pointer;
+	user-select: none;
+}
+
+/* 라이브러리 */
+.block {
+	display: block;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.img-box>img, .img-box>svg {
+	width: 100%;
+	display: block;
+}
+
+.video-box>video {
+	width: 100%;
+	display: block;
+}
+
+.con {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.border-red {
+	border: 10px solid red;
+}
+
+html>head+body:nth-child(2) .height-300 {
+	min-height: 100px;
+}
+
+.margin-top-20 {
+	margin-top: 20px;
+}
+
+.margin-top-30 {
+	margin-top: 30px;
+}
+
+.padding-0-10 {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.padding-0-20 {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.padding-10-0 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.padding-20-0 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.bg-white {
+	background-color: white;
+}
+
+.padding-10 {
+	padding: 10px;
+}
+
+/* flex 관련 */
+.flex {
+	display: flex;
+}
+
+.flex-ai-c {
+	align-items: center;
+}
+
+.flex-jc-c {
+	justify-content: center;
+}
+
+.flex-jc-sb {
+    justify-content: space-between;
+}
+
+.flex-1-0-0 {
+	flex:1 0 0;
+}
+
+/* 테이블 관련 */
+.join-form > table,
+ .login-form > table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.join-form>table th,
+ .login-form>table th,
+  .table-box>table td {
+	border-right:none;
+	padding: 10px;
+	text-align: left;
+	color:white;
+}
+
+/* 폼 관련 */
+.join-form .form-control-box>input, .join-form .form-control-box>textarea,
+ .login-form .form-control-box>input, .login-form .form-control-box>textarea {
+	width: 100%;
+	padding: 0;
+	display: block;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.join-form .form-control-box>textarea,
+ .login-form .form-control-box>textarea {
+	min-height: 300px;
+	resize: none;
+}
+
+.join-form .form-row,
+ .login-form .form-row {
+}
+
+.join-form .form-row >.form-control-label,
+ .login-form .form-row >.form-control-label {
+	align-items: center;
+	padding: 10px;
+}
+
+.join-form .form-row >.form-control-box,
+ .login-form .form-row >.form-control-box {
+	align-items: center;
+	padding: 10px;
+}
+
+.join-form th,
+ .login-form th {
+	/* `로그인 아이디` 문구가 줄 바꿈 될 때 공백기준으로 줄바꿈 되도록 */
+	word-break: keep-all;
+}
+
+/* 버튼관련 */
+.btn {
+	width:100%;
+	margin:0 auto;
+	padding: 10px 15px;
+	font-weight: bold;
+	border-radius: 10px;
+	outline: 0;
+	border: 0;
+	cursor: pointer;
+	background-color: white;
+	color: black;
+	text-shadow: 1px 1px 20px #000000;
+}
+
+.btn:hover {
+	background-color: #efefef;
+}
+
+.btn-success {
+	background-color: green;
+}
+
+.btn-danger {
+	background-color: red;
+}
+
+/* 회원가입 관련 시작 */
+.join-background{
+	position:absolute;
+	top:20%;
+	left:20%;
+	right:20%;
+	bottom:20%;
+	background-color:black;
+}
+
+.join-form{
+	border:1px solid white;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translateX(-50%) translateY(-50%);
+}
+/* 회원가입 관련 끝*/
+
+/* 로그인 관련 시작 */
+
+.login-background{
+	position:absolute;
+	top:30%;
+	left:30%;
+	right:30%;
+	bottom:30%;
+	background-color:black;
+}
+
+.login-form {
+	border:1px solid white;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translateX(-50%) translateY(-50%);
+	padding:5px;
+}
+/* 로그인 관련 끝*/
