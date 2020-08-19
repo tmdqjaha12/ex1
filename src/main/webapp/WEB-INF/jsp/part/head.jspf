@@ -46,7 +46,29 @@ var param = ${paramJson};
 		<div class="top-bar">
 			안녕	
 		</div>
-		
+		<nav class="menu-box-1">
+				<ul class="flex">
+					<li class="padding-0-10"><a href="/usr/home/main"
+						class="btn btn-info">홈</a></li>
+					<li class="padding-0-10"><a class="btn btn-info"
+						href="/usr/article/free-list">자유 게시판</a></li>
+					<c:if test="${isLogined}">
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/member/doLogout">로그아웃</a></li>
+							<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/member/passwordForPrivate">my</a></li>
+					</c:if>
+					<c:if test="${isLogined == false}">
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a></li>
+
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/member/join">회원가입</a></li>
+
+					</c:if>
+
+				</ul>
+			</nav>
 		
 		
 		
