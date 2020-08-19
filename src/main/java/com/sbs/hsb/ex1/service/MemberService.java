@@ -53,6 +53,26 @@ public class MemberService {
 
 		return new ResultData("F-1", "이미 사용중인 로그인 아이디 입니다.", "loginId", loginId);
 	}
+	
+	public ResultData checkNickNameJoinable(String nickname) {
+		int count = memberDao.getNickNameDupCount(nickname);
+
+		if (count == 0) {
+			return new ResultData("S-1", "가입가능한 활동명 입니다.", "loginId", nickname);
+		}
+
+		return new ResultData("F-1", "이미 사용중인 활동명 입니다.", "loginId", nickname);
+	}
+	
+	public ResultData checkEmailJoinable(String email) {
+		int count = memberDao.getEmailDupCount(email);
+
+		if (count == 0) {
+			return new ResultData("S-1", "가입가능한 이메일 입니다.", "loginId", email);
+		}
+
+		return new ResultData("F-1", "이미 사용중인 이메 입니다.", "loginId", email);
+	}
 
 	public Member getMemberByLoginId(String loginId) {
 		return memberDao.getMemberByLoginId(loginId);

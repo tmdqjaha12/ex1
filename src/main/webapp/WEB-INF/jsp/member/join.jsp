@@ -10,6 +10,7 @@
 
 <script>
 	var MemberJoinForm__submitDone = false;
+	var JoinForm__validLoginId = '';
 	function MemberJoinForm__submit(form) {
 		if (MemberJoinForm__submitDone) {
 			alert('처리중입니다.');
@@ -34,6 +35,13 @@
 
 			return;
 		}
+
+		//if (form.loginId.value != JoinForm__validLoginId) {
+		//	alert('다른 아이디를 입력해주세요.');
+		//	form.loginId.focus();
+		//	return;
+		//}
+		
 
 		form.loginPw.value = form.loginPw.value.trim();
 
@@ -83,6 +91,12 @@
 			return;
 		}
 
+		//if (form.nickname.value != JoinForm__checkNickNameDup) {
+		//	alert('다른 활동명을 입력해주세요.');
+		//	form.nickname.focus();
+		//	return;
+		//}
+
 		form.email.value = form.email.value.trim();
 
 		if (form.email.value.length == 0) {
@@ -92,6 +106,12 @@
 			return;
 		}
 
+		//if (form.email.value != JoinForm__checkEmailDup) {
+		//	alert('다른 이메일을 입력해주세요.');
+		//	form.email.focus();
+		//	return;
+		//}
+
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
 		form.loginPwConfirm.value = '';
@@ -99,6 +119,88 @@
 		form.submit();
 		MemberJoinForm__submitDone = true;
 	}
+
+	function JoinForm__checkLoginIdDup(input) {
+		var form = input.form;
+		form.loginId.value = form.loginId.value.trim();
+		if (form.loginId.value.length == 0) {
+			return;
+		}
+		$.get('./../member/getLoginIdDup', {
+			loginId : form.loginId.value
+		}, function(data) {
+			var $message = $(form.loginId).next();
+			if (data.resultCode.substr(0, 2) == 'S-') {
+				$message.empty().append(
+						'<div style="color:green;">' + data.msg + '</div>');
+				JoinForm__validLoginId = data.loginId;
+			} else {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validLoginId = '';
+			}
+		}, 'json');
+	}
+
+	function JoinForm__checkNickNameDup(input) {
+		var form = input.form;
+		form.nickname.value = form.nickname.value.trim();
+		if (form.nickname.value.length == 0) {
+			return;
+		}
+		$.get('./../member/getNickNameDup', {
+			nickname : form.nickname.value
+		}, function(data) {
+			var $message = $(form.nickname).next();
+			if (data.resultCode.substr(0, 2) == 'S-') {
+				$message.empty().append(
+						'<div style="color:green;">' + data.msg + '</div>');
+				JoinForm__validNickName = data.nickname;
+			} else {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validNickName = '';
+			}
+		}, 'json');
+	}
+
+	function JoinForm__checkEmailDup(input) {
+		var form = input.form;
+		form.email.value = form.email.value.trim();
+		if (form.email.value.length == 0) {
+			return;
+		}
+		$.get('./../member/getEmailDup', {
+			email : form.email.value
+		}, function(data) {
+			var $message = $(form.email).next();
+			if (data.resultCode.substr(0, 2) == 'S-') {
+				$message.empty().append(
+						'<div style="color:green;">' + data.msg + '</div>');
+				JoinForm__validEmail = data.email;
+			} else {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validEmail = '';
+			}
+		}, 'json');
+	}
+
+
+	//function JoinForm__checkLoginIdDup(input) {
+		//var form = input.form;
+		//var checkLoginIdFormData = new FormData(form); 
+	//	
+	//	$.ajax({
+	//		url : './../member/getLoginIdDup',
+	//		data : checkLoginIdFormData,
+	//		processData : false,
+		//	contentType : false,
+	//		dataType:"json",
+	//		type : 'POST',
+	//		success : onSuccess
+	//	});
+	//}
 </script>
 
 <div class="join-background">
@@ -115,7 +217,8 @@
 					<th>로그인 아이디</th>
 					<td>
 						<div class="form-control-box">
-							<input type="text" placeholder="로그인 아이디 입력해주세요." name="loginId" maxlength="30" />
+							<input onkeyup="JoinForm__checkLoginIdDup(this);" type="text" placeholder="로그인 아이디 입력해주세요." name="loginId" maxlength="30" />
+							<div class="id-message-msg"></div>
 						</div>
 					</td>
 				</tr>
@@ -147,7 +250,8 @@
 					<th>활동명</th>
 					<td>
 						<div class="form-control-box">
-							<input type="text" placeholder="활동명 입력해주세요." name="nickname" maxlength="20" />
+							<input onkeyup="JoinForm__checkNickNameDup(this);" type="text" placeholder="활동명 입력해주세요." name="nickname" maxlength="20" />
+							<div class="nick-message-msg"></div>
 						</div>
 					</td>
 				</tr>
@@ -155,7 +259,8 @@
 					<th>이메일</th>
 					<td>
 						<div class="form-control-box">
-							<input type="email" placeholder="이메일 입력해주세요." name="email" maxlength="50" />
+							<input onkeyup="JoinForm__checkEmailDup(this);" type="email" placeholder="이메일 입력해주세요." name="email" maxlength="50" />
+							<div class="mail-message-msg"></div>
 						</div>
 					</td>
 				</tr>
