@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.hsb.ex1.dto.Member;
+import com.sbs.hsb.ex1.dto.ResultData;
 
 @Mapper
 public interface MemberDao {
@@ -21,4 +22,6 @@ public interface MemberDao {
 	int getEmailDupCount(@Param("email") String email);
 
 	Member getMemberByLoginId(@Param("loginId") String loginId);
+
+	void setModifyPassword(Map<String, Object> param);
 }

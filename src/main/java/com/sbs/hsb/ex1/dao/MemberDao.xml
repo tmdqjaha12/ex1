@@ -36,6 +36,13 @@
 		FROM member
 		WHERE loginId = #{loginId}
 	</select>
+	
+	<update id="setModifyPassword" useGeneratedKeys="true" keyProperty="id">
+		UPDATE member
+		SET updateDate = NOW(),
+		loginPw = #{loginPwReal}
+		WHERE id = #{id}
+	</update>
 
 	<insert id="join" useGeneratedKeys="true" keyProperty="id">
 		INSERT

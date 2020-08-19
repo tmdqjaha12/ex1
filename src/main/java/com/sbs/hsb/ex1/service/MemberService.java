@@ -77,4 +77,8 @@ public class MemberService {
 	public Member getMemberByLoginId(String loginId) {
 		return memberDao.getMemberByLoginId(loginId);
 	}
+
+	public void setModifyPassword(Map<String, Object> param) {
+		memberDao.setModifyPassword(param);
+	}
 }

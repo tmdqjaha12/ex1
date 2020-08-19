@@ -112,8 +112,17 @@ public class MemberController {
 	
 	// 회원 비번 수정
 	@RequestMapping("/usr/member/doModifyPrivate")
-	public String doModifyPrivate() {
-		return "member/modifyPassword";
+	public String doModifyPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
+		param.put("id", session.getAttribute("loginedMemberId"));
+
+		memberService.setModifyPassword(param);
+		session.removeAttribute("loginedMemberId");//로그아웃
+		
+		String redirectUri = "/usr/member/login";
+		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", String.format("비밀번호 수정 완료! 새 비밀번호로 로그인 해주세요."));
+
+		return "common/redirect";
 	}
 		
 	// 회원 정보 수정 끝 //

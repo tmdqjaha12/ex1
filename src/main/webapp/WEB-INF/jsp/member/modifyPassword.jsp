@@ -16,9 +16,23 @@
 			form.loginPw.focus();
 			return;
 		}
+
+		if (form.loginPw.value.length < 5) {
+			form.loginPw.focus();
+			alert('새 로그인 비밀번호를 5자 이상 입력해주세요.');
+
+			return;
+		}
+		
 		form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
 		if (form.loginPwConfirm.value.length == 0) {
 			alert('새 로그인 비번 확인을 입력해주세요.');
+			form.loginPwConfirm.focus();
+			return;
+		}
+
+		if(form.loginPw.value != form.loginPwConfirm.value){
+			alert('비밀번호를 정확히 입력해 주세요.');
 			form.loginPwConfirm.focus();
 			return;
 		}

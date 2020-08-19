@@ -36,7 +36,7 @@
 					<th>로그인 비번</th>
 					<td>
 						<div class="form-control-box">
-							<input type="text" placeholder="로그인 비번을 입력해주세요." name="loginPw"
+							<input type="password" placeholder="로그인 비번을 입력해주세요." name="loginPw"
 								maxlength="30" autofocus="autofocus" />
 						</div>
 					</td>
