@@ -10,4 +10,9 @@ public class HomeController {
 	public String showMain() {
 		return "home/main";
 	}
+	
+	@RequestMapping("/usr/home/myPage")
+	public String showMyPage() {
+		return "home/myPage";
+	}
 }

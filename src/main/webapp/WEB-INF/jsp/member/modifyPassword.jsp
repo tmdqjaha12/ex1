@@ -39,6 +39,7 @@
 		
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
+		form.loginPwConfirm.value = '';
 		form.submit();
 	}
 </script>
