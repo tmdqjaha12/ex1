@@ -36,6 +36,9 @@
 </script>
 
 <div class="my-page-background">
+	
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+
 	<div class="my-page-box table-box">
 	
 		<form action="" method="">

@@ -26,6 +26,9 @@ function submitFindIdForm(form) {
 }
 </script>
 <div class="findId-background login-background">
+	
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+
 	<form method="POST" class="findId-form login-form table-box con form1" action="doFindId" onsubmit="submitFindIdForm(this); return false;">
 		<input type="hidden" name="redirectUri" value="/usr/member/login">
 
@@ -56,6 +59,7 @@ function submitFindIdForm(form) {
 					<th>아이디 찾기</th>
 					<td>
 						<button class="btn btn-primary" type="submit">아이디 찾기</button>
+						<a href="../member/login" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>

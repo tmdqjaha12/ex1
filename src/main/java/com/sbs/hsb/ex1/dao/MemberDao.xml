@@ -44,10 +44,10 @@
 		AND email = #{email}
 	</select>
 	
-	<select id="getMemberIdByLoginIdAndNameAndEmail" resultType="String">
+	<select id="getMemberIdByLoginIdAndNameAndEmail" resultType="int">
 		SELECT id
 		FROM member
-		WHERE logindId = #{logindId}
+		WHERE loginId = #{loginId}
 		AND name = #{name}
 		AND email = #{email}
 	</select>

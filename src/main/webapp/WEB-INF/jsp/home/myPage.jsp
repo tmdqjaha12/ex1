@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="메인" />
+<c:set var="pageTitle" value="내 정보" />
 <%@ include file="../part/head.jspf"%>
 
 <script>
@@ -13,6 +13,9 @@
 </script>
 
 <div class="my-page-background">
+
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+	
 	<div class="my-page-box table-box">
 		<table>
 			<tr>

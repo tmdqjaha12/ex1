@@ -58,7 +58,12 @@
 		MemberLoginForm__submitDone = true;
 	}
 </script>
+
+
 <div class="login-background">
+
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+
 	<form method="POST" class="login-form table-box con form1" action="doLogin"
 		onsubmit="MemberLoginForm__submit(this); return false;">
 		<input type="hidden" name="redirectUri" value="${param.redirectUri}">
@@ -91,10 +96,18 @@
 					<th>로그인</th>
 					<td>
 						<button class="btn btn-primary" type="submit">로그인</button>
+						<a href="../home/main" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+	</form>
+	
+	<form action="" method=""
+		class="all-modify" onsubmit="">
+		
+		<input type="button" value="아이디 찾기" onclick="location.href='/usr/member/findId'" /> 
+		<input type="button" value="비밀번호  찾기" onclick="location.href='/usr/member/findPw'" />  
 	</form>
 </div>
 

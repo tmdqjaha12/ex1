@@ -116,7 +116,7 @@ public class MemberService {
 			mailService.send(eamil, mailTitle, mailBodySb.toString());
 		}
 		
-		if(title.equals("id")) {
+		if(title.equals("pw")) {
 			String mailTitle = String.format("비번 찾기 결과");	
 			StringBuilder mailBodySb = new StringBuilder();
 			mailBodySb.append(String.format("<h1>임시 비번 : %s</h1>", body));
@@ -125,7 +125,7 @@ public class MemberService {
 	}
 	
 	// 아이디 이름 이메일로 회원keyId 가져오기
-	public String getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param) {
+	public int getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param) {
 		return memberDao.getMemberIdByLoginIdAndNameAndEmail(param);
 	}
 

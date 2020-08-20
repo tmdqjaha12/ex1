@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="개인정보 수정" />
+<c:set var="pageTitle" value="비밀번호 변경" />
 <%@ include file="../part/head.jspf"%>
 
 <script
@@ -56,6 +56,9 @@
 </script>
 
 <div class="modify-password-background">
+
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+
 	<form action="doModifyPrivate" method="POST" class="modify-password-form table-box" 
 	onsubmit="ModifyPrivateForm__submit(this); return false;">
 		<input type="hidden" name="loginPwReal" />

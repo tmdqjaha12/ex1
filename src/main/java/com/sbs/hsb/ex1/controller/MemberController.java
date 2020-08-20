@@ -382,9 +382,15 @@ public class MemberController {
 
 			memberService.sendFindIdANDPwMail((String) param.get("email"), imshiPw, "pw");// 임시 비번 발송
 
-			return String.format("html:<script> alert('발송된 임시번호로 로그인해주세요.'); location.replace('login'); </script>");
+			model.addAttribute("redirectUri", (String) param.get("redirectUri"));
+			model.addAttribute("alertMsg", String.format("임시비번이 발송되었습니다."));
+			
+			return "common/redirect";
 		}
 
-		return String.format("html:<script> alert('유효한 정보를 찾지 못했습니다.'); location.replace('findPw'); </script>");
+		model.addAttribute("redirectUri", "/usr/member/findPw");
+		model.addAttribute("alertMsg", String.format("유효하지 않은 정보입니다."));
+		
+		return "common/redirect";
 	}
 }

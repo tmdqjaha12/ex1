@@ -206,6 +206,9 @@
 </script>
 
 <div class="join-background">
+
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+
 	<form method="POST" class="join-form" action="doJoin" onsubmit="MemberJoinForm__submit(this); return false;">
 		<input type="hidden" name="redirectUri" value="/usr/member/login">
 		<input type="hidden" name="loginPwReal">

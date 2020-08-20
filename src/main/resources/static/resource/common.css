@@ -214,6 +214,21 @@ html>head+body:nth-child(2) .height-300 {
 	color:red;
 }
 
+/* page-title start */
+
+.page-title {
+	position: absolute;
+	top:5%;
+	left:50%;
+	transform:translateX(-50%);
+}
+
+.page-title > h1 {
+	color:white;
+}
+
+/* page-title end */
+
 /* 회원가입 관련 시작 */
 .join-background{
 	position:absolute;
@@ -339,3 +354,14 @@ html>head+body:nth-child(2) .height-300 {
 	transform:translateX(-50%) translateY(-50%);
 }
 /* 마이페이지 관련 끝 */
+
+/* 비밀번호 찾기, 아이디 찾기 시작 */
+.findPw-background, .findId-background {
+	position:absolute;
+	top:20%;
+	left:30%;
+	right:30%;
+	bottom:20%;
+	background-color:black;
+}
+/* 비밀번호 찾기 끝 */

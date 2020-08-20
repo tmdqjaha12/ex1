@@ -105,6 +105,9 @@
 </script>
 
 <div class="modify-background">
+
+	<div class="page-title"><h1>${pageTitle}</h1></div>
+
 	<form method="POST" class="modify-form table-box" action="doMemberModify" onsubmit="MemberModifyForm__submit(this); return false;">
 		<input type="hidden" name="redirectUri" value="/usr/home/myPage">
 		
