@@ -24,4 +24,6 @@ public interface MemberDao {
 	Member getMemberByLoginId(@Param("loginId") String loginId);
 
 	void setModifyPassword(Map<String, Object> param);
+
+	void doSecssion(@Param("id") int id);
 }

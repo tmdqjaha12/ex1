@@ -2,9 +2,11 @@ package com.sbs.hsb.ex1.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,10 +49,42 @@ public class MemberController {
 		}
 
 		int newMemberId = memberService.join(param);
+		
+		String authCode = memberService.genEmailAuthCode(newMemberId); // 회원 attr 테이블 저장 & 인증코드
+		memberService.genLastPasswordChangeDate(newMemberId); // 회원 업데이트 attr 테이블 저장
+		memberService.genEmailAuthed(newMemberId, ""); // 회원 이메일 attr 테이블 저장
+		
+		memberService.sendAuthMail((String)param.get("email"), authCode, newMemberId); // 인증 이메일 발송
 
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", String.format("회원가입 완료!"));
 
+		return "common/redirect";
+	}
+	
+	// 회원 인증authEmail
+	@RequestMapping("/usr/member/authEmail")
+	public String doAuthEmail(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
+		int loginedMemberId = Util.getInt(req, "memberId");
+		String strLoginedMemberId = "" + loginedMemberId;
+		String authCode = Util.getString(req, "authCode");
+		String email = Util.getString(req, "email");
+		String redirectUri = "/usr/member/passwordForPrivate";
+		
+		if (memberService.isValidEmailAuthCode(strLoginedMemberId, authCode) == false) {//attr비교
+			redirectUri = "/usr/home/myPage";
+			model.addAttribute("redirectUri", redirectUri);
+			model.addAttribute("alertMsg", String.format("인증번호를 다시 체크해주세요."));
+			return "common/redirect";
+		}
+		
+		memberService.genEmailAuthed(loginedMemberId, email);//attr 이메일저장	
+		
+		redirectUri = "/usr/home/main";
+		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", String.format("인증이 완료되었습니다."));
+		
 		return "common/redirect";
 	}
 	
@@ -59,22 +93,37 @@ public class MemberController {
 	@ResponseBody
 	public ResultData getLoginIdDup(@RequestParam Map<String, Object> param, Model model) {
 		String loginId = (String) param.get("loginId");
+	
 		return memberService.checkLoginIdJoinable(loginId);
 	}
 	
 	// 회원 가입 별명 중복 체크
 	@RequestMapping("/usr/member/getNickNameDup")
 	@ResponseBody
-	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model) {
+	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
+		Member member = (Member) req.getAttribute("loginedMember");
+		String loginedNickname = (String) member.getNickname();
 		String nickname = (String) param.get("nickname");
+		
+		if(nickname.equals(loginedNickname)) {//현재 나의 별명
+			return new ResultData("Z-1", "", "nickname", nickname);
+		}
+		
 		return memberService.checkNickNameJoinable(nickname);
 	}
 	
 	// 회원 가입 이메일 중복 체크
 	@RequestMapping("/usr/member/getEmailDup")
 	@ResponseBody
-	public ResultData getEmailDup(@RequestParam Map<String, Object> param, Model model) {
+	public ResultData getEmailDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
+		Member member = (Member) req.getAttribute("loginedMember");
+		String loginedEmail = (String) member.getEmail();
 		String email = (String) param.get("email");
+		
+		if(email.equals(loginedEmail)) {//현재 나의 이메일
+			return new ResultData("Z-1", "", "email", email);
+		}
+		
 		return memberService.checkEmailJoinable(email);
 	}
 	// 회원 가입 끝 //
@@ -82,19 +131,27 @@ public class MemberController {
 	// 회원 정보 수정 시작 //
 	// 회원 정보 수정을 위한 비밀번호 확인 페이지
 	@RequestMapping("/usr/member/passwordForPrivate")
-	public String showModifyPrivate() {
+	public String showModifyPrivate(HttpServletRequest req) {
+		String isvalTag = Util.getString(req, "isvalTag");
+		
+		req.setAttribute("isvalTag", isvalTag);
+		
 		return "member/passwordForPrivate";
 	}
 	
 	// 회원 정보 수정을 위한 비밀번호 확인
 	@RequestMapping("/usr/member/doPasswordForPrivate")
-	public String showPasswordForPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
+	public String showPasswordForPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session, HttpServletRequest req) {
+		//비번확인
 		String loginedPw = (String) param.get("loginPwReal");
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		Member member = memberService.getMemberById(loginedMemberId);
 		
 		if (member.getLoginPw().equals(loginedPw)) {
-			return "member/modifyPassword";
+			String isvalTag = Util.getString(req, "isvalTag");
+			String redirectUri = "/usr/member/" + isvalTag;
+			model.addAttribute("redirectUri", redirectUri);
+			return "common/redirect";
 		}
 		
 		String redirectUri = "/usr/member/passwordForPrivate";
@@ -122,6 +179,47 @@ public class MemberController {
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("비밀번호 수정 완료! 새 비밀번호로 로그인 해주세요."));
 
+		return "common/redirect";
+	}
+	
+	// 회원 탈퇴 페이지
+	@RequestMapping("/usr/member/secession")
+	public String showSecession() {
+		return "member/secession";
+	}
+	
+	// 회원 탈퇴 secession
+	@RequestMapping("/usr/member/doSecession")
+	public String doSecession(Model model, HttpSession session) {
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		
+		memberService.doSecssion(loginedMemberId);
+		
+		String redirectUri = "/usr/home/main";
+		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", String.format("탈퇴 완료!"));
+		
+		session.removeAttribute("loginedMemberId");
+
+		return "common/redirect";
+	}
+	
+	// 회원 개인 정보 수정 페이지
+	@RequestMapping("/usr/member/memberModify")
+	public String showMemberModify() {
+		return "member/memberModify";
+	}
+	
+	// 회원 개인 정보 수정
+	@RequestMapping("/usr/member/doMemberModify")
+	public String doMemberModify(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
+
+//		if(memberService.getEmailAuthed(loginedMemberId).equals(email) == false) {
+//			memberService.genEmailAuthed(loginedMemberId, "");//이메일 인증 초기화
+//		}
+//		
+//		memberService.memberModify(loginedMemberId, nickname, email);
+		
 		return "common/redirect";
 	}
 		

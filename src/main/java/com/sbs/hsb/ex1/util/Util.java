@@ -11,13 +11,14 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -412,5 +413,13 @@ public class Util {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	// 현재 날짜 구하기
+	public static String getRegeDateNow() {
+		long systemTime = System.currentTimeMillis();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+		String currentTime = formatter.format(systemTime);
+		return currentTime;
 	}
 }

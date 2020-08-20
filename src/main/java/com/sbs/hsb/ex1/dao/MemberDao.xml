@@ -43,19 +43,26 @@
 		loginPw = #{loginPwReal}
 		WHERE id = #{id}
 	</update>
+	
+	<update id="doSecssion" useGeneratedKeys="true" keyProperty="id">
+		UPDATE member
+		SET updateDate = NOW(),
+		delStatus = 1
+		WHERE id = #{id}
+	</update>
 
 	<insert id="join" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		INTO member
 		SET regDate = NOW(),
 		updateDate = NOW(),
-		authStatus = 0,
 		loginId = #{loginId},
 		loginPw = #{loginPw},
 		`name` = #{name},
-		nickname =
-		#{nickname},
+		nickname = #{nickname},
 		email = #{email},
-		cellphoneNo = ''
+		cellphoneNo = '',
+		level = 1,
+		delStatus = 0
 	</insert>
 </mapper>

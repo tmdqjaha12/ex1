@@ -1,6 +1,7 @@
 package com.sbs.hsb.ex1.service;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,29 +18,39 @@ public class MemberService {
 	private MemberDao memberDao;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private AttrService attrService;
 	@Value("${custom.siteMainUri}")
 	private String siteMainUri;
 	@Value("${custom.siteName}")
 	private String siteName;
 
+	// id로 회원 찾기
 	public Member getMemberById(int id) {
 		return memberDao.getMemberById(id);
 	}
 
+	// 회원 가입
 	public int join(Map<String, Object> param) {
 		memberDao.join(param);
 
-		sendJoinCompleteMail((String) param.get("email"));
-
 		return Util.getAsInt(param.get("id"));
 	}
+	
+	// 메일발송
+	public void sendAuthMail(String email, String authCode, int newMemberId) {
+		sendJoinCompleteMail(email, authCode, newMemberId);
+	}
 
-	private void sendJoinCompleteMail(String email) {
+	// 메일발송 기능
+	private void sendJoinCompleteMail(String email, String authCode, int newMemberId) {
 		String mailTitle = String.format("[%s] 가입이 완료되었습니다.", siteName);
+		
+		
 
 		StringBuilder mailBodySb = new StringBuilder();
 		mailBodySb.append("<h1>가입이 완료되었습니다.</h1>");
-		mailBodySb.append(String.format("<p><a href=\"%s\" target=\"_blank\">%s</a>로 이동</p>", siteMainUri, siteName));
+		mailBodySb.append(String.format("<p><a href=\"localhost:8085/usr/member/authEmail?email=%s&authCode=%s&memberId=%d\" target=\"_blank\">%s로</a> 이동</p>", email, authCode, newMemberId, siteName));
 
 		mailService.send(email, mailTitle, mailBodySb.toString());
 	}
@@ -81,4 +92,38 @@ public class MemberService {
 	public void setModifyPassword(Map<String, Object> param) {
 		memberDao.setModifyPassword(param);
 	}
+	
+	//탈퇴
+	public void doSecssion(int id) {
+		memberDao.doSecssion(id);
+	}
+	
+	// attr //
+
+	//▼set▼
+	public String genEmailAuthCode(int actorId) {
+		String authCode = UUID.randomUUID().toString();
+		attrService.setValue("member__" + actorId + "__extra__emailAuthCode", authCode);
+		return authCode;
+	}// 가입시 혹은 이메일 인증코드 다시보내기 버튼 누를 때 마다 갱신 Code
+
+	public String genLastPasswordChangeDate(int actorId) {
+		String currentTime = Util.getRegeDateNow();
+		attrService.setValue("member__" + actorId + "__extra__lastPasswordChangeDate", currentTime);
+
+		return currentTime;
+	}// 가입 혹은 패스워드 변경시 갱신 Code
+
+	public String genEmailAuthed(int actorId, String email) {
+		attrService.setValue("member__" + actorId + "__extra__emailAuthed", email);
+		return email;
+	}// 이메일인증__고객이 이메일의 링크를 클릭시 이 데이터가 생성 Code
+	
+	//▼get▼
+	public boolean isValidEmailAuthCode(String actorId, String authCode) {
+		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthCode");
+		return authCodeOnDB.equals(authCode);
+	}// 이메일 인증 AuthCode Fact
+
+
 }

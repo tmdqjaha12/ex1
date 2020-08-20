@@ -7,26 +7,9 @@
 <script>
 	var ModifyForm__submitDone = false;
 	function ModifyForm__submit(form) {
-		var isvalTagText = '';
 		
-		if(ModifyForm__submitDone){
-			alert('처리 중입니다.');
-		}
-		
-		function RemoveModifyForm__submit(input) {
-			isvalTagText = 'remove';
-		}
-
-		function AllModifyForm__submit(input) {
-			isvalTagText = 'modify';
-		}
-
-		function PasswordModifyForm__submit(input) {
-			isvalTagText = 'password';
-		}
-
-		form.isvalTag.value = isvalTagText;
 	}
+	ModifyForm__submitDone = true;
 </script>
 
 <div class="my-page-background">
@@ -62,12 +45,12 @@
 	</div>
 
 
-	<form action="/usr/member/passwordForPrivate" method="POST"
-		class="all-modify" onsubmit="ModifyForm__submit(this); return false;">
-		<input type="hidden" name="isvalTag"/> 
-		<input type="button" name="remove" value="회원 탈퇴" onclick="if ( confirm('삭제하시겠습니까?') == false ) RemoveModifyForm__submit(this); return false;" /> 
-		<input type="button" name="modify" value="정보 수정" onclick="AllModifyForm__submit(this); return false;" /> 
-		<input type="button" name="password" value="비번 변경" onclick="PasswordModifyForm__submit(this); return false;" />
+	<form action="" method=""
+		class="all-modify" onsubmit="">
+		
+		<input type="button" value="회원 탈퇴" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false; location.href='/usr/member/passwordForPrivate?isvalTag=secession'" /> 
+		<input type="button" value="정보 수정" onclick="location.href='/usr/member/passwordForPrivate?isvalTag=memberModify'" /> 
+		<input type="button" value="비번 변경" onclick="location.href='/usr/member/passwordForPrivate?isvalTag=passwordForPrivate'" /> 
 	</form>
 
 </div>

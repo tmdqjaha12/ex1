@@ -108,7 +108,8 @@ html>head+body:nth-child(2) .height-300 {
  .login-form > table,
   .passwordForPrivate-form > table,
    .modify-password-form > table,
-    .my-page-box > table {
+    .modify-form > table,
+     .my-page-box > table {
 	width: 100%;
 	border-collapse: collapse;
 }
@@ -117,8 +118,9 @@ html>head+body:nth-child(2) .height-300 {
  .login-form>table th,
   .passwordForPrivate-form>table th,
    .modify-password-form>table th,
-    .my-page-box>table th,
-     .table-box>table td {
+    .modify-form>table th,
+     .my-page-box>table th,
+      .table-box>table td {
 	border-right:none;
 	padding: 10px;
 	text-align: left;
@@ -129,7 +131,8 @@ html>head+body:nth-child(2) .height-300 {
 .join-form .form-control-box>input, .join-form .form-control-box>textarea,
  .login-form .form-control-box>input, .login-form .form-control-box>textarea,
   .passwordForPrivate-form .form-control-box>input, .passwordForPrivate-form .form-control-box>textarea,
-   .modify-password-form .form-control-box>input, .modify-password-form .form-control-box>textarea{
+   .modify-password-form .form-control-box>input, .modify-password-form .form-control-box>textarea,
+   .modify-form .form-control-box>input, .modify-form .form-control-box>textarea{
 	width: 100%;
 	padding: 0;
 	display: block;
@@ -140,7 +143,8 @@ html>head+body:nth-child(2) .height-300 {
 .join-form .form-control-box>textarea,
  .login-form .form-control-box>textarea,
   .passwordForPrivate-form .form-control-box>textarea,
-   .modify-password-form .form-control-box>textarea {
+   .modify-password-form .form-control-box>textarea,
+    .modify-form .form-control-box>textarea {
 	min-height: 300px;
 	resize: none;
 }
@@ -169,7 +173,8 @@ html>head+body:nth-child(2) .height-300 {
  .login-form th,
   .passwordForPrivate-form th,
    .modify-password-form th,
-    .my-page-box th {
+    .modify-form th,
+     .my-page-box th {
 	/* `로그인 아이디` 문구가 줄 바꿈 될 때 공백기준으로 줄바꿈 되도록 */
 	word-break: keep-all;
 }
@@ -268,6 +273,26 @@ html>head+body:nth-child(2) .height-300 {
 }
 /* 회원 비밀번호 수정 페이지 끝 */
 
+/* 회원 개인 정보 수정 페이지 시작 */
+.modify-background{
+	position:absolute;
+	top:20%;
+	left:20%;
+	right:20%;
+	bottom:20%;
+	background-color:black;
+}
+
+.modify-form{
+	border:1px solid white;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translateX(-50%) translateY(-50%);
+	padding:20px;
+}
+/* 회원 개인 정보 수정 페이지 끝 */
+
 /* 로그인 관련 시작 */
 
 .login-background{
@@ -309,7 +334,7 @@ html>head+body:nth-child(2) .height-300 {
 
 .all-modify {
 	position: absolute;
-	bottom:10%;
+	bottom:7%;
 	left:50%;
 	transform:translateX(-50%) translateY(-50%);
 }
