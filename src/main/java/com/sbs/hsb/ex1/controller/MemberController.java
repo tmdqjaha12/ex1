@@ -161,17 +161,35 @@ public class MemberController {
 		return "common/redirect";
 	}
 	
-	// 회원 비번 수정 페이지
+	// 회원 비번 변경 페이지
 	@RequestMapping("/usr/member/modifyPassword")
-	public String showPasswordForPrivate() {
+	public String showPasswordForPrivate(Model model, HttpSession session) {
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		Member member = memberService.getMemberById(loginedMemberId);
+		
+		model.addAttribute("ooldPw", member.getLoginPw());
+		
+		
 		return "member/modifyPassword";
 	}
 	
-	// 회원 비번 수정
+	// 회원 비번 변경
 	@RequestMapping("/usr/member/doModifyPrivate")
 	public String doModifyPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
-		param.put("id", session.getAttribute("loginedMemberId"));
+		// 기존비번과 같을 때
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		Member member = memberService.getMemberById(loginedMemberId);
+		String oldPw = member.getLoginPw();
+		if(oldPw.equals(param.get("loginPwReal"))) {
+			String redirectUri = "/usr/member/modifyPassword";
+			model.addAttribute("redirectUri", redirectUri);
+			model.addAttribute("alertMsg", String.format("기존 비번과 같습니다. 다시 확인해 주세요."));
 
+			return "common/redirect";
+		}
+		
+		// 비번 변경
+		param.put("id", loginedMemberId);
 		memberService.setModifyPassword(param);
 		session.removeAttribute("loginedMemberId");//로그아웃
 		

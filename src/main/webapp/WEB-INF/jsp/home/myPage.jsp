@@ -50,7 +50,7 @@
 		
 		<input type="button" value="회원 탈퇴" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false; location.href='/usr/member/passwordForPrivate?isvalTag=secession'" /> 
 		<input type="button" value="정보 수정" onclick="location.href='/usr/member/passwordForPrivate?isvalTag=memberModify'" /> 
-		<input type="button" value="비번 변경" onclick="location.href='/usr/member/passwordForPrivate?isvalTag=passwordForPrivate'" /> 
+		<input type="button" value="비번 변경" onclick="location.href='/usr/member/passwordForPrivate?isvalTag=modifyPassword'" /> 
 	</form>
 
 </div>

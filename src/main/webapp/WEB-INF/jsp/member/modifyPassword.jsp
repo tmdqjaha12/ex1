@@ -40,6 +40,17 @@
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
 		form.loginPwConfirm.value = '';
+
+		form.ooldPw.value = fomr.ooldPw.value.trim();
+
+		if(form.ooldPw.value == form.loginPwReal.value){
+			alert('기존의 비번과 같습니다.');
+
+
+			return
+		}
+
+		
 		form.submit();
 	}
 </script>

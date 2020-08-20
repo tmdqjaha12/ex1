@@ -46,7 +46,7 @@
 					<th>로그인</th>
 					<td>
 						<button class="btn btn-primary" type="submit">확인</button>
-						<a href="../home/main" class="cancel">취소</a>
+						<a href="../home/myPage" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>
