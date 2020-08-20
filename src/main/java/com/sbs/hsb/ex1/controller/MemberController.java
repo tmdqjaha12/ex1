@@ -326,5 +326,29 @@ public class MemberController {
 		return "common/redirect";
 	}
 	
+	// 비밀번호 찾기 페이지
+	@RequestMapping("/usr/member/findPw")
+	public String showFindPw() {
+		return "member/findId";
+	}
+	// 비밀번호 찾기
+//	@RequestMapping("/usr/member/doFindPw")
+//	public String doFindPw(@RequestParam Map<String, Object> param, Model model) {
+//		String id = memberService.getMemberIdByLoginIdAndNameAndEmail(param) + "";
+//		
+//		if(id.length() != 0) {
+//			String imshiPw = Util.getRandomPassword(8);
+//			String encryptSHA256ImshiPw = Util.encryptSHA256(imshiPw);
+//			memberService.updateImshiPw(loginId, name, email, encryptSHA256ImshiPw);
+//			memberService.genUseTempPassword(id, "1");
+//			
+//			mailService.send(email, "비밀번호 찾기/임시비밀번호", "회원님의 임시 비밀번호 : " +imshiPw);
+//
+//			return String.format("html:<script> alert('발송된 임시번호로 로그인해주세요.'); location.replace('login'); </script>");
+//		}
+//
+//		return String.format("html:<script> alert('유효한 정보를 찾지 못했습니다.'); location.replace('findPw'); </script>");
+//	}
 }
+
 

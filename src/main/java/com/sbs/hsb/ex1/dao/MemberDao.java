@@ -30,4 +30,6 @@ public interface MemberDao {
 	void doMemberModify(Map<String, Object> param);
 
 	String getStringForFindId(Map<String, Object> param);
+
+	String getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param);
 }

@@ -115,6 +115,11 @@ public class MemberService {
 		mailService.send(eamil, mailTitle, mailBodySb.toString());
 	}
 	
+	// 아이디 이름 이메일로 회원keyId 가져오기
+	public String getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param) {
+		return memberDao.getMemberIdByLoginIdAndNameAndEmail(param);
+	}
+	
 	// attr //
 
 	//▼set▼
@@ -158,4 +163,5 @@ public class MemberService {
 		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthed");
 		return authCodeOnDB;
 	}// 이메일 가져오기
+
 }

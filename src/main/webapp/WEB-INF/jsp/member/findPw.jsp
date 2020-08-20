@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="아이디 찾기" />
+<c:set var="pageTitle" value="비번 찾기" />
 <%@ include file="../part/head.jspf"%>
 
 <script
@@ -10,6 +10,12 @@
 
 <script>
 function submitFindIdForm(form) {
+	form.loginId.value = form.loginId.value.trim();
+	if (form.loginId.value.length == 0) {
+		alert('아이디를 입력해주세요.');
+		form.loginId.focus();
+		return;
+	}
 	form.name.value = form.name.value.trim();
 	if (form.name.value.length == 0) {
 		alert('이름을 입력해주세요.');
@@ -25,8 +31,8 @@ function submitFindIdForm(form) {
 	form.submit();
 }
 </script>
-<div class="findId-background login-background">
-	<form method="POST" class="findId-form login-form table-box con form1" action="doFindId" onsubmit="submitFindIdForm(this); return false;">
+<div class="findPw-background login-background">
+	<form method="POST" class="findPw-form login-form table-box con form1" action="doFindPw" onsubmit="submitFindIdForm(this); return false;">
 		<input type="hidden" name="redirectUri" value="/usr/member/login">
 
 		<table>
@@ -34,6 +40,15 @@ function submitFindIdForm(form) {
 				<col width="100">
 			</colgroup>
 			<tbody>
+				<tr>
+					<th>아이디</th>
+					<td>
+						<div class="form-control-box">
+							<input type="text" placeholder="아이디를 입력해주세요." name="loginId"
+								maxlength="30" autofocus="autofocus" />
+						</div>
+					</td>
+				</tr>
 				<tr>
 					<th>이름</th>
 					<td>
@@ -53,9 +68,9 @@ function submitFindIdForm(form) {
 					</td>
 				</tr>
 				<tr>
-					<th>아이디 찾기</th>
+					<th>비번 찾기</th>
 					<td>
-						<button class="btn btn-primary" type="submit">아이디 찾기</button>
+						<button class="btn btn-primary" type="submit">비번 찾기</button>
 					</td>
 				</tr>
 			</tbody>
