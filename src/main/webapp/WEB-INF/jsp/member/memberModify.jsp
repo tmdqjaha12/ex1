@@ -56,7 +56,7 @@
 		if (form.nickname.value.length == 0) {
 			return;
 		}
-		$.get('./../member/getNickNameDup', {
+		$.get('./../member/getNickNameDupForMemberModify', {
 			nickname : form.nickname.value
 		}, function(data) {
 			var $message = $(form.nickname).next();
@@ -82,7 +82,7 @@
 		if (form.email.value.length == 0) {
 			return;
 		}
-		$.get('./../member/getEmailDup', {
+		$.get('./../member/getEmailDupFormMemberModify', {
 			email : form.email.value
 		}, function(data) {
 			var $message = $(form.email).next();

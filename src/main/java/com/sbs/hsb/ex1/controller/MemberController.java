@@ -22,13 +22,14 @@ import com.sbs.hsb.ex1.util.Util;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+
 	// 회원 가입 시작 //
 	// 회원 가입 페이지
 	@RequestMapping("/usr/member/join")
 	public String showJoin() {
 		return "member/join";
 	}
-	
+
 	// 회원 가입
 	@RequestMapping("/usr/member/doJoin")
 	public String doJoin(@RequestParam Map<String, Object> param, Model model) {
@@ -38,24 +39,22 @@ public class MemberController {
 				.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
 		ResultData checkNickNameJoinableResultData = memberService
 				.checkNickNameJoinable(Util.getAsStr(param.get("nickname")));
-		ResultData checkEmailJoinableResultData = memberService
-				.checkEmailJoinable(Util.getAsStr(param.get("email")));
+		ResultData checkEmailJoinableResultData = memberService.checkEmailJoinable(Util.getAsStr(param.get("email")));
 
-		if (checkLoginIdJoinableResultData.isFail() 
-				&& checkNickNameJoinableResultData.isFail() 
-					&& checkEmailJoinableResultData.isFail()) {
+		if (checkLoginIdJoinableResultData.isFail() && checkNickNameJoinableResultData.isFail()
+				&& checkEmailJoinableResultData.isFail()) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("alertMsg", "제대로 된 정보를 입력해주세요.");
 			return "common/redirect";
 		}
 
 		int newMemberId = memberService.join(param);// 회원가입
-		
+
 		String authCode = memberService.genEmailAuthCode(newMemberId); // 회원 attr 테이블 저장 & 인증코드
 		memberService.genLastPasswordChangeDate(newMemberId); // 회원 업데이트 attr 테이블 저장
 		memberService.genEmailAuthed(newMemberId, ""); // 회원 이메일 attr 테이블 저장
-		
-		memberService.sendAuthMail((String)param.get("email"), authCode, newMemberId); // 인증 이메일 발송
+
+		memberService.sendAuthMail((String) param.get("email"), authCode, newMemberId); // 인증 이메일 발송
 
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
@@ -63,7 +62,24 @@ public class MemberController {
 
 		return "common/redirect";
 	}
-	
+
+	// myPage에서 메일 인증 발송
+	@RequestMapping("/usr/member/doSendMail")
+	public String doSendMail(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
+		int loginedMemberId = Util.getInt(req, "memberId");
+		int strLoginedMemberId = loginedMemberId;
+		String authCode = Util.getString(req, "authCode");
+		String email = Util.getString(req, "email");
+
+		memberService.sendAuthMail(email, authCode, strLoginedMemberId); // 메일 발송
+
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", String.format("인증메일 전송완료."));
+
+		return "common/redirect";
+	}
+
 	// 회원 인증authEmail
 	@RequestMapping("/usr/member/authEmail")
 	public String doAuthEmail(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
@@ -72,108 +88,125 @@ public class MemberController {
 		String authCode = Util.getString(req, "authCode");
 		String email = Util.getString(req, "email");
 		String redirectUri = "/usr/member/passwordForPrivate";
-		
-		if (memberService.isValidEmailAuthCode(strLoginedMemberId, authCode) == false) {//attr비교
+
+		if (memberService.isValidEmailAuthCode(strLoginedMemberId, authCode) == false) {// attr비교
 			redirectUri = "/usr/home/myPage";
 			model.addAttribute("redirectUri", redirectUri);
 			model.addAttribute("alertMsg", String.format("인증번호를 다시 체크해주세요."));
 			return "common/redirect";
 		}
-		
-		memberService.genEmailAuthed(loginedMemberId, email);//attr 이메일저장	
-		
+
+		memberService.genEmailAuthed(loginedMemberId, email);// attr 이메일저장
+
 		redirectUri = "/usr/home/main";
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("인증이 완료되었습니다."));
-		
+
 		return "common/redirect";
 	}
-	
+
 	// 회원 가입 아이디 중복 체크
 	@RequestMapping("/usr/member/getLoginIdDup")
 	@ResponseBody
 	public ResultData getLoginIdDup(@RequestParam Map<String, Object> param, Model model) {
 		String loginId = (String) param.get("loginId");
-	
+
 		return memberService.checkLoginIdJoinable(loginId);
 	}
-	
+
 	// 회원 가입 별명 중복 체크
 	@RequestMapping("/usr/member/getNickNameDup")
 	@ResponseBody
-	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
-		Member member = (Member) req.getAttribute("loginedMember");
-		String loginedNickname = (String) member.getNickname();
+	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model) {
 		String nickname = (String) param.get("nickname");
-		
-		if(nickname.equals(loginedNickname)) {//현재 나의 별명
-			return new ResultData("Z-1", "", "nickname", nickname);
-		}
-		
 		return memberService.checkNickNameJoinable(nickname);
 	}
-	
+
 	// 회원 가입 이메일 중복 체크
 	@RequestMapping("/usr/member/getEmailDup")
+	@ResponseBody
+	public ResultData getEmailDup(@RequestParam Map<String, Object> param, Model model) {
+		String email = (String) param.get("email");
+		return memberService.checkEmailJoinable(email);
+	}
+
+	// 회원 가입 끝 //
+
+	// 회원 정보 수정 시작 //
+	// 회원정보 수정 별명 중복 체크
+	@RequestMapping("/usr/member/getNickNameDupForMemberModify")
+	@ResponseBody
+	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
+		Member member = (Member) req.getAttribute("loginedMember");
+		String loginedNickname = member.getNickname();
+		String nickname = (String) param.get("nickname");
+
+		if (nickname.equals(loginedNickname)) {// 현재 나의 별명
+			return new ResultData("Z-1", "", "nickname", nickname);
+		}
+
+		return memberService.checkNickNameJoinable(nickname);
+	}
+
+	// 회원정보 수정 이메일 중복 체크
+	@RequestMapping("/usr/member/getEmailDupFormMemberModify")
 	@ResponseBody
 	public ResultData getEmailDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
 		Member member = (Member) req.getAttribute("loginedMember");
 		String loginedEmail = (String) member.getEmail();
 		String email = (String) param.get("email");
-		
-		if(email.equals(loginedEmail)) {//현재 나의 이메일
+
+		if (email.equals(loginedEmail)) {// 현재 나의 이메일
 			return new ResultData("Z-1", "", "email", email);
 		}
-		
+
 		return memberService.checkEmailJoinable(email);
 	}
-	// 회원 가입 끝 //
-	
-	// 회원 정보 수정 시작 //
+
 	// 회원 정보 수정을 위한 비밀번호 확인 페이지
 	@RequestMapping("/usr/member/passwordForPrivate")
 	public String showModifyPrivate(HttpServletRequest req) {
 		String isvalTag = Util.getString(req, "isvalTag");
-		
+
 		req.setAttribute("isvalTag", isvalTag);
-		
+
 		return "member/passwordForPrivate";
 	}
-	
+
 	// 회원 정보 수정을 위한 비밀번호 확인
 	@RequestMapping("/usr/member/doPasswordForPrivate")
-	public String showPasswordForPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session, HttpServletRequest req) {
-		//비번확인
+	public String showPasswordForPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session,
+			HttpServletRequest req) {
+		// 비번확인
 		String loginedPw = (String) param.get("loginPwReal");
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		Member member = memberService.getMemberById(loginedMemberId);
-		
+
 		if (member.getLoginPw().equals(loginedPw)) {
 			String isvalTag = Util.getString(req, "isvalTag");
 			String nextUri = "/usr/member/" + isvalTag;
 			model.addAttribute("redirectUri", nextUri);
 			return "common/redirect";
 		}
-		
+
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("옳바른 정보를 입력해주세요."));
 
 		return "common/redirect";
 	}
-	
+
 	// 회원 비번 변경 페이지
 	@RequestMapping("/usr/member/modifyPassword")
 	public String showPasswordForPrivate(Model model, HttpSession session) {
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		Member member = memberService.getMemberById(loginedMemberId);
-		
+
 		model.addAttribute("ooldPw", member.getLoginPw());
-		
-		
+
 		return "member/modifyPassword";
 	}
-	
+
 	// 회원 비번 변경
 	@RequestMapping("/usr/member/doModifyPrivate")
 	public String doModifyPrivate(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
@@ -181,72 +214,72 @@ public class MemberController {
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		Member member = memberService.getMemberById(loginedMemberId);
 		String oldPw = member.getLoginPw();
-		if(oldPw.equals(param.get("loginPwReal"))) {
+		if (oldPw.equals(param.get("loginPwReal"))) {
 			String redirectUri = "/usr/member/modifyPassword";
 			model.addAttribute("redirectUri", redirectUri);
 			model.addAttribute("alertMsg", String.format("기존 비번과 같습니다. 다시 확인해 주세요."));
 
 			return "common/redirect";
 		}
-		
+
 		// 비번 변경
 		param.put("id", loginedMemberId);
 		memberService.setModifyPassword(param);
-		
-		String authCode = memberService.genModifyPrivateAuthCode(loginedMemberId); //비밀번호 수정 authCode 저장 및 return
+
+		String authCode = memberService.genModifyPrivateAuthCode(loginedMemberId); // 비밀번호 수정 authCode 저장 및 return
 		memberService.genLastPasswordChangeDate(loginedMemberId); // 비밀번호 수정 날짜 저장
 		memberService.genUseTempPassword(loginedMemberId + "", "0"); // 발급받은 임시패스워드 삭제 0
-		
-		session.removeAttribute("loginedMemberId");//로그아웃
-		
+
+		session.removeAttribute("loginedMemberId");// 로그아웃
+
 		String redirectUri = "/usr/member/login";
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("비밀번호 수정 완료! 새 비밀번호로 로그인 해주세요."));
 
 		return "common/redirect";
 	}
-	
+
 	// 회원 탈퇴 페이지
 	@RequestMapping("/usr/member/secession")
 	public String showSecession() {
 		return "member/secession";
 	}
-	
+
 	// 회원 탈퇴 secession
 	@RequestMapping("/usr/member/doSecession")
 	public String doSecession(Model model, HttpSession session) {
-		
-		//VerifyRecaptchaController에 위임함
+
+		// VerifyRecaptchaController에 위임함
 
 		return "";
 	}
-	
+
 	// 회원 개인 정보 수정 페이지
 	@RequestMapping("/usr/member/memberModify")
 	public String showMemberModify() {
 		return "member/memberModify";
 	}
-	
+
 	// 회원 개인 정보 수정
 	@RequestMapping("/usr/member/doMemberModify")
 	public String doMemberModify(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		String oldEmail = (String) param.get("email");
-		if(memberService.getEmailAuthed(loginedMemberId).equals(oldEmail) == false) {
-			memberService.genEmailAuthed(loginedMemberId, "");//이메일 인증 초기화
+		if (memberService.getEmailAuthed(loginedMemberId).equals(oldEmail) == false) {
+			memberService.genEmailAuthed(loginedMemberId, "");// 이메일 인증 초기화
 		}
-		
+
 		param.put("id", loginedMemberId);
-		memberService.doMemberModify(param);//수정
-		
+		memberService.doMemberModify(param);// 수정
+
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
-		
+
 		return "common/redirect";
 	}
-		
+
 	// 회원 정보 수정 끝 //
-	
+
 	// 로그인 시작 //
 	// 로그인 페이지
 	@RequestMapping("/usr/member/login")
@@ -254,7 +287,7 @@ public class MemberController {
 		return "member/login";
 	}
 
-	// 로그인 
+	// 로그인
 	@RequestMapping("/usr/member/doLogin")
 	public String doLogin(String loginId, String loginPwReal, String redirectUri, Model model, HttpSession session) {
 		String loginPw = loginPwReal;
@@ -284,7 +317,7 @@ public class MemberController {
 		return "common/redirect";
 	}
 	// 로그인 끝 //
-	
+
 	// 로그아웃 시작 //
 	// 로그아웃
 	@RequestMapping("/usr/member/doLogout")
@@ -299,53 +332,55 @@ public class MemberController {
 		return "common/redirect";
 	}
 	// 로그아웃 끝 //
-	
+
 	// Find 시작 //
 	// 아이디 찾기 페이지
 	@RequestMapping("/usr/member/findId")
 	public String showFindId() {
 		return "member/findId";
 	}
+
 	// 아이디 찾기
 	@RequestMapping("/usr/member/doFindId")
 	public String doFindId(@RequestParam Map<String, Object> param, Model model) {
 		String loginId = memberService.getStringForFindId(param);
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
-		
-		if(loginId.length() != 0) {
-			memberService.sendFindIdANDPwMail((String)param.get("email"), loginId, "id"); // 아이디 발송
+
+		if (loginId.length() != 0) {
+			memberService.sendFindIdANDPwMail((String) param.get("email"), loginId, "id"); // 아이디 발송
 			model.addAttribute("alertMsg", String.format("해당 이메일로 아이디가 발송되었습니다."));
-			
+
 			return "common/redirect";
 		}
 
 		model.addAttribute("redirectUri", "/usr/member/findId");
 		model.addAttribute("alertMsg", String.format("존재하지 않는 계정입니다."));
-		
+
 		return "common/redirect";
 	}
-	
+
 	// 비밀번호 찾기 페이지
 	@RequestMapping("/usr/member/findPw")
 	public String showFindPw() {
 		return "member/findPw";
 	}
+
 	// 비밀번호 찾기
 	@RequestMapping("/usr/member/doFindPw")
 	public String doFindPw(@RequestParam Map<String, Object> param, Model model) {
 		String id = memberService.getMemberIdByLoginIdAndNameAndEmail(param) + "";
 		param.put("id", id);
-		
-		if(id.length() != 0) {
+
+		if (id.length() != 0) {
 			String imshiPw = Util.getRandomPassword(8);
 			String encryptSHA256ImshiPw = Util.encryptSHA256(imshiPw);
 			param.put("loginPwReal", encryptSHA256ImshiPw);
-			memberService.setModifyPassword(param);//비밀번호 변경
-			
+			memberService.setModifyPassword(param);// 비밀번호 변경
+
 			memberService.genUseTempPassword(id, "1");// 임시비번 발급시 attr에, 변경 전까지는 1, 변경하면 0
-			
-			memberService.sendFindIdANDPwMail((String)param.get("email"), imshiPw, "pw");// 임시 비번 발송
+
+			memberService.sendFindIdANDPwMail((String) param.get("email"), imshiPw, "pw");// 임시 비번 발송
 
 			return String.format("html:<script> alert('발송된 임시번호로 로그인해주세요.'); location.replace('login'); </script>");
 		}
@@ -353,5 +388,3 @@ public class MemberController {
 		return String.format("html:<script> alert('유효한 정보를 찾지 못했습니다.'); location.replace('findPw'); </script>");
 	}
 }
-
-

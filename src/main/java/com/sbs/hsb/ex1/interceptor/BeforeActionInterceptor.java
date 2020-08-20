@@ -86,16 +86,22 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 		Member loginedMember = null;
+		boolean isMailAuthed = false;
+		boolean isUsedTempPassword = false;
 
 		if (session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 			isLogined = true;
 			loginedMember = memberService.getMemberById(loginedMemberId);
+			isMailAuthed = memberService.isValidEmailAuthed(loginedMemberId);
+//			isUsedTempPassword = memberService.isValidUseTempPassword(loginedMemberId);
 		}
 
 		request.setAttribute("loginedMemberId", loginedMemberId);
 		request.setAttribute("isLogined", isLogined);
 		request.setAttribute("loginedMember", loginedMember);
+		request.setAttribute("isMailAuthed", isMailAuthed);
+//		request.setAttribute("isUsedTempPassword", isUsedTempPassword);
 
 		request.setAttribute("activeProfile", activeProfile);
 

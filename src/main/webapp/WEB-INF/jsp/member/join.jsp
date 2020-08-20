@@ -11,6 +11,8 @@
 <script>
 	var MemberJoinForm__submitDone = false;
 	var JoinForm__validLoginId = '';
+	var JoinForm__validNickName = '';
+	var JoinForm__validEmail = '';
 	function MemberJoinForm__submit(form) {
 		if (MemberJoinForm__submitDone) {
 			alert('처리중입니다.');

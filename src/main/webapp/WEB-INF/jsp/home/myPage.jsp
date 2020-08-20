@@ -39,6 +39,20 @@
 				<th>이메일</th>
 				<td>${loginedMember.email}</td>
 			</tr>
+			<c:if test="${!isMailAuthed}">
+			<tr>
+				<th>비고</th>
+				<td>
+				<form action="/usr/member/doSendMail" method="POST"  onclick="if ( confirm('인증메일을 보내시겠습니까?') == false ) return false;">
+					<input type="hidden" name="memberId" value="${loginedMember.id}" />
+					<input type="hidden" name="authCode" value="${authCode}" />
+					<input type="hidden" name="email" value="${loginedMember.email}" />
+					<input type="hidden" name="redirectUri" value="/usr/home/myPage" />
+					<button class="btn btn-primary" type="submit">이메일 인증보내기</button>
+				</form>
+				</td>
+			</tr>
+			</c:if>
 
 		</table>
 

@@ -44,10 +44,10 @@ public class MemberService {
 
 	// 인증 메일 발송
 	private void sendJoinCompleteMail(String email, String authCode, int newMemberId) {
-		String mailTitle = String.format("[%s] 가입이 완료되었습니다.", siteName);
+		String mailTitle = String.format("[%s] 인증 메일", siteName);
 		
 		StringBuilder mailBodySb = new StringBuilder();
-		mailBodySb.append("<h1>가입이 완료되었습니다.</h1>");
+		mailBodySb.append("<h1>인증 메일</h1>");
 		mailBodySb.append(String.format("<p><a href=\"localhost:8085/usr/member/authEmail?email=%s&authCode=%s&memberId=%d\" target=\"_blank\">%s로</a> 이동</p>", email, authCode, newMemberId, siteName));
 
 		mailService.send(email, mailTitle, mailBodySb.toString());
@@ -177,5 +177,10 @@ public class MemberService {
 		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthed");
 		return authCodeOnDB;
 	}// 이메일 가져오기
+
+	public boolean isValidEmailAuthed(int actorId) {
+		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthed");
+		return authCodeOnDB.length() > 0;
+	}// 이메일 인증 가져오기
 
 }
