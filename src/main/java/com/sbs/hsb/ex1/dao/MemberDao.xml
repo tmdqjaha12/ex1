@@ -37,6 +37,13 @@
 		WHERE loginId = #{loginId}
 	</select>
 	
+	<select id="getStringForFindId" resultType="String">
+		SELECT loginId
+		FROM member
+		WHERE name = #{name}
+		AND email = #{email}
+	</select>
+	
 	<update id="setModifyPassword" useGeneratedKeys="true" keyProperty="id">
 		UPDATE member
 		SET updateDate = NOW(),

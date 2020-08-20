@@ -28,4 +28,6 @@ public interface MemberDao {
 	void doSecssion(@Param("id") int id);
 
 	void doMemberModify(Map<String, Object> param);
+
+	String getStringForFindId(Map<String, Object> param);
 }

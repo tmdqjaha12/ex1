@@ -37,17 +37,15 @@ public class MemberService {
 		return Util.getAsInt(param.get("id"));
 	}
 	
-	// 메일발송
+	// 인증 메일 발송
 	public void sendAuthMail(String email, String authCode, int newMemberId) {
 		sendJoinCompleteMail(email, authCode, newMemberId);
 	}
 
-	// 메일발송 기능
+	// 인증 메일 발송
 	private void sendJoinCompleteMail(String email, String authCode, int newMemberId) {
 		String mailTitle = String.format("[%s] 가입이 완료되었습니다.", siteName);
 		
-		
-
 		StringBuilder mailBodySb = new StringBuilder();
 		mailBodySb.append("<h1>가입이 완료되었습니다.</h1>");
 		mailBodySb.append(String.format("<p><a href=\"localhost:8085/usr/member/authEmail?email=%s&authCode=%s&memberId=%d\" target=\"_blank\">%s로</a> 이동</p>", email, authCode, newMemberId, siteName));
@@ -98,10 +96,23 @@ public class MemberService {
 		memberDao.doMemberModify(param);
 	}
 
-	
-	//탈퇴
+	// 탈퇴
 	public void doSecssion(int id) {
 		memberDao.doSecssion(id);
+	}
+	
+	// 아이디 찾기
+	public String getStringForFindId(Map<String, Object> param) {
+		return memberDao.getStringForFindId(param);
+	}
+	
+	// 아이디 메일 발송 하기
+	public void sendFindIdMail(String eamil, String loginId) {
+		String mailTitle = String.format("아이디 찾기 결과");
+		
+		StringBuilder mailBodySb = new StringBuilder();
+		mailBodySb.append(String.format("<h1>아이디 : %s</h1>", loginId));
+		mailService.send(eamil, mailTitle, mailBodySb.toString());
 	}
 	
 	// attr //

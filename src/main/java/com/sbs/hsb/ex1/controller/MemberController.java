@@ -215,17 +215,10 @@ public class MemberController {
 	// 회원 탈퇴 secession
 	@RequestMapping("/usr/member/doSecession")
 	public String doSecession(Model model, HttpSession session) {
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		
-		memberService.doSecssion(loginedMemberId);
-		
-		String redirectUri = "/usr/home/main";
-		model.addAttribute("redirectUri", redirectUri);
-		model.addAttribute("alertMsg", String.format("탈퇴 완료!"));
-		
-		session.removeAttribute("loginedMemberId");
+		//VerifyRecaptchaController에 위임함
 
-		return "common/redirect";
+		return "";
 	}
 	
 	// 회원 개인 정보 수정 페이지
@@ -306,5 +299,32 @@ public class MemberController {
 		return "common/redirect";
 	}
 	// 로그아웃 끝 //
+	
+	// Find 시작 //
+	// 아이디 찾기 페이지
+	@RequestMapping("/usr/member/findId")
+	public String showFindId() {
+		return "member/findId";
+	}
+	// 아이디 찾기
+	@RequestMapping("/usr/member/doFindId")
+	public String doFindId(@RequestParam Map<String, Object> param, Model model) {
+		String loginId = memberService.getStringForFindId(param);
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
+		
+		if(loginId.length() != 0) {
+			memberService.sendFindIdMail((String)param.get("email"), loginId); // 아이디 발송
+			model.addAttribute("alertMsg", String.format("해당 이메일로 아이디가 발송되었습니다."));
+			
+			return "common/redirect";
+		}
+
+		model.addAttribute("redirectUri", "/usr/member/findId");
+		model.addAttribute("alertMsg", String.format("존재하지 않는 계정입니다."));
+		
+		return "common/redirect";
+	}
+	
 }
 
