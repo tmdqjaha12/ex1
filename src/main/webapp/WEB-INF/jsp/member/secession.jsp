@@ -5,46 +5,47 @@
 <c:set var="pageTitle" value="회원 탈퇴" />
 <%@ include file="../part/head.jspf"%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 
-<form action="../home/main" method="POST">
-	<div class="g-recaptcha" data-sitekey="6Ldk98AZAAAAAIKX8ymzAN96VNenwnFWuDZcOE6u"></div>
-	<button id="test_btn">테스트 버튼</button>
-</form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
-
-
-
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script>
+		var secession = false;
         $(document).ready(function() {
             $("#test_btn").click(function() {
                 $.ajax({
-                    url: './VerifyRecaptcha',
+                    url: '/usr/member/VerifyRecaptcha',
                     type: 'POST',
                     data: {
                         recaptcha: $("#g-recaptcha-response").val()
                     },
                     success: function(data) {
-                        switch (data) {
-                            case 0:
-                                alert("자동 가입 방지 봇 통과");
-                                break;
- 
-                            case 1:
-                                alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
-                                break;
- 
-                            default:
-                                alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
-                                break;
+                        if ( data.msg ) {
+                            alert(data.msg);
                         }
-                    }
+                        if ( data.resultCode.substr(0, 2) =='S-' ) {
+                            location.replace('/usr/home/main');
+                        }
+                    },
+                    dataType:'json'
                 });
             });
+
+          
         });
  
 </script>
+
+<div class="my-page-background">
+	<div class="my-page-box table-box">
+	
+		<form action="" method="">
+			<input type="hidden" name="redirectUri" value="/usr/home/main">
+			<div class="g-recaptcha" data-sitekey="6Ldk98AZAAAAAIKX8ymzAN96VNenwnFWuDZcOE6u"></div>
+			<button type="button" id="test_btn" style="width:100%;">탈퇴  확인</button>
+		</form>
+	
+	</div>
+</div>
 
 
 

@@ -93,6 +93,12 @@ public class MemberService {
 		memberDao.setModifyPassword(param);
 	}
 	
+	// 회원 개인 정보 수정 닉네임 이메일
+	public void doMemberModify(Map<String, Object> param) {
+		memberDao.doMemberModify(param);
+	}
+
+	
 	//탈퇴
 	public void doSecssion(int id) {
 		memberDao.doSecssion(id);
@@ -119,11 +125,26 @@ public class MemberService {
 		return email;
 	}// 이메일인증__고객이 이메일의 링크를 클릭시 이 데이터가 생성 Code
 	
+	public String genModifyPrivateAuthCode(int actorId) {
+		String authCode = UUID.randomUUID().toString();
+		attrService.setValue("member__" + actorId + "__extra__modifyPrivateAuthCode", authCode);
+		
+		return authCode;
+	}// 회원정보 수정시 Code
+	
+	public int removeUseTempPassword(int actorId) {
+	    attrService.setValue("member__" + actorId + "__extra__useTempPassword", "");
+		return 0;
+	}// 임시패스워드 삭제 (비우기)
+	
 	//▼get▼
 	public boolean isValidEmailAuthCode(String actorId, String authCode) {
 		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthCode");
 		return authCodeOnDB.equals(authCode);
 	}// 이메일 인증 AuthCode Fact
-
-
+	
+	public String getEmailAuthed(int actorId) {
+		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthed");
+		return authCodeOnDB;
+	}// 이메일 가져오기
 }

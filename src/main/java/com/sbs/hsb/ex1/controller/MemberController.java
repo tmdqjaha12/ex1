@@ -33,6 +33,7 @@ public class MemberController {
 	@RequestMapping("/usr/member/doJoin")
 	public String doJoin(@RequestParam Map<String, Object> param, Model model) {
 		Util.changeMapKey(param, "loginPwReal", "loginPw");
+		// 중복 확인
 		ResultData checkLoginIdJoinableResultData = memberService
 				.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
 		ResultData checkNickNameJoinableResultData = memberService
@@ -48,7 +49,7 @@ public class MemberController {
 			return "common/redirect";
 		}
 
-		int newMemberId = memberService.join(param);
+		int newMemberId = memberService.join(param);// 회원가입
 		
 		String authCode = memberService.genEmailAuthCode(newMemberId); // 회원 attr 테이블 저장 & 인증코드
 		memberService.genLastPasswordChangeDate(newMemberId); // 회원 업데이트 attr 테이블 저장
@@ -149,12 +150,12 @@ public class MemberController {
 		
 		if (member.getLoginPw().equals(loginedPw)) {
 			String isvalTag = Util.getString(req, "isvalTag");
-			String redirectUri = "/usr/member/" + isvalTag;
-			model.addAttribute("redirectUri", redirectUri);
+			String nextUri = "/usr/member/" + isvalTag;
+			model.addAttribute("redirectUri", nextUri);
 			return "common/redirect";
 		}
 		
-		String redirectUri = "/usr/member/passwordForPrivate";
+		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("옳바른 정보를 입력해주세요."));
 
@@ -191,6 +192,11 @@ public class MemberController {
 		// 비번 변경
 		param.put("id", loginedMemberId);
 		memberService.setModifyPassword(param);
+		
+		String authCode = memberService.genModifyPrivateAuthCode(loginedMemberId); //비밀번호 수정 authCode 저장 및 return
+		memberService.genLastPasswordChangeDate(loginedMemberId); // 비밀번호 수정 날짜 저장
+		memberService.removeUseTempPassword(loginedMemberId); // 발급받은 임시패스워드 삭제
+		
 		session.removeAttribute("loginedMemberId");//로그아웃
 		
 		String redirectUri = "/usr/member/login";
@@ -231,12 +237,17 @@ public class MemberController {
 	// 회원 개인 정보 수정
 	@RequestMapping("/usr/member/doMemberModify")
 	public String doMemberModify(@RequestParam Map<String, Object> param, Model model, HttpSession session) {
-
-//		if(memberService.getEmailAuthed(loginedMemberId).equals(email) == false) {
-//			memberService.genEmailAuthed(loginedMemberId, "");//이메일 인증 초기화
-//		}
-//		
-//		memberService.memberModify(loginedMemberId, nickname, email);
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		String oldEmail = (String) param.get("email");
+		if(memberService.getEmailAuthed(loginedMemberId).equals(oldEmail) == false) {
+			memberService.genEmailAuthed(loginedMemberId, "");//이메일 인증 초기화
+		}
+		
+		param.put("id", loginedMemberId);
+		memberService.doMemberModify(param);//수정
+		
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
 		
 		return "common/redirect";
 	}

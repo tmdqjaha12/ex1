@@ -50,6 +50,14 @@
 		delStatus = 1
 		WHERE id = #{id}
 	</update>
+	
+	<update id="doMemberModify" useGeneratedKeys="true" keyProperty="id">
+		UPDATE member
+		SET updateDate = NOW(),
+		nickname = #{nickname},
+		email = #{email}
+		WHERE id = #{id}
+	</update>
 
 	<insert id="join" useGeneratedKeys="true" keyProperty="id">
 		INSERT

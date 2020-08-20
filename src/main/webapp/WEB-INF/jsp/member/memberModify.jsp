@@ -105,8 +105,9 @@
 </script>
 
 <div class="modify-background">
-	<form method="POST" class="modify-form" action="doMemberModify" onsubmit="MemberModifyForm__submit(this); return false;">
+	<form method="POST" class="modify-form table-box" action="doMemberModify" onsubmit="MemberModifyForm__submit(this); return false;">
 		<input type="hidden" name="redirectUri" value="/usr/home/myPage">
+		
 
 		<table>
 			<colgroup>
@@ -151,6 +152,7 @@
 					<th>수정</th>
 					<td>
 						<button class="btn btn-primary" type="submit">수정</button>
+						<a href="../home/myPage" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>

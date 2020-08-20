@@ -49,9 +49,7 @@ public class AttrService {
 		param.put("type2Code", type2Code);
 		
 		return attrDao.getValue(param);
-	}
-	
-	
+	}	
 
 //	public Attr get(String name) {
 //		String[] nameBits = name.split("__");

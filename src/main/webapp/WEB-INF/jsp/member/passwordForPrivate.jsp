@@ -27,6 +27,7 @@
 		onsubmit="submitLoginForm(this); return false;">
 		<input type="hidden" name="loginPwReal" />
 		<input type="hidden" name="isvalTag" value="${isvalTag}" />
+		<input type="hidden" name="redirectUri" value="/usr/member/passwordForPrivate?isvalTag=${isvalTag}">
 		
 		<table>
 			<colgroup>
