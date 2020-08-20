@@ -87,6 +87,7 @@ public class MemberService {
 		return memberDao.getMemberByLoginId(loginId);
 	}
 
+	// 비밀번호 변경
 	public void setModifyPassword(Map<String, Object> param) {
 		memberDao.setModifyPassword(param);
 	}
@@ -106,19 +107,28 @@ public class MemberService {
 		return memberDao.getStringForFindId(param);
 	}
 	
-	// 아이디 메일 발송 하기
-	public void sendFindIdMail(String eamil, String loginId) {
-		String mailTitle = String.format("아이디 찾기 결과");
+	// 아이디 & 임시 비번 메일 발송 하기
+	public void sendFindIdANDPwMail(String eamil, String body, String title) {
+		if(title.equals("id")) {
+			String mailTitle = String.format("아이디 찾기 결과");	
+			StringBuilder mailBodySb = new StringBuilder();
+			mailBodySb.append(String.format("<h1>아이디 : %s</h1>", body));
+			mailService.send(eamil, mailTitle, mailBodySb.toString());
+		}
 		
-		StringBuilder mailBodySb = new StringBuilder();
-		mailBodySb.append(String.format("<h1>아이디 : %s</h1>", loginId));
-		mailService.send(eamil, mailTitle, mailBodySb.toString());
+		if(title.equals("id")) {
+			String mailTitle = String.format("비번 찾기 결과");	
+			StringBuilder mailBodySb = new StringBuilder();
+			mailBodySb.append(String.format("<h1>임시 비번 : %s</h1>", body));
+			mailService.send(eamil, mailTitle, mailBodySb.toString());
+		}
 	}
 	
 	// 아이디 이름 이메일로 회원keyId 가져오기
 	public String getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param) {
 		return memberDao.getMemberIdByLoginIdAndNameAndEmail(param);
 	}
+
 	
 	// attr //
 
@@ -148,10 +158,14 @@ public class MemberService {
 		return authCode;
 	}// 회원정보 수정시 Code
 	
-	public int removeUseTempPassword(int actorId) {
-	    attrService.setValue("member__" + actorId + "__extra__useTempPassword", "");
-		return 0;
-	}// 임시패스워드 삭제 (비우기)
+//	public int removeUseTempPassword(int actorId) {
+//	    attrService.setValue("member__" + actorId + "__extra__useTempPassword", "");
+//		return 0;
+//	}// 임시패스워드 삭제 (비우기)
+	
+	public void genUseTempPassword(String loginId, String useTemp) {
+		attrService.setValue("member__" + loginId + "__extra__useTempPassword", useTemp);
+	}// 임시패스워드 & 회원이 패스워드 변경여부,  임시패스워드발급=1  .. 비밀번호변경=0
 	
 	//▼get▼
 	public boolean isValidEmailAuthCode(String actorId, String authCode) {

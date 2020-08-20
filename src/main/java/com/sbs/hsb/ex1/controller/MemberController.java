@@ -195,7 +195,7 @@ public class MemberController {
 		
 		String authCode = memberService.genModifyPrivateAuthCode(loginedMemberId); //비밀번호 수정 authCode 저장 및 return
 		memberService.genLastPasswordChangeDate(loginedMemberId); // 비밀번호 수정 날짜 저장
-		memberService.removeUseTempPassword(loginedMemberId); // 발급받은 임시패스워드 삭제
+		memberService.genUseTempPassword(loginedMemberId + "", "0"); // 발급받은 임시패스워드 삭제 0
 		
 		session.removeAttribute("loginedMemberId");//로그아웃
 		
@@ -314,7 +314,7 @@ public class MemberController {
 		model.addAttribute("redirectUri", redirectUri);
 		
 		if(loginId.length() != 0) {
-			memberService.sendFindIdMail((String)param.get("email"), loginId); // 아이디 발송
+			memberService.sendFindIdANDPwMail((String)param.get("email"), loginId, "id"); // 아이디 발송
 			model.addAttribute("alertMsg", String.format("해당 이메일로 아이디가 발송되었습니다."));
 			
 			return "common/redirect";
@@ -329,26 +329,29 @@ public class MemberController {
 	// 비밀번호 찾기 페이지
 	@RequestMapping("/usr/member/findPw")
 	public String showFindPw() {
-		return "member/findId";
+		return "member/findPw";
 	}
 	// 비밀번호 찾기
-//	@RequestMapping("/usr/member/doFindPw")
-//	public String doFindPw(@RequestParam Map<String, Object> param, Model model) {
-//		String id = memberService.getMemberIdByLoginIdAndNameAndEmail(param) + "";
-//		
-//		if(id.length() != 0) {
-//			String imshiPw = Util.getRandomPassword(8);
-//			String encryptSHA256ImshiPw = Util.encryptSHA256(imshiPw);
-//			memberService.updateImshiPw(loginId, name, email, encryptSHA256ImshiPw);
-//			memberService.genUseTempPassword(id, "1");
-//			
-//			mailService.send(email, "비밀번호 찾기/임시비밀번호", "회원님의 임시 비밀번호 : " +imshiPw);
-//
-//			return String.format("html:<script> alert('발송된 임시번호로 로그인해주세요.'); location.replace('login'); </script>");
-//		}
-//
-//		return String.format("html:<script> alert('유효한 정보를 찾지 못했습니다.'); location.replace('findPw'); </script>");
-//	}
+	@RequestMapping("/usr/member/doFindPw")
+	public String doFindPw(@RequestParam Map<String, Object> param, Model model) {
+		String id = memberService.getMemberIdByLoginIdAndNameAndEmail(param) + "";
+		param.put("id", id);
+		
+		if(id.length() != 0) {
+			String imshiPw = Util.getRandomPassword(8);
+			String encryptSHA256ImshiPw = Util.encryptSHA256(imshiPw);
+			param.put("loginPwReal", encryptSHA256ImshiPw);
+			memberService.setModifyPassword(param);//비밀번호 변경
+			
+			memberService.genUseTempPassword(id, "1");// 임시비번 발급시 attr에, 변경 전까지는 1, 변경하면 0
+			
+			memberService.sendFindIdANDPwMail((String)param.get("email"), imshiPw, "pw");// 임시 비번 발송
+
+			return String.format("html:<script> alert('발송된 임시번호로 로그인해주세요.'); location.replace('login'); </script>");
+		}
+
+		return String.format("html:<script> alert('유효한 정보를 찾지 못했습니다.'); location.replace('findPw'); </script>");
+	}
 }
 
 
