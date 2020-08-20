@@ -81,6 +81,13 @@ html>head+body:nth-child(2) .height-300 {
 .padding-10 {
 	padding: 10px;
 }
+.padding-left-10 {
+	padding-left:10px;
+}
+
+.text-center{
+	text-align:center;
+} 
 
 /* flex 관련 */
 .flex {
@@ -365,3 +372,37 @@ html>head+body:nth-child(2) .height-300 {
 	background-color:black;
 }
 /* 비밀번호 찾기 끝 */
+
+/* 게시판 리스트 시작 */
+.list-background {
+	position:absolute;
+	top:20%;
+	left:10%;
+	right:10%;
+	bottom:15%;
+	background-color:#ebebf1;
+}
+
+
+.list-background >  .list-box-1 .table-thead{
+	background-color:#6b6880;
+	color:#ebebf1;
+}
+
+.list-background >  .list-box-1 .table-tbody:after {
+	content: "";
+	display:block;
+	color:#6b6880;
+	border-bottom:2px solid #6b6880;
+	
+}
+
+
+.list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
+	color:blue;
+}
+
+.list-background >  .list-box-1 .table-tbody  .list-title-1 > a:active {
+	color:red;
+}
+/* 게시판 리스트 끝 */
