@@ -116,7 +116,8 @@ html>head+body:nth-child(2) .height-300 {
   .passwordForPrivate-form > table,
    .modify-password-form > table,
     .modify-form > table,
-     .my-page-box > table {
+     .write-form > table,
+      .my-page-box > table {
 	width: 100%;
 	border-collapse: collapse;
 }
@@ -126,12 +127,19 @@ html>head+body:nth-child(2) .height-300 {
   .passwordForPrivate-form>table th,
    .modify-password-form>table th,
     .modify-form>table th,
-     .my-page-box>table th,
-      .table-box>table td {
+      .my-page-box>table th,
+       .table-box>table td {
 	border-right:none;
 	padding: 10px;
 	text-align: left;
 	color:white;
+}
+
+.write-form>table th{
+	border-right:none;
+	padding: 10px;
+	text-align: left;
+	color:black;
 }
 
 /* 폼 관련 */
@@ -139,7 +147,8 @@ html>head+body:nth-child(2) .height-300 {
  .login-form .form-control-box>input, .login-form .form-control-box>textarea,
   .passwordForPrivate-form .form-control-box>input, .passwordForPrivate-form .form-control-box>textarea,
    .modify-password-form .form-control-box>input, .modify-password-form .form-control-box>textarea,
-   .modify-form .form-control-box>input, .modify-form .form-control-box>textarea{
+   .modify-form .form-control-box>input, .modify-form .form-control-box>textarea,
+    .write-form .form-control-box>input, .write-form .form-control-box>textarea{
 	width: 100%;
 	padding: 0;
 	display: block;
@@ -151,7 +160,8 @@ html>head+body:nth-child(2) .height-300 {
  .login-form .form-control-box>textarea,
   .passwordForPrivate-form .form-control-box>textarea,
    .modify-password-form .form-control-box>textarea,
-    .modify-form .form-control-box>textarea {
+    .modify-form .form-control-box>textarea,
+     .write-form .form-control-box>textarea {
 	min-height: 300px;
 	resize: none;
 }
@@ -181,7 +191,8 @@ html>head+body:nth-child(2) .height-300 {
   .passwordForPrivate-form th,
    .modify-password-form th,
     .modify-form th,
-     .my-page-box th {
+     .write-form th,
+      .my-page-box th {
 	/* `로그인 아이디` 문구가 줄 바꿈 될 때 공백기준으로 줄바꿈 되도록 */
 	word-break: keep-all;
 }
@@ -376,11 +387,20 @@ html>head+body:nth-child(2) .height-300 {
 /* 게시판 리스트 시작 */
 .list-background {
 	position:absolute;
-	top:20%;
+	top:30%;
 	left:10%;
-	right:10%;
-	bottom:15%;
+	right:22%;
+	bottom:auto;
 	background-color:#ebebf1;
+	margin-bottom:100px;
+}
+
+.list-page-title h1{
+	color:black;
+	position: absolute;
+	top:-8%;
+	left:50%;
+	transform:translateX(-50%);
 }
 
 
@@ -389,20 +409,94 @@ html>head+body:nth-child(2) .height-300 {
 	color:#ebebf1;
 }
 
-.list-background >  .list-box-1 .table-tbody:after {
-	content: "";
-	display:block;
-	color:#6b6880;
-	border-bottom:2px solid #6b6880;
-	
+.list-background >  .list-box-1 .table-thead > tr{
+	height:70px;
+}
+
+.list-background >  .list-box-1 .table-tbody > tr {
+	height: 44px;
+}
+
+.list-background >  .list-box-1 .table-tbody > tr a {
+	text-decoration: none;
+}
+
+.list-background >  .list-box-1 .table-tbody > tr:hover{
+	background-color:#c6bcda;
 }
 
 
+
+.list-background >  .list-box-1 > table {
+	color:#6b6880;
+	border-collapse : collapse;
+	background-color:#ebebf1;
+}
+
+.list-background >  .list-box-1  .table-tbody td a {
+	display:block;
+	width:80px;
+	text-overflow:ellipsis;  
+	overflow:hidden;  
+	white-space:nowrap;
+	cursor: default;
+}
+/*
+@media ( max-width: 780px ) {
+  .list-background >  .list-box-1  .table-tbody td a {
+    width:50px;
+  }
+}
+*/
 .list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
+	text-decoration:underline;
 	color:blue;
 }
 
 .list-background >  .list-box-1 .table-tbody  .list-title-1 > a:active {
 	color:red;
 }
+
+.go-write-form {
+	position: absolute;
+	top: -8%;
+	left:auto;	
+	right:-4%;
+	transform:translateX(-50%);
+}
+
+.go-write-form input{
+	padding: 20px 40px;
+}
+
 /* 게시판 리스트 끝 */
+
+/* 글쓰기 게시판 시작 */
+.write-page-title h1{
+	color:black;
+	position: absolute;
+	top:20%;
+	left:50%;
+	transform:translateX(-50%);
+	z-index: 10;
+}
+
+.write-background{
+	
+	height: 1200px;
+}
+
+.write-form{
+	margin-top:200px;
+	margin-bottom:50px;
+	border:1px solid white;
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	width:1000px;
+	background-color:#ebebf1;
+}
+.write-form * {
+	color:black;
+}
+/* 글쓰기 게시판 끝 */

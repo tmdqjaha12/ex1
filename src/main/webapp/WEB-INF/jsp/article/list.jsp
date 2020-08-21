@@ -1,12 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="${board.name} 게시물 리스트" />
+<c:set var="pageTitle" value="${board.name} 게시판" />
 <%@ include file="../part/head.jspf"%>
 
+
+
 <div class="list-background">
+
+	<div class="list-page-title"><h1>${pageTitle}</h1></div>
+	
+	<c:if test="${isLogined}">
+		<form class="go-write-form" action="${boardCode}-write" method="POST">
+			<input type="submit" value="글쓰기" />
+		</form>
+		
+	</c:if>
+
 	<div class="list-box-1">
-		<table>
+		<table border="1">
 			<colgroup>
 				<col width="100" />
 				<col width="1000" />
@@ -25,15 +37,21 @@
 					<th>추천수</th>
 				</tr>
 			</thead>
+			
+			
+			
 			<tbody class="table-tbody">
+			
 				<c:forEach items="${articles}" var="article">
+
+
 					<tr>
-						<td class="padding-left-10">${article.id}</td>		
-						<td class="padding-left-10 list-title-1"><a href="${article.getDetailLink(board.code)}">${article.forPrintTitle}</a>
-						<td class="padding-left-10">임시작성자</td>
-						<td class="text-center">${article.regDate}</td>
-						<td class="padding-left-10">임시조회수</td>
-						<td class="padding-left-10">임시추천수</td>	
+						<td class="padding-left-10"><a href="#">${article.id}</a></td>		
+						<td class="padding-left-10 list-title-1"><a style="width:200px; cursor: pointer;" href="${article.getDetailLink(board.code)}">${article.forPrintTitle}</a>
+						<td class="padding-left-10"><a href="#">임시작성자</a></td>
+						<td class="text-center"><a style="width:170px;" href="#">${article.regDate}</a></td>
+						<td class="padding-left-10"><a href="#">임시조회수ddddddddddddddddddddddddddddddddddda</a></td>
+						<td class="padding-left-10"><a href="#">임시추천수</a></td>	
 					</tr>
 				</c:forEach>
 			</tbody>
