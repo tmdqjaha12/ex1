@@ -62,9 +62,6 @@ ALTER TABLE `attr` ADD UNIQUE INDEX (`relTypeCode`, `relId`, `typeCode`, `type2C
 ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`); 
 
 
-##########
-
-
 
 # article 테이블 세팅
 CREATE TABLE article (
@@ -86,8 +83,8 @@ SET regDate = NOW(),
 updateDate = NOW(),
 title = '제목``',
 `body` = '내용``',
-boardId = 2,
-memberId = 10,
+boardId = 1,
+memberId = 1,
 displayStatus = 1;
 
 delDate = NOW(),
@@ -132,12 +129,6 @@ updateDAte = NOW(),
 `code` = 'free',
 `name` = '자유';
 
-INSERT INTO `board`
-SET regDate = NOW(),
-updateDAte = NOW(),
-`code` = 'free',
-`name` = '자유';
-
 ################
 
 /* 파일 테이블 생성 */
@@ -168,3 +159,37 @@ ALTER TABLE `file` DROP INDEX `relId`, ADD INDEX (`relId` , `relTypeCode` , `typ
 
 
 
+#############
+
+# articleReply 테이블에 테스트 데이터 삽입
+DROP TABLE IF EXISTS `articleReply`;
+DROP TABLE IF EXISTS `reply`;
+CREATE TABLE `articleReply` (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME,
+    updateDate DATETIME,
+    delDate DATETIME,
+	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+	displayStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    memberId INT(10) UNSIGNED NOT NULL,
+    articleId INT(10) UNSIGNED NOT NULL,
+    `body` TEXT NOT NULL
+);
+
+INSERT INTO articleReply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+articleId = 10,
+displayStatus = 1,
+`body` = '내용1';
+
+/* 게시물 댓글을 범용 댓글 테이블로 변경 */
+RENAME TABLE `articleReply` TO `reply`;
+
+ALTER TABLE `reply` ADD COLUMN `relTypeCode` CHAR(50) NOT NULL AFTER `memberId`,
+CHANGE `articleId` `relId` INT(10) UNSIGNED NOT NULL;
+ALTER TABLE `at`.`reply` ADD INDEX (`relId`, `relTypeCode`);
+UPDATE reply
+SET relTypeCode = 'article'
+WHERE relTypeCode = '';

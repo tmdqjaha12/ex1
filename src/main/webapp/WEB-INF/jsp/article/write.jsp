@@ -19,10 +19,16 @@
 			alert('제목을 입력해주세요.');
 			return;
 		}
-		form.body.value = form.body.value.trim();
-		if (form.body.value.length == 0) {
-			form.body.focus();
+
+		var editor = $(form).find('.toast-editor').data('data-toast-editor');
+
+		var body = editor.getMarkdown();
+
+		body = body.trim();
+		
+		if (body.length == 0) {
 			alert('내용을 입력해주세요.');
+			editor.focus();
 			return;
 		}
 		var maxSizeMb = 50;
@@ -77,6 +83,7 @@
 			form.fileIdsStr.value = fileIdsStr;
 			form.file__article__0__common__attachment__1.value = '';
 			form.file__article__0__common__attachment__2.value = '';
+			///form.body.value = body;
 			form.submit();
 		});
 	}
@@ -89,11 +96,10 @@
 		<h1>${pageTitle}</h1>
 	</div>
 
-	<form method="POST" class="write-form table-box con form1"
-		action="${board.code}-doWrite"
+	<form method="POST" class="write-form table-box con form1" action="${board.code}-doWrite"
 		onsubmit="ArticleWriteForm__submit(this); return false;">
-		<input type="hidden" name="fileIdsStr" /> <input type="hidden"
-			name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
+		<input type="hidden" name="fileIdsStr" /> 
+		<input type="hidden" name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
 
 		<table border="1">
 			<colgroup>
@@ -101,12 +107,10 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th>게시판 선택</th>
-					<td><select name="cateItemId">
-							<c:forEach items="${cateItems}" var="cateItem">
-								<option value="${cateItem.id}">${cateItem.name}</option>
-							</c:forEach>
-					</select></td>
+					<th>게시판</th>
+					<td>
+						<div style="font-weight: bold;">${board.name} 게시판</div>
+					</td>
 				</tr>
 				<tr>
 					<th>제목</th>
@@ -122,6 +126,7 @@
 					<td>
 						<div class="form-control-box">
 							<div class="form-control-box">
+								<input type="hidden" name="body" />
 								<script type="text/x-template"></script>
 								<div class="toast-editor"></div>
 							</div>
@@ -147,8 +152,8 @@
 				<tr>
 					<th>작성</th>
 					<td>
-						<button class="btn btn-primary" type="submit" style="margin-bottom:12px;">작성</button> <a
-						class="btn btn-info" style="padding:10px;" href="${listUrl}">리스트</a>
+						<button class="btn btn-primary" type="submit" style="margin-bottom:12px;">작성</button> 
+						<a class="btn btn-info" style="padding:10px;" href="${listUrl}">리스트</a>
 					</td>
 				</tr>
 			</tbody>

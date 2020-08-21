@@ -349,10 +349,10 @@ html>head+body:nth-child(2) .height-300 {
 /* 마이페이지 관련 시작 */
 .my-page-background{
 	position:absolute;
-	top:30%;
-	left:30%;
-	right:30%;
-	bottom:30%;
+	top:25%;
+	left:25%;
+	right:25%;
+	bottom:25%;
 	background-color:black;
 }
 
@@ -478,7 +478,6 @@ html>head+body:nth-child(2) .height-300 {
 	top:20%;
 	left:50%;
 	transform:translateX(-50%);
-	z-index: 10;
 }
 
 .write-background{
@@ -500,3 +499,94 @@ html>head+body:nth-child(2) .height-300 {
 	color:black;
 }
 /* 글쓰기 게시판 끝 */
+
+/* 상세 게시물 시작 */
+.detail-page-title h1{
+	color:black;
+	position: absolute;
+	top:auto;
+	bottom:10%;
+	left:50%;
+	transform:translateX(-50%);
+}
+
+.detail-background{
+	margin-bottom:50px;
+	position:relative;
+}
+
+/* absolute에 clear 적용 안댐
+.detail-background:after, .article-apply-box:after, .article-detail-box:after{
+	content: "";
+	display:block;
+	clear:both;
+}*/
+
+.article-detail-box{
+	margin-top:200px;
+	margin-bottom:50px;
+	border:1px solid white;
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	width:1000px;
+	background-color:#ebebf1;
+}
+
+.article-detail-box td {
+	border-right:none;
+	padding: 10px;
+	text-align: left;
+	color:black;;
+}
+
+.article-detail-box > table{
+	border-collapse : collapse;
+	width:100%;
+} 
+
+.write-btn-box {
+	color:black;
+	position: absolute;
+	bottom:-5%;
+	left:50%;
+	transform:translateX(-50%);
+}
+
+.article-apply-box{
+	color:black;
+	position: absolute;
+	bottom:-50%;
+	left:50%;
+	transform:translateX(-50%);
+	background-color:#ebebf1;
+	border:1px solid white;
+	width:500px;	
+}
+
+.article-apply-box table {
+	border-collapse : collapse;
+	width:100%;
+}
+
+.article-apply-box table td{
+	color:black;
+}
+.reply-list-box {
+	display:block;
+	color:black;
+	position: absolute;
+	bottom:-65%;
+	left:50%;
+	transform:translateX(-50%);
+	background-color:#ebebf1;
+	border:1px solid white;
+	width:1000px;	
+	margin-bottom:50px;
+}
+
+.reply-list-box table {
+	border-collapse : collapse;
+	width:100%;
+}
+/* 상세 게시물 끝 */
