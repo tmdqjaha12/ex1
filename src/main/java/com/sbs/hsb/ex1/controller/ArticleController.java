@@ -1,7 +1,5 @@
 package com.sbs.hsb.ex1.controller;
 
-import org.springframework.stereotype.Controller;
-
 import java.util.List;
 import java.util.Map;
 
@@ -113,10 +111,6 @@ public class ArticleController {
 
 	@RequestMapping("/usr/article/{boardCode}-doWrite")
 	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, Model model) {
-		System.out.println("title`` : " + req.getAttribute("title"));
-		System.out.println("body`` : " + req.getAttribute("body"));
-		System.out.println("fileIdsStr`` : " + req.getAttribute("fileIdsStr"));
-		
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
 		

@@ -5,9 +5,9 @@
 <%@ include file="../part/head.jspf"%>
 
 
-<div class="detail-background" style="background-color: black;">
+<div class="detail-background con">
 
-	<div class="detail-page-title">
+	<div class="detail-page-title con">
 		<h1>${pageTitle}</h1>
 	</div>
 
@@ -59,9 +59,10 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
-		<!-- 게시물 수정 삭제 리스트 -->
-		<div class="write-btn-box con margin-top-20">
+	</div>
+	
+	<!-- 게시물 수정 삭제 리스트 -->
+		<div class="write-btn-box con margin-top-20  con">
 			<c:if test="${article.extra.actorCanModify}">
 				<a class="btn btn-info"
 					href="${board.code}-modify?id=${article.id}&listUrl=${Util.getUriEncoded(listUrl)}">수정</a>
@@ -211,7 +212,7 @@
 		</c:if>
 
 
-		<div class="reply-list-box table-box con" >
+		<div class="reply-list-box table-box con">
 			<h2 class="con"
 				style="position: absolute; left: 50%; top: -70px; transform: translateX(-50%);">댓글
 				리스트</h2>
@@ -625,7 +626,6 @@
 			}
 			ReplyList__loadMore();
 		</script>
-	</div>
 
 </div>
 

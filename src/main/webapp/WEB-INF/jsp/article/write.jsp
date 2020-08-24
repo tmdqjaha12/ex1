@@ -9,7 +9,7 @@
 <script>
 	var ArticleWriteForm__submitDone = false;
 	function ArticleWriteForm__submit(form) {
-		if (ArticleWriteForm__submitDone) {
+		if (isNowLoading()) {
 			alert('처리중입니다.');
 			return;
 		}
@@ -19,18 +19,14 @@
 			alert('제목을 입력해주세요.');
 			return;
 		}
-
-		var editor = $(form).find('.toast-editor').data('data-toast-editor');
-
-		var body = editor.getMarkdown();
-
-		body = body.trim();
-		
+		var bodyEditor = $(form).find('.toast-editor.input-body').data('data-toast-editor');
+		var body = bodyEditor.getMarkdown().trim();
 		if (body.length == 0) {
-			alert('내용을 입력해주세요.');
-			editor.focus();
+			bodyEditor.focus();
+			alert('특이사항을 입력해주세요.');
 			return;
 		}
+		form.body.value = body;
 		var maxSizeMb = 50;
 		var maxSize = maxSizeMb * 1024 * 1024 //50MB
 		if (form.file__article__0__common__attachment__1.value) {
@@ -74,21 +70,23 @@
 				success : onSuccess
 			});
 		}
-		ArticleWriteForm__submitDone = true;
+		startLoading();
 		startUploadFiles(function(data) {
 			var fileIdsStr = '';
 			if (data && data.body && data.body.fileIdsStr) {
 				fileIdsStr = data.body.fileIdsStr;
 			}
+			ArticleWriteForm__submitDone = true;
 			form.fileIdsStr.value = fileIdsStr;
 			form.file__article__0__common__attachment__1.value = '';
 			form.file__article__0__common__attachment__2.value = '';
-			///form.body.value = body;
+			if (bodyEditor.inBodyFileIdsStr) {
+				form.fileIdsStr.value += bodyEditor.inBodyFileIdsStr;
+			}
 			form.submit();
 		});
 	}
 </script>
-
 
 <div class="write-background">
 
