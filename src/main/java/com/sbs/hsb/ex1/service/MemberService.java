@@ -170,6 +170,7 @@ public class MemberService {
 	//▼get▼
 	public boolean isValidEmailAuthCode(String actorId, String authCode) {
 		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthCode");
+		System.out.println("authCodeOnDB : " + authCodeOnDB);
 		return authCodeOnDB.equals(authCode);
 	}// 이메일 인증 AuthCode Fact
 	
@@ -182,5 +183,11 @@ public class MemberService {
 		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthed");
 		return authCodeOnDB.length() > 0;
 	}// 이메일 인증 가져오기
+
+	//remove▼
+	public int removeUseTempPassword(int actorId) {
+		int authCodeOnDB = attrService.remove("member__" + actorId + "__extra__useTempPassword");
+		return 0;
+	}// 임시패스워드 삭제
 
 }

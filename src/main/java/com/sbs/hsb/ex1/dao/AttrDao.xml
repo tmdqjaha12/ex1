@@ -22,4 +22,13 @@
 		AND `type2Code` = #{type2Code}
 	</select>
 	
+	<delete id="remove">
+		DELETE FROM `attr`
+		WHERE 1
+		AND `relTypeCode` = 
+		AND `relId` = 
+		AND `typeCode` = 
+		AND `type2Code` = 
+	</delete>
+	
 </mapper>

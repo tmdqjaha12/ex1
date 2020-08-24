@@ -68,9 +68,10 @@ public class MemberController {
 	public String doSendMail(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
 		int loginedMemberId = Util.getInt(req, "memberId");
 		int strLoginedMemberId = loginedMemberId;
-		String authCode = Util.getString(req, "authCode");
+		String authCode = memberService.genEmailAuthCode(loginedMemberId); // 회원 attr 테이블 저장 & 인증코드
 		String email = Util.getString(req, "email");
-
+		System.out.println("authCode : " + authCode);
+		
 		memberService.sendAuthMail(email, authCode, strLoginedMemberId); // 메일 발송
 
 		String redirectUri = (String) param.get("redirectUri");
@@ -88,6 +89,12 @@ public class MemberController {
 		String authCode = Util.getString(req, "authCode");
 		String email = Util.getString(req, "email");
 		String redirectUri = "/usr/member/passwordForPrivate";
+		
+		System.out.println("loginedMemberId : " + loginedMemberId);
+		System.out.println("authCode : " + authCode);
+		System.out.println("email : " + email);
+		
+		
 
 		if (memberService.isValidEmailAuthCode(strLoginedMemberId, authCode) == false) {// attr비교
 			redirectUri = "/usr/home/myPage";
@@ -228,7 +235,7 @@ public class MemberController {
 
 		String authCode = memberService.genModifyPrivateAuthCode(loginedMemberId); // 비밀번호 수정 authCode 저장 및 return
 		memberService.genLastPasswordChangeDate(loginedMemberId); // 비밀번호 수정 날짜 저장
-		memberService.genUseTempPassword(loginedMemberId + "", "0"); // 발급받은 임시패스워드 삭제 0
+		memberService.removeUseTempPassword(loginedMemberId);
 
 		session.removeAttribute("loginedMemberId");// 로그아웃
 

@@ -49,6 +49,23 @@ public class AttrService {
 		param.put("type2Code", type2Code);
 		
 		return attrDao.getValue(param);
+	}
+
+	public int remove(String string) {
+		
+		String[] nameBits = string.split("__");
+		String relTypeCode = nameBits[0];
+		int relId = Integer.parseInt(nameBits[1]);
+		String typeCode = nameBits[2];
+		String type2Code = nameBits[3];
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("relTypeCode", relTypeCode);
+		param.put("relId", relId);
+		param.put("typeCode", typeCode);
+		param.put("type2Code", type2Code);
+		
+		return attrDao.remove(param);
 	}	
 
 //	public Attr get(String name) {

@@ -124,14 +124,18 @@
 
 	function JoinForm__checkLoginIdDup(input) {
 		var form = input.form;
+		
 		form.loginId.value = form.loginId.value.trim();
+		
 		if (form.loginId.value.length == 0) {
 			return;
 		}
+		
 		$.get('./../member/getLoginIdDup', {
 			loginId : form.loginId.value
 		}, function(data) {
 			var $message = $(form.loginId).next();
+			
 			if (data.resultCode.substr(0, 2) == 'S-') {
 				$message.empty().append(
 						'<div style="color:green;">' + data.msg + '</div>');

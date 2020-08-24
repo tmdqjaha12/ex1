@@ -68,4 +68,6 @@ public interface AttrDao {
 	void setValue(Map<String, Object> param);
 
 	String getValue(Map<String, Object> param);
+
+	int remove(Map<String, Object> param);
 }
