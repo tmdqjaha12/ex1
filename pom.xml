@@ -29,6 +29,16 @@
 	</repositories>
 
 	<dependencies>
+	
+	<!-- https://mvnrepository.com/artifact/de.matrixweb/package-json-maven-plugin -->
+	<dependency>
+	    <groupId>de.matrixweb</groupId>
+	    <artifactId>package-json-maven-plugin</artifactId>
+	    <version>0.0.2</version>
+	</dependency>
+	
+
+	
 		<!-- 구글 리캡챠 -->
 		<dependency>
 			<groupId>net.tanesha.recaptcha4j</groupId>

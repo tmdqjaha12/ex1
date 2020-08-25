@@ -25,9 +25,13 @@ public class ArticleController {
 	private ArticleService articleService;
 
 	@RequestMapping("/usr/article/{boardCode}-list")
-	public String showList(Model model, @PathVariable("boardCode") String boardCode) {
+	public String showList(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req ) {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
+		
+//		int page = Util.getAsInt("page");
+//		int cateItemId = Util.getAsInt("cateItemId");
+//		String cateItemName = "전체";
 		
 		List<Article> articles = articleService.getForPrintArticles();
 
@@ -124,5 +128,20 @@ public class ArticleController {
 		redirectUri = redirectUri.replace("#id", newArticleId + "");
 
 		return "redirect:" + redirectUri;
+	}
+	
+	@RequestMapping("/usr/article/{boardCode}-doDelete")
+	public String doDelete(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req) {
+		Board board = articleService.getBoardByCode(boardCode);
+		model.addAttribute("board", board);
+		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		int id = Integer.parseInt((String)req.getParameter("id"));
+
+		articleService.doDelete(loginedMemberId, board.getId() ,id);
+		
+		model.addAttribute("redirectUri", "/usr/article/"+ board.getCode() +"-list");
+		model.addAttribute("msg", "삭제 완료");
+		
+		return "common/redirect";
 	}
 }

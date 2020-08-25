@@ -396,11 +396,8 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 .list-page-title h1{
-	color:black;
-	position: absolute;
-	top:-8%;
-	left:50%;
-	transform:translateX(-50%);
+	background-color:white;
+	text-align: center;
 }
 
 
@@ -458,11 +455,8 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 .go-write-form {
-	position: absolute;
-	top: -8%;
-	left:auto;	
-	right:-4%;
-	transform:translateX(-50%);
+	background-color:white;
+	text-align: right;
 }
 
 .go-write-form input{

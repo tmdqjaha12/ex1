@@ -43,7 +43,6 @@ var param = ${paramJson};
 </head>
 <body>
 	<div class="outer-box">
-		<div class="top-bar">안녕</div>
 		<nav class="menu-box-1">
 			<ul class="flex">
 				<li class="padding-0-10"><a href="/usr/home/main"

@@ -143,4 +143,8 @@ public class ArticleService {
 	public Board getBoardByCode(String boardCode) {
 		return articleDao.getBoardByCode(boardCode);
 	}
+
+	public void doDelete(int memberId , int boardId, int id) {
+		articleDao.doDelete(memberId, boardId, id);
+	}
 }

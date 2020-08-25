@@ -1,3 +1,4 @@
+  
 // 범용성 있는 자바스크립트
 String.prototype.replaceAll = function(org, dest) {
 	return this.split(org).join(dest);
@@ -36,6 +37,32 @@ function isCellphoneNo(str) {
 	
 	return isNumber(str);
 }
+
 function isNumber(n) {
 	return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+}
+
+function getHtmlEncoded(raw) {
+    return raw.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+        return '&#'+i.charCodeAt(0)+';';
+    });
+}
+
+
+var nowLoading = false;
+
+function startLoading() {
+    nowLoading = true;
+    
+    $html.addClass('loading-box-actived');
+}
+
+function endLoading() {
+    nowLoading = false;
+    
+    $html.removeClass('loading-box-actived');
+}
+
+function isNowLoading() {
+    return nowLoading;
 }

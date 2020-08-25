@@ -3,13 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="글 쓰기" />
 <%@ include file="../part/head.jspf"%>
-<%@ include file="../part/toastUiEditor.jspf" %>
+<%@ include file="../part/toastUiEditor.jspf"%>
 
 
 <script>
 	var ArticleWriteForm__submitDone = false;
 	function ArticleWriteForm__submit(form) {
-		if (isNowLoading()) {
+		if (ArticleWriteForm__submitDone) {
 			alert('처리중입니다.');
 			return;
 		}
@@ -19,7 +19,8 @@
 			alert('제목을 입력해주세요.');
 			return;
 		}
-		var bodyEditor = $(form).find('.toast-editor.input-body').data('data-toast-editor');
+		var bodyEditor = $(form).find('.toast-editor.input-body').data(
+				'data-toast-editor');
 		var body = bodyEditor.getMarkdown().trim();
 		if (body.length == 0) {
 			bodyEditor.focus();
@@ -70,13 +71,14 @@
 				success : onSuccess
 			});
 		}
-		startLoading();
+		
+		ArticleWriteForm__submitDone = true;
+		
 		startUploadFiles(function(data) {
 			var fileIdsStr = '';
 			if (data && data.body && data.body.fileIdsStr) {
 				fileIdsStr = data.body.fileIdsStr;
 			}
-			ArticleWriteForm__submitDone = true;
 			form.fileIdsStr.value = fileIdsStr;
 			form.file__article__0__common__attachment__1.value = '';
 			form.file__article__0__common__attachment__2.value = '';
@@ -84,6 +86,7 @@
 				form.fileIdsStr.value += bodyEditor.inBodyFileIdsStr;
 			}
 			form.submit();
+	
 		});
 	}
 </script>
@@ -94,10 +97,11 @@
 		<h1>${pageTitle}</h1>
 	</div>
 
-	<form method="POST" class="write-form table-box con form1" action="${board.code}-doWrite"
+	<form method="POST" class="write-form table-box con form1"
+		action="${board.code}-doWrite"
 		onsubmit="ArticleWriteForm__submit(this); return false;">
-		<input type="hidden" name="fileIdsStr" /> 
-		<input type="hidden" name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
+		<input type="hidden" name="fileIdsStr" /> <input type="hidden"
+			name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
 
 		<table border="1">
 			<colgroup>
@@ -107,7 +111,7 @@
 				<tr>
 					<th>게시판</th>
 					<td>
-						<div style="font-weight: bold;">${board.name} 게시판</div>
+						<div style="font-weight: bold;">${board.name}게시판</div>
 					</td>
 				</tr>
 				<tr>
@@ -126,7 +130,7 @@
 							<div class="form-control-box">
 								<input type="hidden" name="body" />
 								<script type="text/x-template"></script>
-								<div class="toast-editor"></div>
+								<div data-relTypeCode="artile" data-relId="0" class="toast-editor input-body"></div>
 							</div>
 						</div>
 					</td>
@@ -150,8 +154,9 @@
 				<tr>
 					<th>작성</th>
 					<td>
-						<button class="btn btn-primary" type="submit" style="margin-bottom:12px;">작성</button> 
-						<a class="btn btn-info" style="padding:10px;" href="${listUrl}">리스트</a>
+						<button class="btn btn-primary" type="submit"
+							style="margin-bottom: 12px;">작성</button> <a class="btn btn-info"
+						style="padding: 10px;" href="${listUrl}">리스트</a>
 					</td>
 				</tr>
 			</tbody>
@@ -160,6 +165,5 @@
 
 </div>
 
-<script type="text/x-template" id="editor1" style="display: none;">getBodyForXTemplate()</script>
 
 <%@ include file="../part/foot.jspf"%>

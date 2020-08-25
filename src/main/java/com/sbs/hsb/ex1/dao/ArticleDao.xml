@@ -10,6 +10,7 @@
 		INNER JOIN member AS M
 		ON A.memberId = M.id
 		WHERE A.displayStatus = 1
+		AND A.delStatus = 0
 		ORDER BY A.id DESC
 	</select>
 
@@ -59,6 +60,15 @@
 			<if test="body != null">body = #{body},</if>
 		</set>
 		WHERE id = #{id}
+	</update>
+	
+	<update id="doDelete">
+		UPDATE article
+		SET delDate = NOW(),
+		delStatus = 1
+		WHERE id = #{id}
+		AND memberId = #{memberId}
+		AND boardId = #{boardId}
 	</update>
 	
 	<resultMap type="Article" id="article">
