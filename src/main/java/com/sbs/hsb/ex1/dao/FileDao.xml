@@ -8,8 +8,7 @@
 		INTO `file`
 		SET regDate = NOW(),
 		updateDate = NOW(),
-		relTypeCode =
-		#{relTypeCode},
+		relTypeCode = #{relTypeCode},
 		relId = #{relId},
 		originFileName = #{originFileName},
 		fileExt = #{fileExt},
@@ -19,8 +18,7 @@
 		fileExtTypeCode = #{fileExtTypeCode},
 		fileExtType2Code = #{fileExtType2Code},
 		fileNo = #{fileNo},
-		`body` =
-		#{body}
+		`body` = #{body}
 	</insert>
 
 	<update id="update">

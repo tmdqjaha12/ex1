@@ -15,6 +15,13 @@ label[for] {
 }
 
 /* 라이브러리 */
+
+
+.tui-editor-defaultUI pre {
+    word-break: break-all !important;
+    white-space: pre-wrap;
+}
+
 .block {
 	display: block;
 }
@@ -548,6 +555,10 @@ html>head+body:nth-child(2) .height-300 {
 .article-apply-box table td{
 	color:black;
 }
+.reply-list-box * {
+	color:black !important;
+}
+
 .reply-list-box {
 	display:block;
 	color:black;

@@ -130,7 +130,7 @@
 							<div class="form-control-box">
 								<input type="hidden" name="body" />
 								<script type="text/x-template"></script>
-								<div data-relTypeCode="artile" data-relId="0" class="toast-editor input-body"></div>
+								<div data-relTypeCode="article" data-relId="0" class="toast-editor input-body"></div>
 							</div>
 						</div>
 					</td>

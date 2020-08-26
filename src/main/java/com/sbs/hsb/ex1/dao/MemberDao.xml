@@ -35,6 +35,7 @@
 		SELECT *
 		FROM member
 		WHERE loginId = #{loginId}
+		AND delStatus = 0
 	</select>
 	
 	<select id="getStringForFindId" resultType="String">

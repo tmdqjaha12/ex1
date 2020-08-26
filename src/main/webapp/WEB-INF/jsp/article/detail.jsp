@@ -81,8 +81,9 @@
 	<c:if test="${isLogined}">
 
 		<script>
-		function WriteReplyForm__submit(form) {
-			if (isNowLoading()) {
+		var ArticleWriteReplyForm__submitDone = false;
+		function ArticleWriteReplyForm__submit(form) {
+			if ( ArticleWriteReplyForm__submitDone ) {
 				alert('처리중입니다.');
 			}
 			form.body.value = form.body.value.trim();
@@ -91,29 +92,24 @@
 				form.body.focus();
 				return;
 			}
-			startLoading();
+			ArticleWriteReplyForm__submitDone = true;
 			var startUploadFiles = function(onSuccess) {
-				var needToUpload = false;
-				if (needToUpload == false) {
-					needToUpload = form.file__reply__0__common__attachment__1 && form.file__reply__0__common__attachment__1.value.length > 0;
-				}
-				if (needToUpload == false) {
-					needToUpload = form.file__reply__0__common__attachment__2 && form.file__reply__0__common__attachment__2.value.length > 0;
-				}
-				if (needToUpload == false) {
-					needToUpload = form.file__reply__0__common__attachment__3 && form.file__reply__0__common__attachment__3.value.length > 0;
-				}
-				if (needToUpload == false) {
+				if ( form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__2.value.length == 0 
+						&& form.file__reply__0__common__attachment__3.value.length == 0) {
 					onSuccess();
 					return;
 				}
-				var fileUploadFormData = new FormData(form);
+				var fileUploadFormData = new FormData(form); 
+				
+				fileUploadFormData.delete("relTypeCode");
+				fileUploadFormData.delete("relId");
+				fileUploadFormData.delete("body");
 				$.ajax({
-					url : './../file/doUploadAjax',
+					url : './../usr/file/doUploadAjax',
 					data : fileUploadFormData,
 					processData : false,
 					contentType : false,
-					dataType : "json",
+					dataType:"json",
 					type : 'POST',
 					success : onSuccess
 				});
@@ -122,65 +118,57 @@
 				$.ajax({
 					url : './../reply/doWriteReplyAjax',
 					data : {
-						fileIdsStr : fileIdsStr,
-						body : form.body.value,
-						relTypeCode : form.relTypeCode.value,
-						relId : form.relId.value
+						fileIdsStr: fileIdsStr,
+						body: form.body.value,
+						relTypeCode: form.relTypeCode.value,
+						relId: form.relId.value
 					},
-					dataType : "json",
+					dataType:"json",
 					type : 'POST',
 					success : onSuccess
 				});
 			};
 			startUploadFiles(function(data) {
+				
 				var idsStr = '';
-				if (data && data.body && data.body.fileIdsStr) {
+				if ( data && data.body && data.body.fileIdsStr ) {
 					idsStr = data.body.fileIdsStr;
 				}
 				startWriteReply(idsStr, function(data) {
-					if (data.msg) {
+					
+					if ( data.msg ) {
 						alert(data.msg);
 					}
+					
 					form.body.value = '';
-					if (form.file__reply__0__common__attachment__1) {
-						form.file__reply__0__common__attachment__1.value = '';
-					}
-					if (form.file__reply__0__common__attachment__2) {
-						form.file__reply__0__common__attachment__2.value = '';
-					}
-					if (form.file__reply__0__common__attachment__3) {
-						form.file__reply__0__common__attachment__3.value = '';
-					}
-					endLoading();
+					form.file__reply__0__common__attachment__1.value = '';
+					form.file__reply__0__common__attachment__2.value = '';
+					form.file__reply__0__common__attachment__3.value = '';
+					ArticleWriteReplyForm__submitDone = false;
 				});
 			});
 		}
-		</script>
+	</script>
+		<form class="article-apply-box table-box con form1" onsubmit="ArticleWriteReplyForm__submit(this); return false;">
+		<input type="hidden" name="relTypeCode" value="article" />
+		<input type="hidden" name="relId" value="${article.id}" />
+		
+		<h2 class="con"	style="position: absolute; left: 50%; top: -25%; transform: translateX(-50%);">댓글작성</h2>
 
-		<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
-
-			<h2 class="con"
-				style="position: absolute; left: 50%; top: -25%; transform: translateX(-50%);">댓글
-				작성</h2>
-
-			<input type="hidden" name="relTypeCode" value="article" />
-			<input type="hidden" name="relId" value="${article.id}" />
-
-
-			<table border="1">
-				<colgroup>
-					<col class="table-first-col">
-				</colgroup>
-				<tbody>
-					<tr>
-						<th>내용</th>
-						<td>
-							<div class="form-control-box">
-								<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300" style="resize: none; width: 420px;"></textarea>
-							</div>
-						</td>
-					</tr>
-					<c:forEach var="i" begin="1" end="3" step="1">
+		<table border="1">
+			<colgroup>
+				<col class="table-first-col">
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>내용</th>
+					<td>
+						<div class="form-control-box">
+							<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300" style="resize: none; width: 420px;"></textarea>
+						</div>
+					</td>
+				</tr>
+				<c:forEach var="i" begin="1" end="3" step="1">
 					<c:set var="fileNo" value="${String.valueOf(i)}" />
 					<c:set var="fileExtTypeCode" value="${appConfig.getAttachmentFileExtTypeCode('reply', i)}" />
 					<tr>
@@ -188,17 +176,20 @@
 						<td>
 							<div class="form-control-box">
 								<input type="file" accept="${appConfig.getAttachemntFileInputAccept('article', i)}" name="file__reply__0__common__attachment__${fileNo}">
+								
 							</div>
 						</td>
 					</tr>
-					</c:forEach>
-					<tr>
-						<th>작성</th>
-						<td><input class="btn btn-primary" type="submit" value="작성"></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+				</c:forEach>
+				<tr class="tr-do">
+					<th>작성</th>
+					<td>
+						<input class="btn btn-primary" type="submit" value="작성">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
 	</c:if>
 
 
@@ -555,10 +546,6 @@
 					+ '</td>';
 			html += '<td>';
 			html += '<div class="reply-body">' + reply.forPrintBody + '</div>';
-			html += '<div class="visible-on-sm-down">날짜 : ' + reply.regDate
-					+ '</div>';
-			html += '<div class="visible-on-sm-down">작성 : '
-					+ reply.extra.writer + '</div>';
 			for (var fileNo = 1; fileNo <= 3; fileNo++) {
 				var file = null;
 				if (reply.extra.file__common__attachment
@@ -580,12 +567,7 @@
 				html += '</div>';
 			}
 			html += '<div class="visible-on-sm-down margin-top-10">';
-			if (reply.extra.actorCanDelete) {
-				html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
-			}
-			if (reply.extra.actorCanModify) {
-				html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
-			}
+			
 			html += '</div>';
 			html += '</td>';
 			html += '<td class="visible-on-md-up">';
@@ -605,6 +587,8 @@
 	</script>
 
 </div>
+
+
 
 
 
