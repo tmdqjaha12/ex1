@@ -39,7 +39,9 @@ function ArticleModifyForm__submit(form) {
 		alert('제목을 입력해주세요.');
 		return;
 	}
+	
 	var bodyEditor = $(form).find('.toast-editor.input-body').data('data-toast-editor');
+	
 	var body = bodyEditor.getMarkdown().trim();
 	if (body.length == 0) {
 		bodyEditor.focus();
@@ -47,6 +49,7 @@ function ArticleModifyForm__submit(form) {
 		return;
 	}
 	form.body.value = body;
+	
 	var maxSizeMb = 50;
 	var maxSize = maxSizeMb * 1024 * 1024 //50MB
 	if (fileInput1 && fileInput1.value) {

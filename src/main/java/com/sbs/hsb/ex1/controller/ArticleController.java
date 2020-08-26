@@ -29,11 +29,51 @@ public class ArticleController {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
 		
-//		int page = Util.getAsInt("page");
-//		int cateItemId = Util.getAsInt("cateItemId");
-//		String cateItemName = "전체";
+		// 검색 관련 기능 추가 시작
+		//page
+		int page = 1;
+		if (Util.isNum(req.getParameter("page"))) {
+			page = Util.getInt(req, "page");
+		}
 		
-		List<Article> articles = articleService.getForPrintArticles();
+		//boardid
+		int boardId = board.getId();
+		
+		//searchKeywordType
+		String searchKeywordType = "";
+		if (Util.isNum(req.getParameter("searchKeywordType"))) {
+			searchKeywordType = Util.getString(req, "searchKeywordType");
+		}
+		
+		//searchKeyword
+		String searchKeyword = "";
+		if (Util.isNum(req.getParameter("searchKeyword"))) {
+			searchKeyword = Util.getString(req, "searchKeyword");
+		}
+		
+		//page AND count
+		int itemsInAPage = 10;
+		int totalCount = articleService.getForPrintListArticlesCount(boardId, searchKeywordType, searchKeyword);
+		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+		
+		int nowPage = page;
+		
+		if(page % 5 != 0) {
+			page = page/5;
+			page = (page*5)+1;
+		} else if(page % 5 == 0) {
+			page = page - 4;
+		}
+		
+		req.setAttribute("page", page);
+		
+		req.setAttribute("totalCount", totalCount);
+		req.setAttribute("totalPage", totalPage);
+		req.setAttribute("cPagedoReply", page);
+		
+		
+		List<Article> articles = articleService.getForPrintListArticles(nowPage, itemsInAPage, boardId,
+				searchKeywordType, searchKeyword);
 
 		model.addAttribute("articles", articles);
 

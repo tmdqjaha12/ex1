@@ -573,3 +573,47 @@ html>head+body:nth-child(2) .height-300 {
 	width:100%;
 }
 /* 상세 게시물 끝 */
+
+/* Articles 페이징 시작 */
+.page-box {
+	margin-top:10px;
+	margin-bottom: 30px;
+	background-color:white;
+	text-align: center;
+}
+
+.page-box > ul > li {
+	display: inline-block;
+}
+
+.page-box > ul > li > a {
+	font-size: 1.2rem;
+	padding: 0 10px;
+	text-decoration: underline;
+	color: #787878;
+}
+
+.page-box > ul > li:hover > a {
+	color: black;
+}
+
+.page-box > ul > li.current > a {
+	color: red;
+}
+
+.page-box > ul span {
+	cursor: pointer;
+}
+
+.page-box ul li > a:hover {
+	color: blue;
+}
+
+.page-box ul li > a:active {
+	color: red;
+}
+
+.page-box > ul span:active {
+	color:blue;
+}
+/* Articles 페이징 끝 */

@@ -13,7 +13,11 @@ public class Board {
 	private int id;
 	private String regDate;
 	private String updateDate;
+	private String delDate;
+	private boolean delStatus;
 	private String name;
 	private String code;
+	private boolean applyStatus;
+	
 	private Map<String, Object> extra;
 }

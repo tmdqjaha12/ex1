@@ -147,4 +147,29 @@ public class ArticleService {
 	public void doDelete(int memberId , int boardId, int id) {
 		articleDao.doDelete(memberId, boardId, id);
 	}
+
+	public List<Board> getAllBoards() {
+		return articleDao.getAllBoards();
+	}
+
+	public int getForPrintListArticlesCount(int boardId, String searchKeywordType, String searchKeyword) {
+
+		if (searchKeywordType.equals("title") && searchKeyword.length() > 0) {
+			return articleDao.getForPrintListArticlesCount1(boardId, searchKeywordType, searchKeyword);
+		}
+		return articleDao.getForPrintListArticlesCount2(boardId);
+	}
+
+	public List<Article> getForPrintListArticles(int nowPage, int itemsInAPage, int boardId, String searchKeywordType,
+			String searchKeyword) {
+		Map<String, Object> param = new HashMap<>();
+		int limitFrom = (nowPage - 1) * itemsInAPage;
+		param.put("limitFrom", limitFrom);
+		param.put("itemsInAPage", itemsInAPage);
+		param.put("boardId", boardId);
+		param.put("searchKeywordType", searchKeywordType);
+		param.put("searchKeyword", searchKeyword);
+		
+		return articleDao.getForPrintListArticles(param);
+	}
 }

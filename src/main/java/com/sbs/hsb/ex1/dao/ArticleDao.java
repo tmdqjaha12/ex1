@@ -24,4 +24,12 @@ public interface ArticleDao {
 	Board getBoardByCode(String boardCode);
 
 	void doDelete(@Param("memberId")int memberId,@Param("boardId") int boardId, @Param("id") int id);
+
+	List<Board> getAllBoards();
+
+	int getForPrintListArticlesCount1(@Param("boardId")int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
+
+	int getForPrintListArticlesCount2(@Param("boardId")int boardId);
+
+	List<Article> getForPrintListArticles(Map<String, Object> param);
 }
