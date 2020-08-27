@@ -120,10 +120,21 @@ public class ArticleController {
 	}
 
 	@RequestMapping("/usr/article/{boardCode}-write")
-	public String showWrite(@PathVariable("boardCode") String boardCode, Model model, String listUrl) {
+	public String showWrite(@PathVariable("boardCode") String boardCode, HttpServletRequest req, Model model, String listUrl) {
 		if ( listUrl == null ) {
 			listUrl = "./" + boardCode + "-list";
 		}
+		
+		if(boardCode.equals("notice")) {
+			Member loginedMember = (Member)req.getAttribute("loginedMember");
+			if(loginedMember.getLevel() != 10) {
+				model.addAttribute("historyBack", true);
+				model.addAttribute("msg", "관리자 권한이 필요합니다.");
+				
+				return "common/redirect";
+			}
+		}
+		
 		model.addAttribute("listUrl", listUrl);
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
