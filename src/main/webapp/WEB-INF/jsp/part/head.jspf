@@ -42,22 +42,22 @@ var param = ${paramJson};
 <%="</script>"%>
 
 </head>
-<body>
-	<div class="outer-box">
-		<nav class="menu-box-1">
-			<ul class="flex">
-				<li class="padding-0-10"><a href="/usr/home/main"
-					class="btn btn-info">홈</a></li>
-				<li class="padding-0-10"><a class="btn btn-info"
-					href="/usr/article/notice-list">공지 게시판</a></li>
-				<c:if test="${isLogined}">
+	<body>
+		<div class="outer-box">
+			<nav class="menu-box-1">
+				<ul class="flex">
+					<li class="padding-0-10"><a href="/usr/home/main"
+						class="btn btn-info">홈</a></li>
 					<li class="padding-0-10"><a class="btn btn-info"
-						href="/usr/member/doLogout">로그아웃</a></li>
-					<li class="padding-0-10"><a class="btn btn-info"
-						href="/usr/home/myPage">myPage</a></li>
-				</c:if>
-				<c:if test="${isLogined == false}">
-					<li class="padding-0-10"><a class="btn btn-info"
+						href="/usr/article/notice-list">공지 게시판</a></li>
+					<c:if test="${isLogined}">
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/member/doLogout">로그아웃</a></li>
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/home/myPage">myPage</a></li>
+					</c:if>
+					<c:if test="${isLogined == false}">
+						<li class="padding-0-10"><a class="btn btn-info"
 						href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a></li>
 
 					<li class="padding-0-10"><a class="btn btn-info"

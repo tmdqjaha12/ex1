@@ -81,9 +81,9 @@
 	<c:if test="${isLogined}">
 
 		<script>
-		var ArticleWriteReplyForm__submitDone = false;
-		function ArticleWriteReplyForm__submit(form) {
-			if ( ArticleWriteReplyForm__submitDone ) {
+		var WriteReplyForm__submitDone = false;
+		function WriteReplyForm__submit(form) {
+			if (isNowLoading()) {
 				alert('처리중입니다.');
 			}
 			form.body.value = form.body.value.trim();
@@ -92,24 +92,29 @@
 				form.body.focus();
 				return;
 			}
-			ArticleWriteReplyForm__submitDone = true;
+			WriteReplyForm__submitDone = true;
 			var startUploadFiles = function(onSuccess) {
-				if ( form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__2.value.length == 0 
-						&& form.file__reply__0__common__attachment__3.value.length == 0) {
+				var needToUpload = false;
+				if (needToUpload == false) {
+					needToUpload = form.file__reply__0__common__attachment__1 && form.file__reply__0__common__attachment__1.value.length > 0;
+				}
+				if (needToUpload == false) {
+					needToUpload = form.file__reply__0__common__attachment__2 && form.file__reply__0__common__attachment__2.value.length > 0;
+				}
+				if (needToUpload == false) {
+					needToUpload = form.file__reply__0__common__attachment__3 && form.file__reply__0__common__attachment__3.value.length > 0;
+				}
+				if (needToUpload == false) {
 					onSuccess();
 					return;
 				}
-				var fileUploadFormData = new FormData(form); 
-				
-				fileUploadFormData.delete("relTypeCode");
-				fileUploadFormData.delete("relId");
-				fileUploadFormData.delete("body");
+				var fileUploadFormData = new FormData(form);
 				$.ajax({
-					url : './../usr/file/doUploadAjax',
+					url : './../file/doUploadAjax',
 					data : fileUploadFormData,
 					processData : false,
 					contentType : false,
-					dataType:"json",
+					dataType : "json",
 					type : 'POST',
 					success : onSuccess
 				});
@@ -118,38 +123,41 @@
 				$.ajax({
 					url : './../reply/doWriteReplyAjax',
 					data : {
-						fileIdsStr: fileIdsStr,
-						body: form.body.value,
-						relTypeCode: form.relTypeCode.value,
-						relId: form.relId.value
+						fileIdsStr : fileIdsStr,
+						body : form.body.value,
+						relTypeCode : form.relTypeCode.value,
+						relId : form.relId.value
 					},
-					dataType:"json",
+					dataType : "json",
 					type : 'POST',
 					success : onSuccess
 				});
 			};
 			startUploadFiles(function(data) {
-				
 				var idsStr = '';
-				if ( data && data.body && data.body.fileIdsStr ) {
+				if (data && data.body && data.body.fileIdsStr) {
 					idsStr = data.body.fileIdsStr;
 				}
 				startWriteReply(idsStr, function(data) {
-					
-					if ( data.msg ) {
+					if (data.msg) {
 						alert(data.msg);
 					}
-					
 					form.body.value = '';
-					form.file__reply__0__common__attachment__1.value = '';
-					form.file__reply__0__common__attachment__2.value = '';
-					form.file__reply__0__common__attachment__3.value = '';
-					ArticleWriteReplyForm__submitDone = false;
+					if (form.file__reply__0__common__attachment__1) {
+						form.file__reply__0__common__attachment__1.value = '';
+					}
+					if (form.file__reply__0__common__attachment__2) {
+						form.file__reply__0__common__attachment__2.value = '';
+					}
+					if (form.file__reply__0__common__attachment__3) {
+						form.file__reply__0__common__attachment__3.value = '';
+					}
+					endLoading();
 				});
 			});
 		}
 	</script>
-		<form class="article-apply-box table-box con form1" onsubmit="ArticleWriteReplyForm__submit(this); return false;">
+		<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
 		<input type="hidden" name="relTypeCode" value="article" />
 		<input type="hidden" name="relId" value="${article.id}" />
 		
