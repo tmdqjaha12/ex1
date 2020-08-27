@@ -30,7 +30,7 @@ public class ArticleController {
 		model.addAttribute("board", board);
 		
 		
-		
+		//기본값 넣어주자
 		int boardId = board.getId();
 		int page = Integer.parseInt((String) param.get("page"));
 		String searchKeywordType = (String) param.get("searchKeywordType");
