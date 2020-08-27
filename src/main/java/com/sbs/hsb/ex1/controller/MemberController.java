@@ -116,7 +116,12 @@ public class MemberController {
 	@RequestMapping("/usr/member/getLoginIdDup")
 	@ResponseBody
 	public ResultData getLoginIdDup(@RequestParam Map<String, Object> param, Model model) {
-		String loginId = (String) param.get("loginId");
+		String loginId = "";
+		if( param.get("loginId").equals("") ) {
+			return new ResultData("X-1", "");
+		}
+		
+		loginId = (String) param.get("loginId");
 
 		return memberService.checkLoginIdJoinable(loginId);
 	}
@@ -125,7 +130,12 @@ public class MemberController {
 	@RequestMapping("/usr/member/getNickNameDup")
 	@ResponseBody
 	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model) {
-		String nickname = (String) param.get("nickname");
+		String nickname = "";
+		if( param.get("nickname").equals("") ) {
+			return new ResultData("X-1", "");
+		}
+		
+		nickname = (String) param.get("nickname");
 		return memberService.checkNickNameJoinable(nickname);
 	}
 
@@ -133,7 +143,12 @@ public class MemberController {
 	@RequestMapping("/usr/member/getEmailDup")
 	@ResponseBody
 	public ResultData getEmailDup(@RequestParam Map<String, Object> param, Model model) {
-		String email = (String) param.get("email");
+		String email = "";
+		if( param.get("email").equals("") ) {
+			return new ResultData("X-1", "");
+		}
+		
+		email = (String) param.get("email");
 		return memberService.checkEmailJoinable(email);
 	}
 
@@ -146,13 +161,19 @@ public class MemberController {
 	public ResultData getNickNameDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
 		Member member = (Member) req.getAttribute("loginedMember");
 		String loginedNickname = member.getNickname();
-		String nickname = (String) param.get("nickname");
+		String nickname = "";
+		
+		if( param.get("nickname").equals("") ) {//공백 검사
+			return new ResultData("X-1", "");
+		}
 
+		nickname = (String) param.get("nickname");
 		if (nickname.equals(loginedNickname)) {// 현재 나의 별명
 			return new ResultData("Z-1", "", "nickname", nickname);
 		}
-
+					
 		return memberService.checkNickNameJoinable(nickname);
+		
 	}
 
 	// 회원정보 수정 이메일 중복 체크
@@ -161,8 +182,13 @@ public class MemberController {
 	public ResultData getEmailDup(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
 		Member member = (Member) req.getAttribute("loginedMember");
 		String loginedEmail = (String) member.getEmail();
-		String email = (String) param.get("email");
-
+		String email = "";
+		
+		if( param.get("email").equals("") ) {//공백 검사
+			return new ResultData("X-1", "");
+		}
+		
+		email = (String) param.get("email");
 		if (email.equals(loginedEmail)) {// 현재 나의 이메일
 			return new ResultData("Z-1", "", "email", email);
 		}

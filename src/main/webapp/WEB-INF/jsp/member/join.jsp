@@ -128,7 +128,7 @@
 		form.loginId.value = form.loginId.value.trim();
 		
 		if (form.loginId.value.length == 0) {
-			return;
+			//return;
 		}
 		
 		$.get('./../member/getLoginIdDup', {
@@ -140,9 +140,12 @@
 				$message.empty().append(
 						'<div style="color:green;">' + data.msg + '</div>');
 				JoinForm__validLoginId = data.loginId;
-			} else {
+			} else if (data.resultCode.substr(0, 2) == 'F-') {
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validLoginId = '';
+			} else if (data.resultCode.substr(0, 2) == 'X-') {
+				$message.empty();
 				JoinForm__validLoginId = '';
 			}
 		}, 'json');
@@ -151,21 +154,28 @@
 	var JoinForm__checkNickNameDup = _.debounce(function(input) {
 		var form = input.form;
 		form.nickname.value = form.nickname.value.trim();
+		
 		if (form.nickname.value.length == 0) {
-			return;
+			
+			//return;
 		}
+		
 		$.get('./../member/getNickNameDup', {
 			nickname : form.nickname.value
 		}, function(data) {
 			var $message = $(form.nickname).next();
+			
 			if (data.resultCode.substr(0, 2) == 'S-') {
 				$message.empty().append(
 						'<div style="color:green;">' + data.msg + '</div>');
 				JoinForm__validNickName = data.nickname;
-			} else {
+			} else if (data.resultCode.substr(0, 2) == 'F-') {
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
 				JoinForm__validNickName = '';
+			} else if (data.resultCode.substr(0, 2) == 'X-') {
+				$message.empty();
+				JoinForm__validLoginId = '';
 			}
 		}, 'json');
 	}, 1000);
@@ -174,7 +184,7 @@
 		var form = input.form;
 		form.email.value = form.email.value.trim();
 		if (form.email.value.length == 0) {
-			return;
+			//return;
 		}
 		$.get('./../member/getEmailDup', {
 			email : form.email.value
@@ -183,11 +193,14 @@
 			if (data.resultCode.substr(0, 2) == 'S-') {
 				$message.empty().append(
 						'<div style="color:green;">' + data.msg + '</div>');
-				JoinForm__validEmail = data.email;
-			} else {
+				JoinForm__validNickName = data.nickname;
+			} else if (data.resultCode.substr(0, 2) == 'F-') {
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
-				JoinForm__validEmail = '';
+				JoinForm__validNickName = '';
+			} else if (data.resultCode.substr(0, 2) == 'X-') {
+				$message.empty();
+				JoinForm__validLoginId = '';
 			}
 		}, 'json');
 	}, 1000);

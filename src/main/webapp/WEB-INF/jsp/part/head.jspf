@@ -55,6 +55,8 @@ var param = ${paramJson};
 							href="/usr/member/doLogout">로그아웃</a></li>
 						<li class="padding-0-10"><a class="btn btn-info"
 							href="/usr/home/myPage">myPage</a></li>
+						<li class="padding-0-10"><a class="btn btn-info"
+						href="/usr/home/myPage">새 게시판 만들기</a></li>
 					</c:if>
 					<c:if test="${isLogined == false}">
 						<li class="padding-0-10"><a class="btn btn-info"

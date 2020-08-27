@@ -54,7 +54,7 @@
 		var form = input.form;
 		form.nickname.value = form.nickname.value.trim();
 		if (form.nickname.value.length == 0) {
-			return;
+			//return;
 		}
 		$.get('./../member/getNickNameDupForMemberModify', {
 			nickname : form.nickname.value
@@ -68,9 +68,8 @@
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
 				JoinForm__validNickName = '';
-			} else{
-				$message.empty().append(
-						'<div>' + data.msg + '</div>');
+			} else if(data.resultCode.substr(0, 2) == 'X-') {
+				$message.empty();
 				JoinForm__validNickName = '';
 			}
 		}, 'json');
@@ -80,7 +79,7 @@
 		var form = input.form;
 		form.email.value = form.email.value.trim();
 		if (form.email.value.length == 0) {
-			return;
+			//return;
 		}
 		$.get('./../member/getEmailDupFormMemberModify', {
 			email : form.email.value
@@ -94,9 +93,8 @@
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
 				JoinForm__validEmail = '';
-			} else{
-				$message.empty().append(
-						'<div>' + data.msg + '</div>');
+			} else if(data.resultCode.substr(0, 2) == 'S-'){
+				$message.empty();
 				JoinForm__validEmail = '';
 			}
 		}, 'json');

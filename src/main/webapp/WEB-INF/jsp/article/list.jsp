@@ -99,4 +99,8 @@
 	</div>
 	<!-- 게시물 페이징 끝 -->
 </div>
+
+<div class="list-mypage" style="position: fixed; top:10px; right:2%; height: 267px; width:300px; background-color: gray; border-top:33px solid black;">
+	
+</div>
 <%@ include file="../part/foot.jspf"%>

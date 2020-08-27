@@ -69,6 +69,10 @@ public class MemberService {
 		if (count == 0) {
 			return new ResultData("S-1", "가입가능한 활동명 입니다.", "loginId", nickname);
 		}
+		
+//		if (nickname.length() == 0) {
+//			return new ResultData("x-1", "", "loginId", nickname);
+//		}
 
 		return new ResultData("F-1", "이미 사용중인 활동명 입니다.", "loginId", nickname);
 	}
