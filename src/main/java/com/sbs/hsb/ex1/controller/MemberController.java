@@ -122,6 +122,10 @@ public class MemberController {
 		}
 		
 		loginId = (String) param.get("loginId");
+		
+		if( loginId.length() < 4 ) {
+			return new ResultData("L-1", "경고! 4글자 미만", "loginId", loginId);
+		}
 
 		return memberService.checkLoginIdJoinable(loginId);
 	}

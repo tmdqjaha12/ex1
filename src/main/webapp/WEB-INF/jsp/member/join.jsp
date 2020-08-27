@@ -144,6 +144,10 @@
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
 				JoinForm__validLoginId = '';
+			} else if (data.resultCode.substr(0, 2) == 'L-') {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validLoginId = '';
 			} else if (data.resultCode.substr(0, 2) == 'X-') {
 				$message.empty();
 				JoinForm__validLoginId = '';

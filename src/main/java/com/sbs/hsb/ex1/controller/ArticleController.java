@@ -25,33 +25,19 @@ public class ArticleController {
 	private ArticleService articleService;
 
 	@RequestMapping("/usr/article/{boardCode}-list")
-	public String showList(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req ) {
+	public String showList(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
 		
-		// 검색 관련 기능 추가 시작
-		//page
-		int page = 1;
-		if (Util.isNum(req.getParameter("page"))) {
-			page = Util.getInt(req, "page");
-		}
 		
-		//boardid
+		
 		int boardId = board.getId();
+		int page = Integer.parseInt((String) param.get("page"));
+		String searchKeywordType = (String) param.get("searchKeywordType");
+		String searchKeyword = (String) param.get("searchKeyword");
+
+
 		
-		//searchKeywordType
-		String searchKeywordType = "";
-		if (Util.isNum(req.getParameter("searchKeywordType"))) {
-			searchKeywordType = Util.getString(req, "searchKeywordType");
-		}
-		
-		//searchKeyword
-		String searchKeyword = "";
-		if (Util.isNum(req.getParameter("searchKeyword"))) {
-			searchKeyword = Util.getString(req, "searchKeyword");
-		}
-		
-		//page AND count
 		int itemsInAPage = 10;
 		int totalCount = articleService.getForPrintListArticlesCount(boardId, searchKeywordType, searchKeyword);
 		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
@@ -64,20 +50,20 @@ public class ArticleController {
 		} else if(page % 5 == 0) {
 			page = page - 4;
 		}
-		
+		System.out.println("77777777777");
 		req.setAttribute("page", page);
 		
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("totalPage", totalPage);
 		req.setAttribute("cPagedoReply", page);
 		
-		
+		System.out.println("88888888888");
 		List<Article> articles = articleService.getForPrintListArticles(nowPage, itemsInAPage, boardId,
 				searchKeywordType, searchKeyword);
 
 		model.addAttribute("articles", articles);
 
-		System.out.println("articles~~ : " + articles);
+		System.out.println("99999999999");
 		
 		return "article/list";
 	}

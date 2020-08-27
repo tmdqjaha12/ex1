@@ -77,13 +77,16 @@
 	<!-- 검색 폼 시작 -->
 	<div class="con search-box" style="text-align: center; margin-top:20px;">
 
-		<form action="${pageContext.request.contextPath}/usr/article/${board.code }-list">
-			<input type="hidden" name="page" value="1" /> <input type="hidden"
-				name="cateItemId" value="${param.cateItemId}" /> <input
-				type="hidden" name="searchKeywordType" value="title" /> <input
-				type="text" name="searchKeyword" value="${param.searchKeyword}" />
+		<form action="${boardCode}-list" method="POST">
+			<input type="hidden" name="page" value="1" /> 
+			<input type="hidden" name="searchKeywordType" value="title" /> 
+			<input type="text" name="searchKeyword" value="${param.searchKeyword}" />
 			<button type="submit">검색</button>
 		</form>
+		<!-- <select name="searchKeywordType" style="padding:5px;">
+				<option value="title">제목</option>
+				<option value="body">내용</option>
+			</select>  -->
 
 	</div>
 	<!-- 검색 폼 끝 -->

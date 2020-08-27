@@ -162,6 +162,7 @@ public class ArticleService {
 
 	public List<Article> getForPrintListArticles(int nowPage, int itemsInAPage, int boardId, String searchKeywordType,
 			String searchKeyword) {
+		
 		Map<String, Object> param = new HashMap<>();
 		int limitFrom = (nowPage - 1) * itemsInAPage;
 		param.put("limitFrom", limitFrom);
