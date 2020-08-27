@@ -193,3 +193,8 @@ ALTER TABLE `at`.`reply` ADD INDEX (`relId`, `relTypeCode`);
 UPDATE reply
 SET relTypeCode = 'article'
 WHERE relTypeCode = '';
+
+
+ALTER TABLE board ADD COLUMN boardApply INT(10) UNSIGNED DEFAULT 0 NOT NULL
+
+ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED DEFAULT 0 NOT NULL

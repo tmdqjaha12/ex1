@@ -12,10 +12,22 @@
 		<h1>${pageTitle}</h1>
 	</div>
 
-	<c:if test="${isLogined}">
-		<form class="go-write-form" action="${boardCode}-write" method="POST">
-			<input type="submit" value="글쓰기" />
-		</form>
+	<c:if test="${isLogined}">	
+	
+		<c:choose>
+			<c:when test="${board.code == 'notice'}">
+				<c:if test="${loginedMember.level == 10 }">
+					<form class="go-write-form" action="${boardCode}-write" method="POST">
+						<input type="submit" value="글쓰기" />
+					</form>			
+				</c:if>
+			</c:when>
+			<c:otherwise>
+        		<form class="go-write-form" action="${boardCode}-write" method="POST">
+					<input type="submit" value="글쓰기" />
+				</form>	
+		    </c:otherwise>	
+		</c:choose>
 
 	</c:if>
 
@@ -52,10 +64,10 @@
 						<td class="padding-left-10 list-title-1"><a
 							style="width: 200px; cursor: pointer;"
 							href="${article.getDetailLink(board.code)}">${article.forPrintTitle}</a>
-						<td class="padding-left-10"><a href="#">임시작성자</a></td>
+						<td class="padding-left-10"><a href="#">${article.extra.writer}</a></td>
 						<td class="text-center"><a style="width: 170px;" href="#">${article.regDate}</a></td>
-						<td class="padding-left-10"><a href="#">임시조회수ddddddddddddddddddddddddddddddddddda</a></td>
-						<td class="padding-left-10"><a href="#">임시추천수</a></td>
+						<td class="padding-left-10"><a href="#">${article.hit}</a></td>
+						<td class="padding-left-10"><a href="#">${article.extra.likePoint}</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

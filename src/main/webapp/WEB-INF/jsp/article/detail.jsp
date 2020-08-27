@@ -59,6 +59,17 @@
 						</tr>
 					</c:if>
 				</c:forEach>
+				
+				<tr>
+				<th>좋아요</th>
+				<td>
+					<span>${article.extra.likePoint}</span>
+					
+					<a
+					href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
+					onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }">좋아요</a>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>

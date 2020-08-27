@@ -77,6 +77,8 @@ public class ArticleController {
 
 		model.addAttribute("articles", articles);
 
+		System.out.println("articles~~ : " + articles);
+		
 		return "article/list";
 	}
 
@@ -91,11 +93,10 @@ public class ArticleController {
 		model.addAttribute("board", board);
 		
 		int id = Integer.parseInt((String) param.get("id"));
+		articleService.increaseArticleHit(id);
 		
 		Member loginedMember = (Member)req.getAttribute("loginedMember");
-
 		Article article = articleService.getForPrintArticleById(loginedMember, id);
-
 		model.addAttribute("article", article);
 
 		return "article/detail";
@@ -182,6 +183,31 @@ public class ArticleController {
 		model.addAttribute("redirectUri", "/usr/article/"+ board.getCode() +"-list");
 		model.addAttribute("msg", "삭제 완료");
 		
+		return "common/redirect";
+	}
+	
+	//좋아요 기능
+	@RequestMapping("/usr/article/doLike")
+	public String doDelete(Model model, int id, String redirectUrl, HttpServletRequest request) {
+
+		int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+
+		Map<String, Object> articleLikeAvailableRs = articleService.getArticleLikeAvailable(id, loginedMemberId);
+
+		if (((String) articleLikeAvailableRs.get("resultCode")).startsWith("F-")) {
+			model.addAttribute("alertMsg", articleLikeAvailableRs.get("msg"));
+			model.addAttribute("historyBack", true);
+
+			return "common/redirect";
+		}
+
+		Map<String, Object> rs = articleService.likeArticle(id, loginedMemberId);
+
+		String msg = (String) rs.get("msg");
+
+		model.addAttribute("alertMsg", msg);
+		model.addAttribute("locationReplace", redirectUrl);
+
 		return "common/redirect";
 	}
 }

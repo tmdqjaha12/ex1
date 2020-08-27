@@ -32,4 +32,13 @@ public interface ArticleDao {
 	int getForPrintListArticlesCount2(@Param("boardId")int boardId);
 
 	List<Article> getForPrintListArticles(Map<String, Object> param);
+
+	void increaseArticleHit(@Param("id") int id);
+
+	Map<String, Object> getArticleLikeAvailable(int id, int loginedMemberId);
+
+	//좋아요
+	int getLikePointByMemberId(@Param("id") int id, @Param("memberId") int memberId);
+
+	void likeArticle(@Param("id") int id, @Param("memberId") int memberId);
 }

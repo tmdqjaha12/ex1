@@ -80,6 +80,10 @@ public class MemberService {
 	public ResultData checkEmailJoinable(String email) {
 		int count = memberDao.getEmailDupCount(email);
 
+		if (email.contains("@") == false) {
+			return new ResultData("A-1", "이메일을 정확히 입력해주세요.", "loginId", email);
+		}
+		
 		if (count == 0) {
 			return new ResultData("S-1", "가입가능한 이메일 입니다.", "loginId", email);
 		}

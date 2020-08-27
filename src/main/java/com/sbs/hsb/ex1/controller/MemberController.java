@@ -169,7 +169,7 @@ public class MemberController {
 
 		nickname = (String) param.get("nickname");
 		if (nickname.equals(loginedNickname)) {// 현재 나의 별명
-			return new ResultData("Z-1", "", "nickname", nickname);
+			return new ResultData("Z-1", "현재 별명", "nickname", nickname);
 		}
 					
 		return memberService.checkNickNameJoinable(nickname);
@@ -190,7 +190,7 @@ public class MemberController {
 		
 		email = (String) param.get("email");
 		if (email.equals(loginedEmail)) {// 현재 나의 이메일
-			return new ResultData("Z-1", "", "email", email);
+			return new ResultData("Z-1", "현재 이메일", "email", email);
 		}
 
 		return memberService.checkEmailJoinable(email);

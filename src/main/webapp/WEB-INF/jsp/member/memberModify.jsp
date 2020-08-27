@@ -68,6 +68,10 @@
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
 				JoinForm__validNickName = '';
+			} else if(data.resultCode.substr(0, 2) == 'Z-') {
+				$message.empty().append(
+						'<div style="color:blue;">' + data.msg + '</div>');
+				JoinForm__validNickName = '';
 			} else if(data.resultCode.substr(0, 2) == 'X-') {
 				$message.empty();
 				JoinForm__validNickName = '';
@@ -93,6 +97,14 @@
 				$message.empty().append(
 						'<div style="color:red;">' + data.msg + '</div>');
 				JoinForm__validEmail = '';
+			} else if(data.resultCode.substr(0, 2) == 'Z-') {
+				$message.empty().append(
+						'<div style="color:blue;">' + data.msg + '</div>');
+				JoinForm__validNickName = '';
+			} else if(data.resultCode.substr(0, 2) == 'A-') {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validNickName = '';
 			} else if(data.resultCode.substr(0, 2) == 'S-'){
 				$message.empty();
 				JoinForm__validEmail = '';
