@@ -50,7 +50,7 @@
 		MemberJoinForm__submitDone = true;
 	}
 
-	function JoinForm__checkNickNameDup(input) {
+	var JoinForm__checkNickNameDup = _.debounce(function(input) {
 		var form = input.form;
 		form.nickname.value = form.nickname.value.trim();
 		if (form.nickname.value.length == 0) {
@@ -74,9 +74,9 @@
 				JoinForm__validNickName = '';
 			}
 		}, 'json');
-	}
+	}, 1000);
 
-	function JoinForm__checkEmailDup(input) {
+	var JoinForm__checkEmailDup = _.debounce(function(input) {
 		var form = input.form;
 		form.email.value = form.email.value.trim();
 		if (form.email.value.length == 0) {
@@ -100,7 +100,7 @@
 				JoinForm__validEmail = '';
 			}
 		}, 'json');
-	}
+	}, 1000);
 
 </script>
 
