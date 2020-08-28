@@ -35,6 +35,7 @@ public interface ArticleDao {
 
 	List<Article> getForPrintListArticles(Map<String, Object> param);
 
+	//조회수
 	void increaseArticleHit(@Param("id") int id);
 
 	Map<String, Object> getArticleLikeAvailable(int id, int loginedMemberId);
