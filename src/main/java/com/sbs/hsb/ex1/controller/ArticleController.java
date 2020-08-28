@@ -31,11 +31,21 @@ public class ArticleController {
 		
 		
 		//기본값 넣어주자
-		int boardId = board.getId();
-		int page = Integer.parseInt((String) param.get("page"));
-		String searchKeywordType = (String) param.get("searchKeywordType");
-		String searchKeyword = (String) param.get("searchKeyword");
-
+		int boardId = 1;
+		int page = 1; 		
+		String searchKeywordType = ""; 
+		String searchKeyword = "";
+		
+		boardId = board.getId();
+		if(param.get("page") != null) {
+			page = Integer.parseInt((String) param.get("page"));
+		}
+		if(param.get("searchKeywordType") != null) {
+			searchKeywordType = (String) param.get("searchKeywordType");
+		}
+		if(param.get("searchKeyword") != null) {
+			searchKeyword = (String) param.get("searchKeyword");
+		}
 
 		
 		int itemsInAPage = 10;
@@ -50,20 +60,16 @@ public class ArticleController {
 		} else if(page % 5 == 0) {
 			page = page - 4;
 		}
-		System.out.println("77777777777");
-		req.setAttribute("page", page);
-		
+
+		req.setAttribute("page", page);		
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("totalPage", totalPage);
 		req.setAttribute("cPagedoReply", page);
 		
-		System.out.println("88888888888");
 		List<Article> articles = articleService.getForPrintListArticles(nowPage, itemsInAPage, boardId,
 				searchKeywordType, searchKeyword);
 
 		model.addAttribute("articles", articles);
-
-		System.out.println("99999999999");
 		
 		return "article/list";
 	}

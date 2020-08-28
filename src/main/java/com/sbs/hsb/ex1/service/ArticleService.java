@@ -154,10 +154,7 @@ public class ArticleService {
 
 	public int getForPrintListArticlesCount(int boardId, String searchKeywordType, String searchKeyword) {
 
-		if (searchKeywordType.equals("title") && searchKeyword.length() > 0) {
-			return articleDao.getForPrintListArticlesCount1(boardId, searchKeywordType, searchKeyword);
-		}
-		return articleDao.getForPrintListArticlesCount2(boardId);
+		return articleDao.getForPrintListArticlesCount(boardId, searchKeywordType, searchKeyword);
 	}
 
 	public List<Article> getForPrintListArticles(int nowPage, int itemsInAPage, int boardId, String searchKeywordType,

@@ -27,9 +27,11 @@ public interface ArticleDao {
 
 	List<Board> getAllBoards();
 
-	int getForPrintListArticlesCount1(@Param("boardId")int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
+	int getForPrintListArticlesCount(@Param("boardId")int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
 
-	int getForPrintListArticlesCount2(@Param("boardId")int boardId);
+//	int getForPrintBodyListArticlesCount(@Param("boardId")int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
+	
+//	int getForPrintListArticlesCount2(@Param("boardId")int boardId);
 
 	List<Article> getForPrintListArticles(Map<String, Object> param);
 
