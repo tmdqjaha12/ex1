@@ -116,7 +116,13 @@
 	<!-- 게시물 페이징 끝 -->
 </div>
 
+<!-- 게시판을 위한, 게시판의 게시판들의 리스트 
 <div class="list-mypage" style="position: fixed; top:10px; right:2%; height: 267px; width:300px; background-color: gray; border-top:33px solid black;">
-	
+	<ul>
+		<c:forEach items="${boardDetailLists}" var="boardDetailList">
+			<li><a href="">${boardDetailList.name}</a></li>
+		</c:forEach>
+	</ul>
 </div>
+ -->
 <%@ include file="../part/foot.jspf"%>

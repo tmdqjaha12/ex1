@@ -66,3 +66,17 @@ function endLoading() {
 function isNowLoading() {
     return nowLoading;
 }
+
+function ListSideBar__init() {
+	$('.list-side-bar .btn-toggle-list-side-bar').click(function() {
+		var $this = $(this);
+
+		if ($this.hasClass('active')) {
+			$this.removeClass('active');
+			$('.list-side-bar').removeClass('active');
+		} else {
+			$this.addClass('active')
+			$('.list-side-bar').addClass('active');
+		}
+	});
+}

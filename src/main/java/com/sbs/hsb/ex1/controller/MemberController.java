@@ -345,7 +345,7 @@ public class MemberController {
 		// 세션에 현재 로그인 멤버 저장
 		session.setAttribute("loginedMemberId", member.getId());
 		
-		// 임시 비밀번호 간련
+		// 임시 비밀번호 관련
 		boolean isUsedTempPassword = memberService.isValidUseTempPassword(member.getId());
 		if(isUsedTempPassword) {
 			model.addAttribute("redirectUri", "/usr/home/myPage");
