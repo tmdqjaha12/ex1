@@ -326,7 +326,7 @@ public class MemberController {
 
 	// 로그인
 	@RequestMapping("/usr/member/doLogin")
-	public String doLogin(String loginId, String loginPwReal, String redirectUri, Model model, HttpSession session) {
+	public String doLogin(String loginId, String loginPwReal, String redirectUri, Model model, HttpServletRequest req,HttpSession session) {
 		String loginPw = loginPwReal;
 		Member member = memberService.getMemberByLoginId(loginId);
 
@@ -342,12 +342,32 @@ public class MemberController {
 			return "common/redirect";
 		}
 
+		// 세션에 현재 로그인 멤버 저장
 		session.setAttribute("loginedMemberId", member.getId());
+		
+		// 임시 비밀번호 간련
+		boolean isUsedTempPassword = memberService.isValidUseTempPassword(member.getId());
+		if(isUsedTempPassword) {
+			model.addAttribute("redirectUri", "/usr/home/myPage");
+			model.addAttribute("alertMsg", "임시비밀번호를 변경해주세요.");
+			return "common/redirect";
+		}
+		
+		// 비밀번호 변경일 관련
+		String regDate = memberService.isValidLastPasswordChangeDate(member.getId());
+		String nowRegDate = Util.getRegeDateNow();
+		
+		long paraDate = Util.getCalRegDate(regDate, nowRegDate);
+		if(paraDate > 92) {
+			model.addAttribute("redirectUri", "/usr/home/myPage");
+			model.addAttribute("alertMsg", String.format("%s님 비밀번호 변경 권장(%d일 경과)", member.getNickname(), paraDate));
+			return "common/redirect";
+		}
 
+		// 로그인 완료 - 메인 페이지로
 		if (redirectUri == null || redirectUri.length() == 0) {
 			redirectUri = "/usr/home/main";
 		}
-
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("%s님 반갑습니다.", member.getNickname()));
 
@@ -415,7 +435,7 @@ public class MemberController {
 			param.put("loginPwReal", encryptSHA256ImshiPw);
 			memberService.setModifyPassword(param);// 비밀번호 변경
 
-			memberService.genUseTempPassword(id, "1");// 임시비번 발급시 attr에, 변경 전까지는 1, 변경하면 0
+			memberService.genUseTempPassword(id, "1");// 임시비번 발급시 attr에 1 저장
 
 			memberService.sendFindIdANDPwMail((String) param.get("email"), imshiPw, "pw");// 임시 비번 발송
 

@@ -172,6 +172,7 @@ public class MemberService {
 //	}// 임시패스워드 삭제 (비우기)
 	
 	public void genUseTempPassword(String loginId, String useTemp) {
+		System.out.println("임시패스워드 : " + loginId + " " + useTemp );
 		attrService.setValue("member__" + loginId + "__extra__useTempPassword", useTemp);
 	}// 임시패스워드 & 회원이 패스워드 변경여부,  임시패스워드발급=1  .. 비밀번호변경=0
 	
@@ -191,6 +192,23 @@ public class MemberService {
 		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__emailAuthed");
 		return authCodeOnDB.length() > 0;
 	}// 이메일 인증 가져오기
+	
+	public String isValidLastPasswordChangeDate(int actorId) {
+		String authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__lastPasswordChangeDate");
+		return authCodeOnDB;
+	}// 패스워드 마지막 변경 날짜 가져오기
+	
+	public boolean isValidUseTempPassword(int actorId) {
+		String authCodeOnDB = ""; 
+		if(attrService.getValue("member__" + actorId + "__extra__useTempPassword") != null) {
+			authCodeOnDB = attrService.getValue("member__" + actorId + "__extra__useTempPassword");
+		}
+
+		if(authCodeOnDB.equals("1")) {
+			return true;
+		}
+		return false;
+	}// 임시패스워드 여부 가져오기
 
 	//remove▼
 	public int removeUseTempPassword(int actorId) {

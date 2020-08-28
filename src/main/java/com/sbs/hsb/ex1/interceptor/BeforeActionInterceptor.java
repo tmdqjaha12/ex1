@@ -87,7 +87,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 		int loginedMemberId = 0;
 		Member loginedMember = null;
 		boolean isMailAuthed = false;
-		boolean isUsedTempPassword = false;
+//		boolean isUsedTempPassword = false; 가드를 설정하지 않는이상, 컨트롤러에서 req해서 쓰기는 불가능하다.
 
 		if (session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
