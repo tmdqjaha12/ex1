@@ -1,9 +1,9 @@
 package com.sbs.hsb.ex1.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.BoardService;
 
@@ -20,10 +21,21 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@Autowired
+	@RequestMapping("/usr/board/boardApplyList")
+	public String showBoardApplyList(Model model) {
+		
+		List<BoardApplyDoc> BoardApplyDocs = boardService.getAllBoardApplyDocs();
+		
+		model.addAttribute("BoardApplyDocs", BoardApplyDocs);
+		
+		System.out.println("BoardApplyDocs : " + BoardApplyDocs);
+
+		return "board/boardApplyList";
+	}
+	
 
 	@RequestMapping("/usr/board/createBoard")
-	public String showCreateBoard(HttpServletRequest req, HttpSession session) {
+	public String showCreateBoard(Model model) {
 
 		return "board/createBoard";
 	}

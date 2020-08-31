@@ -40,4 +40,11 @@ public class HomeController {
 		
 		return "home/myPage";
 	}
+	
+	@RequestMapping("/usr/home/adminPage")
+	public String showAdminPage(Model model) {
+	
+		
+		return "home/adminPage";
+	}
 }

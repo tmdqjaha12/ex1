@@ -1,11 +1,13 @@
 package com.sbs.hsb.ex1.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.hsb.ex1.dao.BoardDao;
+import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 
 @Service
@@ -30,6 +32,10 @@ public class BoardService {
 		}
 
 		return new ResultData("F-1", "이미 존재하는 커뮤니티 입니다.", "loginId", name);
+	}
+
+	public List<BoardApplyDoc> getAllBoardApplyDocs() {
+		return boardDao.getAllBoardApplyDocs();
 	}
 
 }
