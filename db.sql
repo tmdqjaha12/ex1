@@ -61,7 +61,34 @@ ALTER TABLE `attr` ADD UNIQUE INDEX (`relTypeCode`, `relId`, `typeCode`, `type2C
 ## 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
 ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`); 
 
+INSERT INTO  attr SET
+regDate = NOW(),
+updateDate = NOW(),
+relTypeCode = 'member',
+relId = 1,
+typeCode = 'extra',
+type2Code = 'emailAuthed',
+`value` = 'admin@admin.com'
 
+INSERT INTO  attr SET
+regDate = NOW(),
+updateDate = NOW(),
+relTypeCode = 'member',
+relId = 1,
+typeCode = 'extra',
+type2Code = 'lastPasswordChangeDate',
+`value` = '2020-08-31 11:06:18'
+
+INSERT INTO  attr SET
+regDate = NOW(),
+updateDate = NOW(),
+relTypeCode = 'member',
+relId = 1,
+typeCode = 'extra',
+type2Code = 'emailAuthCode',
+`value` = 'dadadwda-adq1-vvva-1212-ava41g4t5tdd'
+
+member__1__extra__emailAuthed ADMIN@admin.com
 
 # article 테이블 세팅
 CREATE TABLE article (
@@ -81,10 +108,10 @@ CREATE TABLE article (
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-title = '제목``',
-`body` = '내용``',
-boardId = 1,
-memberId = 1,
+title = 'aaaa',
+`body` = 'aaaa',
+boardId = 2,
+memberId = 2,
 displayStatus = 1;
 
 delDate = NOW(),
@@ -189,15 +216,27 @@ RENAME TABLE `articleReply` TO `reply`;
 
 ALTER TABLE `reply` ADD COLUMN `relTypeCode` CHAR(50) NOT NULL AFTER `memberId`,
 CHANGE `articleId` `relId` INT(10) UNSIGNED NOT NULL;
-ALTER TABLE `at`.`reply` ADD INDEX (`relId`, `relTypeCode`);
+
+ALTER TABLE `ex1`.`reply` ADD INDEX (`relId`, `relTypeCode`);
 UPDATE reply
 SET relTypeCode = 'article'
 WHERE relTypeCode = '';
 
 
 ALTER TABLE board ADD COLUMN boardApply INT(10) UNSIGNED DEFAULT 0 NOT NULL
+ALTER TABLE board CHANGE boardApply applyStatus INT(10) UNSIGNED DEFAULT 0 NOT NULL;
 
 ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED DEFAULT 0 NOT NULL
+
+# 좋아요
+CREATE TABLE `articleLike` (
+  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY(id),
+  regDate DATETIME NOT NULL,
+  articleId INT(10) UNSIGNED NOT NULL,
+  memberId INT(10) UNSIGNED NOT NULL,
+  `point` TINYINT(1) UNSIGNED NOT NULL
+);
 
 ###임시... 추가예정
 

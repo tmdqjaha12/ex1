@@ -160,7 +160,7 @@ public class MemberService {
 	}// 이메일인증__고객이 이메일의 링크를 클릭시 이 데이터가 생성 Code
 	
 	public String genModifyPrivateAuthCode(int actorId) {
-		String authCode = UUID.randomUUID().toString();
+		String authCode = UUID.randomUUID().toString();	
 		attrService.setValue("member__" + actorId + "__extra__modifyPrivateAuthCode", authCode);
 		
 		return authCode;
