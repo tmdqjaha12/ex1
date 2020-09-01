@@ -11,12 +11,19 @@ import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 @Mapper
 public interface BoardDao {
 
-	int createBoard(Map<String, Object> param);
+	void doApplyForCreateBoard(Map<String, Object> param);
+	
+	void docApplyConfirm(Map<String, Object> param);
 
 	int setBoardApplyDoc(Map<String, Object> param);
 
 	int getBoardNameDupCount(@Param("name") String name);
 
 	List<BoardApplyDoc> getAllBoardApplyDocs();
+
+	void doBoardReject(Map<String, Object> param);
+
+	int getBoardId(Map<String, Object> param);
+
 
 }

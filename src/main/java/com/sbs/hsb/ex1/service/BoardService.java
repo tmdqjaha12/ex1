@@ -16,13 +16,21 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
-	public int createBoard(Map<String, Object> param) {
-		return boardDao.createBoard(param);
+	public int doApplyForCreateBoard(Map<String, Object> param) {
+		boardDao.doApplyForCreateBoard(param);
+		
+		return boardDao.getBoardId(param);
+	}
+	
+	public void docApplyConfirm(Map<String, Object> param) {
+		boardDao.docApplyConfirm(param);
 	}
 
 	public int setBoardApplyDoc(Map<String, Object> param) {
 		return boardDao.setBoardApplyDoc(param);
 	}
+	
+	
 
 	public ResultData checkBoardNameable(String name) {
 		int count = boardDao.getBoardNameDupCount(name);
@@ -37,5 +45,10 @@ public class BoardService {
 	public List<BoardApplyDoc> getAllBoardApplyDocs() {
 		return boardDao.getAllBoardApplyDocs();
 	}
+
+	public void doBoardReject(Map<String, Object> param) {
+		boardDao.doBoardReject(param);
+	}
+
 
 }

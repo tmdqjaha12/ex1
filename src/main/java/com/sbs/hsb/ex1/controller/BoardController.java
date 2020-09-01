@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.BoardService;
+import com.sbs.hsb.ex1.util.Util;
 
 @Controller
 public class BoardController {
@@ -66,5 +67,31 @@ public class BoardController {
 
 		name = (String) param.get("name");
 		return boardService.checkBoardNameable(name);
+	}
+	
+	@RequestMapping("/usr/board/doBoardApply")
+	public String doApplyForCreateBoard(@RequestParam Map<String, Object> param, Model model) {
+		String randomCode = Util.getRandomPassword(10);
+		param.put("code", randomCode);
+		
+		int newCreateBoard = boardService.doApplyForCreateBoard(param);
+		System.out.println("hihihi: " + newCreateBoard); 
+		param.put("boardId", newCreateBoard);
+		boardService.docApplyConfirm(param);
+		
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
+		
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/board/doBoardReject")
+	public String doBoardReject(@RequestParam Map<String, Object> param, Model model) {
+		boardService.doBoardReject(param);
+		
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
+		
+		return "common/redirect";
 	}
 }

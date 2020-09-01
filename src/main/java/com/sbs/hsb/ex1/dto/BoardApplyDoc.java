@@ -19,5 +19,7 @@ public class BoardApplyDoc {
 	private int memberId;
 	private String name;
 	private String body;
+	private int boardId;
+	
 	private Map<String, Object> extra;
 }

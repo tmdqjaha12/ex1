@@ -93,7 +93,6 @@
 		WHERE
 		`code` = #{code}
 		AND delStatus = 0
-		AND applyStatus = 1
 	</select>
 
 	<insert id="write" useGeneratedKeys="true" keyProperty="id">
@@ -135,10 +134,13 @@
 	
 	
 	<select id="getAllBoards" resultMap="board">
-		SELECT *
-		FROM board
-		WHERE delStatus = 0
-		AND applyStatus = 1
+		SELECT B.*
+		FROM board AS B
+		INNER JOIN boardApplyDoc AS D
+		ON B.id = D.boardId
+		WHERE B.delStatus = 0
+		AND D.delStatus = 0
+		AND D.applyStatus = 1
 	</select>
 	
 	<!--  좋아요 기능 -->
@@ -168,7 +170,6 @@
 		<id property="delStatus" column="delStatus" />
 		<id property="code" column="code" />
 		<id property="name" column="name" />
-		<id property="applyStatus" column="applyStatus" />
 		<association property="extra" javaType="map">
 			<id property="writer" column="extra__writer" />
 		</association>

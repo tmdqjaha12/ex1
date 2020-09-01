@@ -19,5 +19,6 @@ public class Board {
 	private String code;
 	private boolean applyStatus;
 	
+	
 	private Map<String, Object> extra;
 }
