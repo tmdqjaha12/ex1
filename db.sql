@@ -272,3 +272,25 @@ CREATE TABLE boardDetailList (
 	displayStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     `name` CHAR(200) NOT NULL
 );
+
+# 리스트 수정
+SELECT A.*, 
+M.nickname AS extra__writer,
+IFNULL(SUM(AL.point), 0) AS extra__likePoint,
+IFNULL(SUM(RL.displayStatus), 0) AS extra__applyPoint
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN articleLike AS AL
+ON A.id = AL.articleId
+LEFT JOIN reply AS RL
+ON A.id = RL.relId
+WHERE A.displayStatus = 1
+AND A.delStatus = 0
+AND M.delStatus = 0
+AND boardId = 1
+AND A.title LIKE CONCAT('%' , '', '%')
+AND A.body LIKE CONCAT('%' , '', '%')
+GROUP BY A.id
+ORDER BY A.id DESC
+LIMIT 0, 10

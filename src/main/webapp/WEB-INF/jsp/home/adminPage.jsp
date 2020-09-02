@@ -22,7 +22,7 @@
 					<th>회원 관리</th>
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/~~~~~~~~~~~~">이동</a> 
+							<a href="/usr/member/administrate">이동</a> 
 						</div>
 					</td>
 				</tr>

@@ -57,8 +57,10 @@ var param = ${paramJson};
 							href="/usr/member/doLogout">로그아웃</a></li>
 						<li class="padding-0-10"><a class="btn btn-info"
 							href="/usr/home/myPage">myPage</a></li>
-						<li class="padding-0-10"><a class="btn btn-info"
-						href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a></li>
+						<c:if test="${userLever < 6}">
+							<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a></li>
+						</c:if>
 						<c:if test="${userLever > 5}">
 							<li class="padding-0-10"><a class="btn btn-info"
 							href="/usr/home/adminPage">관리자 페이지</a></li>
@@ -72,8 +74,10 @@ var param = ${paramJson};
 						href="/usr/member/join">회원가입</a></li>
 
 					</c:if>
-					<li class="padding-0-10"><a class="btn btn-info"
-						href="/usr/article/question-write">문의하기</a></li>
+					<c:if test="${userLever < 6}">
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/article/question-write">문의하기</a></li>
+					</c:if>
 
 			</ul>
 		</nav>

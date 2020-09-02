@@ -450,4 +450,12 @@ public class MemberController {
 		
 		return "common/redirect";
 	}
+	
+	// 회원관리 페이지
+	
+	// 회원 가입 페이지
+	@RequestMapping("/usr/member/administrate")
+	public String showAdministrate() {
+		return "member/administrate";
+	}
 }
