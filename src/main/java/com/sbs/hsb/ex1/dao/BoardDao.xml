@@ -55,7 +55,16 @@
 		cnt
 		FROM board
 		WHERE name = #{name}
+		AND delStatus = 0
 	</select>
+	
+	<select id="getBoardApplyDocCount" resultType="int">
+		SELECT COUNT(*) AS
+		cnt
+		FROM boardApplyDoc
+		WHERE name = #{name}
+	</select>
+	
 	
 	<!-- 추후에 INNER JOIN 으로 탈퇴한 회원의 delStatus도 함께 비교하여 가져올것 -->
 	<select id="getAllBoardApplyDocs" resultMap="boardApplyDoc">
@@ -70,7 +79,14 @@
 	</select>
 	
 	
-	
+	<update id="doDelDocNameDup">
+		UPDATE boardApplyDoc
+		SET
+		updateDate = NOW(),
+		delStatus = 1
+		WHERE name = #{name}
+		AND applyStatus = 0
+	</update>
 	
 		
 	

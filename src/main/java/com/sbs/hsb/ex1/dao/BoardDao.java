@@ -25,5 +25,9 @@ public interface BoardDao {
 
 	int getBoardId(Map<String, Object> param);
 
+	int getBoardApplyDocCount(Map<String, Object> param);
+
+	void doDelDocNameDup(@Param("name") String name);
+
 
 }

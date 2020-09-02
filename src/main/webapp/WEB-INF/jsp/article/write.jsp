@@ -93,9 +93,16 @@
 
 <div class="write-background">
 
-	<div class="write-page-title">
-		<h1>${pageTitle}</h1>
-	</div>
+	<c:if test="${board.code == 'question'}">
+		<div class="write-page-title">
+			<h1>문의하기</h1>
+		</div>
+	</c:if>
+	<c:if test="${board.code != 'question'}">
+		<div class="write-page-title">
+			<h1>${pageTitle}</h1>
+		</div>
+	</c:if>
 
 	<form method="POST" class="write-form table-box con form1"
 		action="${board.code}-doWrite"

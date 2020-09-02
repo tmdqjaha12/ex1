@@ -5,7 +5,8 @@
 <%@ include file="../part/head.jspf"%>
 
 <div class="create-board con" style="background-color:#ebebf1;">
-
+	
+	
 	<div class="write-page-title">
 		<h1>${pageTitle}</h1>
 	</div>
@@ -37,7 +38,7 @@
 					<th>고객센터 문의 내역 관리</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/~~~~~~~~~~~~">이동</a> 
+							<a href="/usr/article/question-list">이동</a> 
 						</div>
 					</td>
 				</tr>

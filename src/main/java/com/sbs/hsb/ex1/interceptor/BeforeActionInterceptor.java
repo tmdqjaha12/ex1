@@ -88,6 +88,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 		Member loginedMember = null;
 		boolean isMailAuthed = false;
 //		boolean isUsedTempPassword = false; 가드를 설정하지 않는이상, 컨트롤러에서 req해서 쓰기는 불가능하다.
+		int userLever = 0; // 현재 회원이 admin인지 확인하여 request에 담는다
 
 		if (session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
@@ -95,6 +96,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 			loginedMember = memberService.getMemberById(loginedMemberId);
 			isMailAuthed = memberService.isValidEmailAuthed(loginedMemberId);
 //			isUsedTempPassword = memberService.isValidUseTempPassword(loginedMemberId);
+			userLever = loginedMember.getLevel();
 		}
 
 		request.setAttribute("loginedMemberId", loginedMemberId);
@@ -102,8 +104,12 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 		request.setAttribute("loginedMember", loginedMember);
 		request.setAttribute("isMailAuthed", isMailAuthed);
 //		request.setAttribute("isUsedTempPassword", isUsedTempPassword);
+		request.setAttribute("userLever", userLever);
 
 		request.setAttribute("activeProfile", activeProfile);
+		
+		
+		
 
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}

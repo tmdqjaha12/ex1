@@ -57,6 +57,7 @@
 								<input type="hidden" name="redirectUri" value="/usr/board/boardApplyList">
 								<input type="submit" value="승인" onclick="if ( confirm('승인하시겠습니까?') == false ) return false;" />
 							</form>
+							
 							<form action="doBoardReject" method="POST">
 								<input type="hidden" name="name" value="${BoardApplyDoc.name}"/>
 								<input type="hidden" name="memberId" value="${BoardApplyDoc.memberId}"/>

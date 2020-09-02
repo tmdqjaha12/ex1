@@ -24,13 +24,11 @@ public class BoardController {
 
 	@RequestMapping("/usr/board/boardApplyList")
 	public String showBoardApplyList(Model model) {
-		
+		// 페이징은 나중		
 		List<BoardApplyDoc> BoardApplyDocs = boardService.getAllBoardApplyDocs();
 		
 		model.addAttribute("BoardApplyDocs", BoardApplyDocs);
 		
-		System.out.println("BoardApplyDocs : " + BoardApplyDocs);
-
 		return "board/boardApplyList";
 	}
 	
@@ -48,9 +46,16 @@ public class BoardController {
 
 		int newBoardApplyDocId = boardService.setBoardApplyDoc(param); // 신청서 저장
 
-		String redirectUri = (String) param.get("redirectUri");
+		if( newBoardApplyDocId == 1 ) {
+			model.addAttribute("redirectUri", "/usr/board/createBoard");
+			model.addAttribute("alertMsg", "옳바른 정보를 입력해주세요.");
 
+			return "common/redirect";
+		}
+		
+		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", "신청 완료!");
 		// 추후에 myPage로 바로 이동 예정
 
 		return "common/redirect";
@@ -78,6 +83,7 @@ public class BoardController {
 		System.out.println("hihihi: " + newCreateBoard); 
 		param.put("boardId", newCreateBoard);
 		boardService.docApplyConfirm(param);
+		boardService.doDelDocNameDup((String) param.get("name"));
 		
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
@@ -87,6 +93,7 @@ public class BoardController {
 	
 	@RequestMapping("/usr/board/doBoardReject")
 	public String doBoardReject(@RequestParam Map<String, Object> param, Model model) {
+		System.out.println("설마이게");
 		boardService.doBoardReject(param);
 		
 		String redirectUri = (String) param.get("redirectUri");

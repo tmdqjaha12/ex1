@@ -27,7 +27,15 @@ public class BoardService {
 	}
 
 	public int setBoardApplyDoc(Map<String, Object> param) {
-		return boardDao.setBoardApplyDoc(param);
+		int count = boardDao.getBoardNameDupCount((String) param.get("name"));
+		
+		if ( count == 1) {
+			return count;
+		}
+		
+		boardDao.setBoardApplyDoc(param);
+		
+		return 0;
 	}
 	
 	
@@ -50,5 +58,8 @@ public class BoardService {
 		boardDao.doBoardReject(param);
 	}
 
+	public void doDelDocNameDup(String name) {
+		boardDao.doDelDocNameDup(name);
+	}
 
 }

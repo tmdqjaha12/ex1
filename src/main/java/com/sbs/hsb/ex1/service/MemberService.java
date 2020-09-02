@@ -136,6 +136,12 @@ public class MemberService {
 	public int getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param) {
 		return memberDao.getMemberIdByLoginIdAndNameAndEmail(param);
 	}
+	
+	// 회원 레벨 가져오기
+	public boolean isValidAdmined(int level) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	
 	// attr //
@@ -215,5 +221,7 @@ public class MemberService {
 		int authCodeOnDB = attrService.remove("member__" + actorId + "__extra__useTempPassword");
 		return 0;
 	}// 임시패스워드 삭제
+
+
 
 }

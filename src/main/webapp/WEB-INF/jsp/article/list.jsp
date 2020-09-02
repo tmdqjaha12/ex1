@@ -12,24 +12,30 @@
 		<h1>${pageTitle}</h1>
 	</div>
 
-	<c:if test="${isLogined}">	
+	<c:if test="${board.code != 'question' }">
 	
-		<c:choose>
-			<c:when test="${board.code == 'notice'}">
-				<c:if test="${loginedMember.level == 10 }">
-					<form class="go-write-form" action="${boardCode}-write" method="POST">
+		<c:if test="${isLogined}">	
+	
+			<c:choose>
+				<c:when test="${board.code == 'notice'}">
+					<c:if test="${loginedMember.level == 10 }">
+						<form class="go-write-form" action="${boardCode}-write" method="POST">
+							<input type="submit" value="글쓰기" />
+						</form>			
+					</c:if>
+				</c:when>
+				<c:otherwise>
+	        		<form class="go-write-form" action="${boardCode}-write" method="POST">
 						<input type="submit" value="글쓰기" />
-					</form>			
-				</c:if>
-			</c:when>
-			<c:otherwise>
-        		<form class="go-write-form" action="${boardCode}-write" method="POST">
-					<input type="submit" value="글쓰기" />
-				</form>	
-		    </c:otherwise>	
-		</c:choose>
+					</form>	
+			    </c:otherwise>	
+			</c:choose>
 
+		</c:if>
+	
 	</c:if>
+
+	
 
 	<div class="list-box-1">
 		<table border="1">
