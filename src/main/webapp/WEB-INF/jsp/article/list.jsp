@@ -67,9 +67,14 @@
 
 					<tr>
 						<td class="padding-left-10"><a href="#">${article.id}</a></td>
-						<td class="padding-left-10 list-title-1"><a
-							style="width: 200px; cursor: pointer;"
-							href="${article.getDetailLink(board.code)}">${article.forPrintTitle}</a>
+						<td class="padding-left-10 list-title-1">
+							<a style="width: 200px; cursor: pointer;"
+							 href="${article.getDetailLink(board.code)}">
+							 	${article.forPrintTitle}
+							 	<c:if test="${article.extra.applyPoint != 0}">
+							 		 &nbsp&nbsp(* ${article.extra.applyPoint})
+							 	</c:if>
+							 </a>
 						<td class="padding-left-10"><a href="#">${article.extra.writer}</a></td>
 						<td class="text-center"><a style="width: 170px;" href="#">${article.regDate}</a></td>
 						<td class="padding-left-10"><a href="#">${article.hit}</a></td>
