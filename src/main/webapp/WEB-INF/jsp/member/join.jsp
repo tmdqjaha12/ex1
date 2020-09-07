@@ -6,6 +6,96 @@
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+	
+<style>
+
+.page-title {
+	display:block;
+	padding-top:30px;
+	text-align:center;
+}
+
+.page-title > h1 {
+	color:black;
+}
+
+.join-background{
+	display:block;
+	margin:0 auto;
+	margin-top:200px;
+	width:500px;
+	height:550px;
+	background-color:#ebebf1;
+	border:5px solid #6b6880;
+}
+
+.join-form {
+	border:1px solid #6b6880;
+	margin:0 20px;
+	margin-top:65px;
+}
+
+
+
+
+.join-form > table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.join-form>table th,
+ .table-box>table td  {
+	border-right:none;
+	padding: 10px;
+	text-align: left;
+	color:black;
+}
+
+/* 폼 관련 */
+.join-form .form-control-box>input, .join-form .form-control-box>textarea{
+	width: 100%;
+	padding: 0;
+	display: block;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.join-form .form-control-box>textarea {
+	min-height: 300px;
+	resize: none;
+}
+
+.join-form th {
+	/* `로그인 아이디` 문구가 줄 바꿈 될 때 공백기준으로 줄바꿈 되도록 */
+	word-break: keep-all;
+}
+
+.join-form .btn {
+	width:100%;
+	margin:0 auto;
+	padding: 10px 15px;
+	font-weight: bold;
+	border-radius: 10px;
+	outline: 0;
+	border: 1px solid #6b6880;
+	cursor: pointer;
+	background: linear-gradient(to top, #b8b3c6, #ebebf1);
+	color: black;
+	text-shadow: 1px 1px 20px #000000;
+}
+
+.join-form .btn:hover {
+	background: linear-gradient(to bottom, #b8b3c6, #ebebf1);
+}
+
+.join-form .btn-success {
+	background-color: green;
+}
+
+.join-form .btn-danger {
+	background-color: red;
+}
+</style>
 
 <script>
 	var MemberJoinForm__submitDone = false;
@@ -297,6 +387,7 @@
 					<th>가입</th>
 					<td>
 						<button class="btn btn-primary" type="submit">가입</button>
+						<a href="javascript:window.history.back();" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>

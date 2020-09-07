@@ -152,11 +152,19 @@ public class ArticleService {
 		return articleDao.getAllBoards();
 	}
 
+	// not null boardId articlesCount
 	public int getForPrintListArticlesCount(int boardId, String searchKeywordType, String searchKeyword) {
 
 		return articleDao.getForPrintListArticlesCount(boardId, searchKeywordType, searchKeyword);
 	}
+	
+	// null boardId articlesCount
+	public int getNotBoardIdForPrintListArticlesCount(String searchKeywordType, String searchKeyword) {
 
+		return articleDao.getNotBoardIdForPrintListArticlesCount(searchKeywordType, searchKeyword);
+	}
+
+	// not null boardId articleList
 	public List<Article> getForPrintListArticles(int nowPage, int itemsInAPage, int boardId, String searchKeywordType,
 			String searchKeyword) {
 		
@@ -169,6 +177,20 @@ public class ArticleService {
 		param.put("searchKeyword", searchKeyword);
 		
 		return articleDao.getForPrintListArticles(param);
+	}
+	
+	// null boardId articleList
+	public List<Article> getNotBoardIdForPrintListArticles(int nowPage, int itemsInAPage, String searchKeywordType,
+			String searchKeyword) {
+
+		Map<String, Object> param = new HashMap<>();
+		int limitFrom = (nowPage - 1) * itemsInAPage;
+		param.put("limitFrom", limitFrom);
+		param.put("itemsInAPage", itemsInAPage);
+		param.put("searchKeywordType", searchKeywordType);
+		param.put("searchKeyword", searchKeyword);
+		
+		return articleDao.getNotBoardIdForPrintListArticles(param);
 	}
 
 	public void increaseArticleHit(int id) {
@@ -213,4 +235,14 @@ public class ArticleService {
 
 		return rs;
 	}
+
+	//특정 게시판의 개시물 특정갯수 가져오기
+	public List<Article> getMethForArticles(String code, int limit) {
+		Board board = articleDao.getBoardByCode(code);
+		
+		return articleDao.getMethForArticles(board.getId(), limit);
+	}
+
+	
+
 }

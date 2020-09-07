@@ -118,8 +118,6 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 /* 테이블 관련 */
-.join-form > table,
- .login-form > table,
   .passwordForPrivate-form > table,
    .modify-password-form > table,
     .modify-form > table,
@@ -129,8 +127,6 @@ html>head+body:nth-child(2) .height-300 {
 	border-collapse: collapse;
 }
 
-.join-form>table th,
- .login-form>table th,
   .passwordForPrivate-form>table th,
    .modify-password-form>table th,
     .modify-form>table th,
@@ -150,8 +146,6 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 /* 폼 관련 */
-.join-form .form-control-box>input, .join-form .form-control-box>textarea,
- .login-form .form-control-box>input, .login-form .form-control-box>textarea,
   .passwordForPrivate-form .form-control-box>input, .passwordForPrivate-form .form-control-box>textarea,
    .modify-password-form .form-control-box>input, .modify-password-form .form-control-box>textarea,
    .modify-form .form-control-box>input, .modify-form .form-control-box>textarea,
@@ -162,9 +156,6 @@ html>head+body:nth-child(2) .height-300 {
 	box-sizing: border-box;
 	padding: 10px;
 }
-
-.join-form .form-control-box>textarea,
- .login-form .form-control-box>textarea,
   .passwordForPrivate-form .form-control-box>textarea,
    .modify-password-form .form-control-box>textarea,
     .modify-form .form-control-box>textarea,
@@ -193,8 +184,6 @@ html>head+body:nth-child(2) .height-300 {
 }
 */
 
-.join-form th,
- .login-form th,
   .passwordForPrivate-form th,
    .modify-password-form th,
     .modify-form th,
@@ -239,7 +228,7 @@ html>head+body:nth-child(2) .height-300 {
 	color:red;
 }
 
-/* page-title start */
+/* page-title start
 
 .page-title {
 	position: absolute;
@@ -252,9 +241,9 @@ html>head+body:nth-child(2) .height-300 {
 	color:white;
 }
 
-/* page-title end */
+ page-title end */
 
-/* 회원가입 관련 시작 */
+/* 회원가입 관련 시작 
 .join-background{
 	position:absolute;
 	top:20%;
@@ -271,7 +260,7 @@ html>head+body:nth-child(2) .height-300 {
 	left:50%;
 	transform:translateX(-50%) translateY(-50%);
 }
-/* 회원가입 관련 끝*/
+ 회원가입 관련 끝*/
 
 /* 회원 비밀번호로 인증 페이지 시작 */
 .passwordForPrivate-background{
@@ -333,7 +322,7 @@ html>head+body:nth-child(2) .height-300 {
 }
 /* 회원 개인 정보 수정 페이지 끝 */
 
-/* 로그인 관련 시작 */
+/* 로그인 관련 시작
 
 .login-background{
 	position:absolute;
@@ -352,7 +341,7 @@ html>head+body:nth-child(2) .height-300 {
 	transform:translateX(-50%) translateY(-50%);
 	padding:5px;
 }
-/* 로그인 관련 끝*/
+ 로그인 관련 끝*/
 /* 마이페이지 관련 시작 */
 .my-page-background{
 	position:absolute;
@@ -381,14 +370,7 @@ html>head+body:nth-child(2) .height-300 {
 /* 마이페이지 관련 끝 */
 
 /* 비밀번호 찾기, 아이디 찾기 시작 */
-.findPw-background, .findId-background {
-	position:absolute;
-	top:20%;
-	left:30%;
-	right:30%;
-	bottom:20%;
-	background-color:black;
-}
+
 /* 비밀번호 찾기 끝 */
 
 /* 게시판 리스트 시작 */

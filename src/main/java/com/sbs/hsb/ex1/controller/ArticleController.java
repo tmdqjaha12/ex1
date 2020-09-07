@@ -73,6 +73,52 @@ public class ArticleController {
 		
 		return "article/list";
 	}
+	
+	@RequestMapping("/usr/article/alllist")
+	public String showAlllist(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
+		
+		//기본값 넣어주자
+		int boardId = 1;
+		int page = 1; 		
+		String searchKeywordType = ""; 
+		String searchKeyword = "";
+		
+		if(param.get("page") != null) {
+			page = Integer.parseInt((String) param.get("page"));
+		}
+		if(param.get("searchKeywordType") != null) {
+			searchKeywordType = (String) param.get("searchKeywordType");
+		}
+		if(param.get("searchKeyword") != null) {
+			searchKeyword = (String) param.get("searchKeyword");
+		}
+
+		
+		int itemsInAPage = 10;
+		int totalCount = articleService.getNotBoardIdForPrintListArticlesCount(searchKeywordType, searchKeyword);
+		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+		
+		int nowPage = page;
+		
+		if(page % 5 != 0) {
+			page = page/5;
+			page = (page*5)+1;
+		} else if(page % 5 == 0) {
+			page = page - 4;
+		}
+
+		req.setAttribute("page", page);		
+		req.setAttribute("totalCount", totalCount);
+		req.setAttribute("totalPage", totalPage);
+		req.setAttribute("cPagedoReply", page);
+		
+		List<Article> articles = articleService.getNotBoardIdForPrintListArticles(nowPage, itemsInAPage,
+				searchKeywordType, searchKeyword);
+
+		model.addAttribute("articles", articles);
+		
+		return "article/list";
+	}
 
 	@RequestMapping("/usr/article/{boardCode}-detail")
 	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, String listUrl) {

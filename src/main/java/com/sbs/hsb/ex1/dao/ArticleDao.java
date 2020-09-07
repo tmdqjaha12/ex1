@@ -27,13 +27,15 @@ public interface ArticleDao {
 
 	List<Board> getAllBoards();
 
+	// not null boardId articleList Count
 	int getForPrintListArticlesCount(@Param("boardId")int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
+	// null boardId articleList Count	
+	int getNotBoardIdForPrintListArticlesCount(@Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
 
-//	int getForPrintBodyListArticlesCount(@Param("boardId")int boardId, @Param("searchKeywordType")String searchKeywordType, @Param("searchKeyword")String searchKeyword);
-	
-//	int getForPrintListArticlesCount2(@Param("boardId")int boardId);
-
+	// not null boardId articleList
 	List<Article> getForPrintListArticles(Map<String, Object> param);
+	// null boardId articleList
+	List<Article> getNotBoardIdForPrintListArticles(Map<String, Object> param);
 
 	//조회수
 	void increaseArticleHit(@Param("id") int id);
@@ -44,4 +46,10 @@ public interface ArticleDao {
 	int getLikePointByMemberId(@Param("id") int id, @Param("memberId") int memberId);
 
 	void likeArticle(@Param("id") int id, @Param("memberId") int memberId);
+
+	List<Article> getMethForArticles(@Param("boardId") int boardId, @Param("limit") int limit);
+
+
+
+	
 }

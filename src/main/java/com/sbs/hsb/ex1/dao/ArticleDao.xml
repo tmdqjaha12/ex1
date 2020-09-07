@@ -15,6 +15,7 @@
 		ORDER BY A.id DESC
 	</select>
 	
+	<!-- not null boardId articleList -->
 	<select id="getForPrintListArticles" resultMap="article">
 		SELECT A.*, 
 		M.nickname AS extra__writer,
@@ -38,26 +39,31 @@
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
 	
-	<!-- SELECT A.*, 
+	<!-- null boardId articleList-->
+	<select id="getNotBoardIdForPrintListArticles" resultMap="article">
+		SELECT A.*, 
 		M.nickname AS extra__writer,
-		IFNULL(SUM(AL.point), 0) AS extra__likePoint
+		IFNULL(SUM(AL.point), 0) AS extra__likePoint,
+		IFNULL(SUM(RL.displayStatus), 0) AS extra__applyPoint
 		FROM article AS A
 		INNER JOIN member AS M
 		ON A.memberId = M.id
 		LEFT JOIN articleLike AS AL
 		ON A.id = AL.articleId
+		LEFT JOIN reply AS RL
+		ON A.id = RL.relId
 		WHERE A.displayStatus = 1
 		AND A.delStatus = 0
 		AND M.delStatus = 0
-		AND boardId = #{boardId}
-		AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')
+		<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+		<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
 		GROUP BY A.id
 		ORDER BY A.id DESC
-		LIMIT #{limitFrom}, #{itemsInAPage} -->
+		LIMIT #{limitFrom}, #{itemsInAPage}
+	</select>
+	 
 	
-	<!-- <if test="searchKeywordType == title">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
-	<if test="earchKeywordType == body">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if> -->
-
+	<!-- 게시물 카운트 not null boardId  -->
 	<select id="getForPrintListArticlesCount" resultType="int">
 		SELECT COUNT(*) AS cnt
 		FROM article AS A
@@ -70,7 +76,21 @@
 		<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
 		<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
 	</select>
-
+	
+	<!-- 게시물 카운트 null boardId-->  
+	<select id="getNotBoardIdForPrintListArticlesCount" resultType="int">
+		SELECT COUNT(*) AS cnt
+		FROM article AS A
+		INNER JOIN `member` AS M
+		ON A.memberId = M.id
+		WHERE A.displayStatus = 1
+		AND A.delStatus = 0
+		AND M.delStatus = 0
+		<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+		<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+	</select>
+	
+	
 	<select id="getForPrintArticleById" resultMap="article">
 		SELECT A.*,
 		M.nickname AS extra__writer
@@ -164,6 +184,17 @@
 		memberId = #{memberId},
 		`point` = 1
 	</insert>
+	
+	<!-- main에 일정 수의 개시글 가져오기 -->
+	<select id="getMethForArticles" resultMap="article">
+		SELECT *
+		FROM article
+		WHERE boardId = #{boardId}
+		AND displayStatus = 1
+		AND delStatus = 0
+		ORDER BY id DESC
+		LIMIT 0, #{limit}
+	</select>
 	
 	<resultMap type="Board" id="board">
 		<id property="id" column="id" />

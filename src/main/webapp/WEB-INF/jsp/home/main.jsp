@@ -8,7 +8,6 @@
 
 	.background-home {
 		background-color:#ebebf1; 
-		width:100%; 
 		height:100%; 
 		padding:50px; 
 		padding-top:10px;
@@ -31,6 +30,10 @@
 	
 	.background-home > .search-box > form > button{
 		padding: 16px 30px;
+	}
+	
+	.background-home > .main-top-box {
+		margin-top:40px;
 	}
 	
 	.background-home > .main-top-box > .board-list-box{
@@ -76,7 +79,7 @@
 	.background-home > .main-top-box > .member-box > .login-box > a {
 		text-decoration: none;
 		background: linear-gradient(to top, #b8b3c6, #ebebf1);
-		border:1px solid #6b6880;
+		border:3px solid #6b6880;
 		font-weight: bold;
 		font-size: 2rem;
 		display: block;
@@ -85,7 +88,8 @@
 	}
 	
 	.background-home > .main-top-box > .member-box > .login-box > a:hover {
-        opacity: 0.5;
+	    background: linear-gradient(to bottom, #b8b3c6, #ebebf1);
+        opacity: 0.7;
 	}
 	
 	.background-home > .main-top-box > .member-box > .login-box > a:active {
@@ -93,7 +97,14 @@
 	}
 	
 	.background-home > .main-top-box > .member-box > .find-box {
+		text-align:left;
+		margin-left:20px;
 		margin-top:20px;
+	}
+	.background-home > .main-top-box > .member-box > .join-box {
+		text-align:right;
+		margin-right:20px;
+		margin-top:-24px;
 	}
 
 	.board {
@@ -129,6 +140,56 @@
 		font-weight: normal;
 	}
 </style>
+<style>
+	.board ul > li {
+		text-align: left;
+		margin-left:10px;
+	}
+	.board ul > li > a {
+		display:block;
+	}
+
+	.article-regDate{
+		display:inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100px;
+		height: 20px;
+	}
+	.article-title{
+		display:inline-block;
+		overflow: hidden;
+		text-overflow: clip;
+		white-space: nowrap;
+		width: 100px;
+		height: 20px;
+		margin-left:175px;
+		text-align: right;
+	}
+</style>
+<style>
+	
+	.background-home > .main-top-box > .member-box > .my-page {
+		margin-top:50px;
+	}
+	
+	.background-home > .main-top-box > .member-box > .my-page > a:hover {
+	    background: linear-gradient(to bottom, #b8b3c6, #ebebf1);
+        opacity: 0.7;
+	}
+	
+	.background-home > .main-top-box > .member-box > .my-page > a {
+		text-decoration: none;
+		background: linear-gradient(to top, #b8b3c6, #ebebf1);
+		border:3px solid #6b6880;
+		font-weight: bold;
+		font-size: 2rem;
+		display: block;
+		margin:0 10px;
+		padding:10px;
+	}
+</style>
 
 <script>
 
@@ -143,7 +204,7 @@
 	<!-- 검색 폼 시작 -->
 	<div class="con search-box" style="text-align: center; margin-top:20px;">
 
-		<form action="${boardCode}-list" method="POST">
+		<form action="/usr/article/alllist" method="POST">
 			<input type="hidden" name="page" value="1" /> 
 			
 			<select name="searchKeywordType" style="padding:5px;">
@@ -156,7 +217,7 @@
 	</div>
 	<!-- 검색 폼 끝 -->
 
-	<!-- 상단 메뉴 시작 -->
+	<!-- 상단 메뉴 시작
 	<nav class="menu-box-1" style="margin:50px;">
 		<ul class="flex">
 			<li class="padding-0-10">
@@ -175,11 +236,9 @@
 				<li class="padding-0-10">
 					<a class="btn btn-info" href="/usr/home/myPage">myPage</a>
 				</li>
-				<c:if test="${userLever < 6}">
-					<li class="padding-0-10">
-						<a class="btn btn-info" href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a>
-					</li>
-				</c:if>
+				<li class="padding-0-10">
+					<a class="btn btn-info" href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a>
+				</li>
 				<c:if test="${userLever > 5}">
 					<li class="padding-0-10">
 						<a class="btn btn-info" href="/usr/home/adminPage">관리자 페이지</a>
@@ -201,10 +260,11 @@
 			</c:if>
 		</ul>
 	</nav>
-	<!-- 상단 메뉴 끝 -->
+	상단 메뉴 끝 -->
 	
 	<!--  메인 탑 박스 시작(커뮤니티찾기/로그인) -->
 	<div class="main-top-box">
+		
 		<div class="board-list-box">
 			<select id="select-search" onchange="location.href=this.value">
 					<c:forEach items="${boards}" var="board">
@@ -220,15 +280,27 @@
 	
 	
 		<div class="member-box">
-			<div class="login-box">
-				<a class="login" href="#">ex1 로그인</a>
-			</div>
-			<div class="find-box">
-				<a href="#">아이디 찾기 </a>
-				/
-				<a href="#"> 비밀번호 찾기</a>
-			</div>
+			<c:if test="${!isLogined}">
+				<div class="login-box">
+					<a class="login" href="/usr/member/login">ex1 로그인</a>
+				</div>
+				<div class="find-box">
+					<a href="/usr/member/findId">아이디찾기 </a>
+					/
+					<a href="/usr/member/findPw"> 비밀번호 찾기</a>
+				</div>
+				<div class="join-box">
+					<a href="/usr/member/join">회원가입</a>
+				</div>
+			</c:if>
+			
+			<c:if test="${isLogined}">
+				<div class="my-page">
+					<a href="/usr/home/myPage">MY PAGE</a>
+				</div>
+			</c:if>
 		</div>
+		
 	</div>
 	<!--  메인 탑 박스 끝(커뮤니티찾기/로그인) -->
 
@@ -236,40 +308,49 @@
  	<!-- 중 하단 아이템 박스 *6 시작 -->
 	<div class="board notice-board">
 		<div class="board-title">
-			<a href="#">공지사항</a>	
+			<a href="/usr/article/notice-list">공지사항</a>	
 		</div>
 		<ul>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
+			<c:forEach items="${notices}" var="article">
+				<li>			
+					<a href="${article.getDetailLink('update')}">
+						<div class="article-regDate">${article.regDate}</div>
+						<div class="article-title">${article.title}</div>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
 	
 	<div class="board update-board">
 		<div class="board-title">
-			<a href="#">업데이트</a>
+			<a href="/usr/article/update-list"">업데이트</a>
 		</div>
 		<ul>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
+			<c:forEach items="${updates}" var="article">
+				<li>			
+					<a href="${article.getDetailLink('update')}">
+						<div class="article-regDate">${article.regDate}</div>
+						<div class="article-title">${article.title}</div>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
 	
 	<div class="board question-board">
 		<div class="board-title">
-			<a href="#">문의</a>
+			<a href="/usr/article/question-list">문의</a>
 		</div>
 		<ul>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
+			<c:forEach items="${question}" var="article">
+				<li>			
+					<a href="${article.getDetailLink('update')}">
+						<div class="article-regDate">${article.regDate}</div>
+						<div class="article-title">${article.title}</div>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
 	
