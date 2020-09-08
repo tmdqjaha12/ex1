@@ -144,7 +144,7 @@ CREATE TABLE `board` (
 	`name` CHAR(20) NOT NULL UNIQUE
 );
 
-
+truncate table board
 
 INSERT INTO `board`
 SET regDate = NOW(),
@@ -155,8 +155,14 @@ updateDAte = NOW(),
 INSERT INTO `board`
 SET regDate = NOW(),
 updateDAte = NOW(),
-`code` = 'free',
-`name` = '자유';
+`code` = 'update',
+`name` = '업데이트';
+
+INSERT INTO `board`
+SET regDate = NOW(),
+updateDAte = NOW(),
+`code` = 'question',
+`name` = '문의';
 
 ################
 
@@ -226,9 +232,9 @@ WHERE relTypeCode = '';
 
 
 ALTER TABLE board ADD COLUMN boardApply INT(10) UNSIGNED DEFAULT 0 NOT NULL
-ALTER TABLE board CHANGE boardApply applyStatus INT(10) UNSIGNED DEFAULT 0 NOT NULL;
-ALTER TABLE `board` ADD COLUMN memberId INT(10) UNSIGNED DEFAULT 0 NOT NULL;
-ALTER TABLE `board` DROP applyStatus;
+alter table board change boardApply applyStatus INT(10) UNSIGNED DEFAULT 0 NOT NULL;
+ALTER TABLE `board` add column memberId int(10) unsigned default 0 not null;
+alter table `board` drop applyStatus;
 
 
 ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED DEFAULT 0 NOT NULL
@@ -260,6 +266,8 @@ CREATE TABLE boardApplyDoc (
     `body` LONGTEXT NOT NULL
 );
 
+ALTER TABLE `boardApplyDoc` ADD COLUMN boardId INT(10) UNSIGNED DEFAULT 0 NOT NULL;
+
 # 게시판을 위한 게시판
 CREATE TABLE boardDetailList (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -273,7 +281,39 @@ CREATE TABLE boardDetailList (
     `name` CHAR(200) NOT NULL
 );
 
-# 리스트 수정
+
+        SELECT A.*,
+		M.nickname AS extra__writer
+		FROM article AS A
+		INNER JOIN member AS M
+		ON A.memberId = M.id
+		WHERE A.displayStatus = 1
+		AND A.delStatus = 0
+		ORDER BY A.id DESC
+		
+		SELECT D.*,
+		M.nickname AS extra__writer
+		FROM boardApplyDoc AS D
+		INNER JOIN member AS M
+		ON D.memberId = M.id
+		WHERE M.delStatus = 0
+		AND D.delStatus = 0
+		AND D.applyStatus = 0
+		
+		
+		
+		
+		INSERT
+		INTO board
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		code = '1111111111',
+		name = '111111111',
+		memberId = 1
+		
+		IFNULL(SUM(AT.point), 0) AS extra__applyPoint
+		INNER JOIN reply AS R
+		
 SELECT A.*, 
 M.nickname AS extra__writer,
 IFNULL(SUM(AL.point), 0) AS extra__likePoint,
@@ -284,13 +324,19 @@ ON A.memberId = M.id
 LEFT JOIN articleLike AS AL
 ON A.id = AL.articleId
 LEFT JOIN reply AS RL
-ON A.id = RL.relId
+on A.id = RL.relId
 WHERE A.displayStatus = 1
 AND A.delStatus = 0
 AND M.delStatus = 0
-AND boardId = 1
 AND A.title LIKE CONCAT('%' , '', '%')
 AND A.body LIKE CONCAT('%' , '', '%')
 GROUP BY A.id
 ORDER BY A.id DESC
 LIMIT 0, 10
+
+
+select *
+from article
+where boardId = '2'
+order by id desc
+limit 0, 5

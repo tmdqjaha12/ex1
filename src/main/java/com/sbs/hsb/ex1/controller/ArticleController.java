@@ -1,5 +1,6 @@
 package com.sbs.hsb.ex1.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,6 @@ public class ArticleController {
 	public String showList(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
-		
 		
 		//기본값 넣어주자
 		int boardId = 1;

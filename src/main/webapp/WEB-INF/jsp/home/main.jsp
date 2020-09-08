@@ -141,6 +141,29 @@
 	}
 </style>
 <style>
+	.menu-box-1 {
+ 	margin-top:50px;
+ 	background-color: #6b6880;
+ 	border:10px solid #6b6880;
+ 	border-radius:30%;
+ 	padding-left: 20px;
+ 	padding-right: 20px;
+ 	margin-left:150px;
+ 	margin-right:150px;
+	}
+	.menu-box-1 > ul {
+		
+		display: inline-block;
+	}
+	.menu-box-1 li {
+		display: inline-block;
+		margin-bottom:10px;
+		margin-top:10px;
+	}
+	
+	
+</style>
+<style>
 	.board ul > li {
 		text-align: left;
 		margin-left:10px;
@@ -217,24 +240,18 @@
 	</div>
 	<!-- 검색 폼 끝 -->
 
-	<!-- 상단 메뉴 시작
-	<nav class="menu-box-1" style="margin:50px;">
-		<ul class="flex">
+	<!-- 상단 메뉴 시작 -->
+	<nav class="menu-box-1">
+		<ul class="">
 			<li class="padding-0-10">
-				<a href="/usr/home/main" class="btn btn-info">홈</a>
+				<a class="btn btn-info" href="/usr/article/notice-list">공지사항</a>
 			</li>
 			<li class="padding-0-10">
-				<a class="btn btn-info" href="/usr/article/notice-list">공지 게시판</a>
-			</li>
-			<li class="padding-0-10">
-				<a class="btn btn-info" href="/usr/article/question-list">문의 게시판</a>
+				<a class="btn btn-info" href="/usr/article/question-list">문의사항</a>
 			</li>
 			<c:if test="${isLogined}">
 				<li class="padding-0-10">
 					<a class="btn btn-info" href="/usr/member/doLogout">로그아웃</a>
-				</li>
-				<li class="padding-0-10">
-					<a class="btn btn-info" href="/usr/home/myPage">myPage</a>
 				</li>
 				<li class="padding-0-10">
 					<a class="btn btn-info" href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a>
@@ -245,22 +262,9 @@
 					</li>
 				</c:if>
 			</c:if>
-			<c:if test="${isLogined == false}">
-				<li class="padding-0-10">
-					<a class="btn btn-info" href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a>
-				</li>
-				<li class="padding-0-10">
-					<a class="btn btn-info" href="/usr/member/join">회원가입</a>
-				</li>
-			</c:if>
-			<c:if test="${userLever < 6}">
-				<li class="padding-0-10">
-					<a class="btn btn-info" href="/usr/article/question-write">문의하기</a>
-				</li>
-			</c:if>
 		</ul>
 	</nav>
-	상단 메뉴 끝 -->
+	<!-- 상단 메뉴 끝 -->
 	
 	<!--  메인 탑 박스 시작(커뮤니티찾기/로그인) -->
 	<div class="main-top-box">

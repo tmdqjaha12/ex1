@@ -194,7 +194,7 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 /* 버튼관련 */
-.btn {
+.btn{
 	width:100%;
 	margin:0 auto;
 	padding: 10px 15px;
@@ -206,6 +206,7 @@ html>head+body:nth-child(2) .height-300 {
 	background-color: white;
 	color: black;
 	text-shadow: 1px 1px 20px #000000;
+	white-space: nowrap;
 }
 
 .btn:hover {
@@ -373,7 +374,7 @@ html>head+body:nth-child(2) .height-300 {
 
 /* 비밀번호 찾기 끝 */
 
-/* 게시판 리스트 시작 */
+/* 게시판 리스트 시작 
 .list-background {
 	position:absolute;
 	top:30%;
@@ -442,7 +443,7 @@ html>head+body:nth-child(2) .height-300 {
 .list-background >  .list-box-1 .table-tbody  .list-title-1 > a:active {
 	color:red;
 }
-
+/*
 .go-write-form {
 	background-color:white;
 	text-align: right;
@@ -451,8 +452,8 @@ html>head+body:nth-child(2) .height-300 {
 .go-write-form input{
 	padding: 20px 40px;
 }
-
-/* 게시판 리스트 끝 */
+*/
+ 게시판 리스트 끝 */
 
 /* 글쓰기 게시판 시작 */
 .write-page-title h1{
