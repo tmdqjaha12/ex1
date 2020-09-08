@@ -9,13 +9,18 @@
 	.background-home {
 		background-color:#ebebf1; 
 		height:100%; 
-		padding:50px; 
+		padding:200px; 
 		padding-top:10px;
 		text-align: center;
 	}
 	
 	.background-home > .search-box {
 		
+	}
+	
+	.background-home > .search-box > form {
+		display:block;
+		white-space: nowrap;
 	}
 	
 	.background-home > .search-box > form > select {
@@ -33,13 +38,16 @@
 	}
 	
 	.background-home > .main-top-box {
+		display:block;
+		text-align:center;
+		margin:0 auto;
 		margin-top:40px;
 	}
 	
 	.background-home > .main-top-box > .board-list-box{
 		background-color: white; 
 		display:inline-block;
-		width:500px; 
+		width:400px; 
 		height:170px; 
 		border:2px solid #6b6880; 
 		overflow-x:hidden; 
@@ -64,7 +72,7 @@
 	.background-home > .main-top-box > .member-box{
 		background-color: white;
 		display:inline-block;
-		width:500px; 
+		width:400px; 
 		height:170px; 
 		border:2px solid #6b6880; 
 		overflow-x:hidden; 
@@ -114,7 +122,52 @@
 		width:400px;
 		margin:50px;
 	}
+	
+	/*
+	@media (max-width: 600px) {
+    .board  { width: 100%; }
+	}
+	@media (max-width: 600px) {
+    .board-list-box  { width: 100%; }
+	}
+	@media (max-width: 600px) {
+    .member-box  { width: 100%; }
+	}margin:0 auto;
+*/
 
+	
+	@media (max-width: 800px) {
+			.background-home {
+				padding: 100px;
+		}
+	}
+	
+	@media (max-width: 800px) {
+			.board {
+				margin:0 auto;
+				margin-top:30px;
+				margin-bottom:30px;
+		}
+	}
+		
+	/*게시판박스*/	
+	/*서치박스*/
+	@media (max-width: 630px) {
+		.background-home > .search-box > form > select {
+			width:70px;
+			height:40px;
+		} 
+		
+		.background-home > .search-box > form > input{
+			width:130px;
+			padding: 8px 12px;
+		}
+		
+		.background-home > .search-box > form > button{
+			padding: 10px 15px;
+		}
+	}
+	
 	.board > .board-title{
 		background: linear-gradient(to right, #6b6880, #ebebf1);
 		border-bottom:2px solid #6b6880;
@@ -142,14 +195,12 @@
 </style>
 <style>
 	.menu-box-1 {
+	margin:0 auto;
  	margin-top:50px;
- 	background-color: #6b6880;
- 	border:10px solid #6b6880;
- 	border-radius:30%;
  	padding-left: 20px;
  	padding-right: 20px;
- 	margin-left:150px;
- 	margin-right:150px;
+ 	
+ 	text-align: center;
 	}
 	.menu-box-1 > ul {
 		
@@ -166,14 +217,26 @@
 <style>
 	.board ul > li {
 		text-align: left;
-		margin-left:10px;
+		margin:0 10px;
+		margin-bottom:10px;
 	}
+	
+	.board ul > li:first-child{
+		margin-top:3px;
+	}
+	
+	.board ul > li:after {
+		content: "";
+		display:block;
+		clear: both;
+	}
+	
 	.board ul > li > a {
 		display:block;
 	}
 
 	.article-regDate{
-		display:inline-block;
+		float:left;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -181,14 +244,14 @@
 		height: 20px;
 	}
 	.article-title{
-		display:inline-block;
+		float:right;
 		overflow: hidden;
 		text-overflow: clip;
 		white-space: nowrap;
 		width: 100px;
 		height: 20px;
-		margin-left:175px;
 		text-align: right;
+
 	}
 </style>
 <style>
@@ -347,7 +410,7 @@
 			<a href="/usr/article/question-list">문의</a>
 		</div>
 		<ul>
-			<c:forEach items="${question}" var="article">
+			<c:forEach items="${questions}" var="article">
 				<li>			
 					<a href="${article.getDetailLink('update')}">
 						<div class="article-regDate">${article.regDate}</div>
@@ -363,11 +426,12 @@
 			<a href="#">HOT 게시글</a>
 		</div>
 		<ul>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
+			<li>
+				<a href="#">
+					<div class="article-regDate">날짜</div>
+					<div class="article-title">제목</div>
+				</a>
+			</li>
 		</ul>
 	</div>
 	
@@ -376,11 +440,12 @@
 			<a href="#">HOT 커뮤니티</a>
 		</div>
 		<ul>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
+			<li>
+				<a href="#">
+					<div class="article-regDate">날짜</div>
+					<div class="article-title">제목</div>
+				</a>
+			</li>
 		</ul>
 	</div>
 	
@@ -389,11 +454,12 @@
 			<a href="#">NEW 커뮤니티</a>
 		</div>
 		<ul>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
-			<li><a href="#">imshi</a></li>
+			<li>
+				<a href="#">
+					<div class="article-regDate">날짜</div>
+					<div class="article-title">제목</div>
+				</a>
+			</li>
 		</ul>
 	</div>
 	<!-- 중 하단 아이템 박스 *6 끝 -->

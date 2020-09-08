@@ -41,7 +41,7 @@
 } 
 
 .list-background .search-box > form > input{
-	width:150px;
+	width:130px;
 	padding: 8px 12px;
 }
 
@@ -84,8 +84,11 @@
 @media screen and (max-width: 720px) {
     .view  { display: none; }
 }
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 620px) {
     .regdate  { display: none; }
+}
+@media screen and (max-width: 420px) {
+    .writer  { display: none; }
 }
 
 .list-background >  .list-box-1 {
@@ -184,11 +187,10 @@
 		<!-- 검색 폼 끝 -->
 		
 		<div class="write-box">
-			<c:if test="${board.code != 'question' }">
 				<c:if test="${isLogined}">	
 			
 					<c:choose>
-						<c:when test="${board.code == 'notice' || board.code == 'update'}">
+						<c:when test="${board.code == 'notice' || board.code == 'update' || board.code == 'question'}">
 							<c:if test="${loginedMember.level == 10 }">
 								<form class="go-write-form" action="${boardCode}-write" method="POST">
 									<input type="submit" value="글쓰기" />
@@ -201,9 +203,8 @@
 							</form>	
 					    </c:otherwise>	
 					</c:choose>
-		
+	
 				</c:if>
-			</c:if>
 		</div>
 	
 	</div>
@@ -224,7 +225,7 @@
 				<tr>
 					<th>글번호</th>
 					<th>제목</th>
-					<th>작성자</th>
+					<th class="writer">작성자</th>
 					<th class="regdate">작성시간</th>
 					<th class="view">조회수</th>
 					<th class="recommed ">추천수</th>
@@ -248,7 +249,7 @@
 							 		 &nbsp&nbsp(* ${article.extra.applyPoint})
 							 	</c:if>
 							 </a>
-						<td class="padding-left-10"><a href="#">${article.extra.writer}</a></td>
+						<td class="padding-left-10 writer"><a href="#">${article.extra.writer}</a></td>
 						<td class="text-center regdate"><a style="width: 170px;" href="#">${article.regDate}</a></td>
 						<td class="padding-left-10 view"><a href="#">${article.hit}</a></td>
 						<td class="padding-left-10 recommed "><a href="#">${article.extra.likePoint}</a></td>
