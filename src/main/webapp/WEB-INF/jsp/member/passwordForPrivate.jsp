@@ -5,6 +5,46 @@
 <c:set var="pageTitle" value="접근 확인" />
 <%@ include file="../part/head.jspf"%>
 
+<style>
+
+.page-title {
+	display:block;
+	padding-top:30px;
+	text-align:center;
+}
+
+.page-title > h1 {
+	color:black;
+}
+
+.passwordForPrivate-background{
+	display:block;
+	margin:0 auto;
+	margin-top:100px;
+	width:500px;
+	height:500px;
+	background-color:#ebebf1;
+	border:5px solid #6b6880;
+}
+
+.passwordForPrivate-form {
+	border:1px solid #6b6880;
+	margin:0 20px;
+	margin-top:100px;
+	padding:25px 0;
+}
+
+.passwordForPrivate-form th{
+	color:black !important;
+}
+
+.passwordForPrivate-btn {
+	cursor: pointer;
+}
+
+
+</style>
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js">
 	
@@ -47,10 +87,10 @@
 					</td>
 				</tr>
 				<tr>
-					<th>로그인</th>
+					<th></th>
 					<td>
-						<button class="btn btn-primary" type="submit">확인</button>
-						<a href="../home/myPage" class="cancel">취소</a>
+						<button class="passwordForPrivate-btn" type="submit">확인</button>
+						<a href="javascript:window.history.back();" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>

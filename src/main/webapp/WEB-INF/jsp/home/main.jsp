@@ -194,24 +194,72 @@
 	}
 </style>
 <style>
+/* 메뉴 박스 */
 	.menu-box-1 {
 	margin:0 auto;
  	margin-top:50px;
  	padding-left: 20px;
  	padding-right: 20px;
- 	
  	text-align: center;
 	}
 	.menu-box-1 > ul {
 		
 		display: inline-block;
 	}
-	.menu-box-1 li {
-		display: inline-block;
+	.menu-box-1 > ul > li {
+		float:left;
 		margin-bottom:10px;
 		margin-top:10px;
+		position: relative;
 	}
 	
+	.menu-box-1 > ul > li:after, .menu-box-1 > ul > li:before {
+		content: "";
+		display:block;
+		width:1px;
+		height: 12px;
+		background-color:black;
+		position: absolute;
+		top:50%;
+		left:0;
+		transform:translateY(-50%);
+	}
+	
+	.menu-box-1 > ul > li:before {
+		left:auto;
+		right: 0;
+	}
+	
+	.menu-box-1 > ul > li:last-child:before, .menu-box-1 > ul > li:first-child:after{
+		width:2px;
+	}
+	
+	.menu-box-1 > ul > li > a{
+		text-decoration: none;
+		font-weight: bold;
+		position: relative;
+		font-size: 16px;
+	    font-weight: 200;
+	    padding:10px;
+	    display:block;
+	    padding-bottom: 8px;
+	}
+	
+	.menu-box-1 > ul > li > a::after {
+	    content: "";
+	    position: absolute;
+	    height: 2px;
+	    width: 0;
+	    background: linear-gradient(to right, #6b6880, #ebebf1);
+	    left: 50%;
+	    transform: translatex(-50%);
+	    top: 100%;
+	    transition: width 0.3s;
+	}
+	
+	.menu-box-1 > ul > li:hover > a::after{
+		width:100%;
+	}
 	
 </style>
 <style>
@@ -307,21 +355,24 @@
 	<nav class="menu-box-1">
 		<ul class="">
 			<li class="padding-0-10">
-				<a class="btn btn-info" href="/usr/article/notice-list">공지사항</a>
+				<a class="btn-info" href="/usr/article/notice-list">공지사항</a>
 			</li>
 			<li class="padding-0-10">
-				<a class="btn btn-info" href="/usr/article/question-list">문의사항</a>
+				<a class="btn-info" href="/usr/article/update-list">업데이트</a>
+			</li>
+			<li class="padding-0-10">
+				<a class="btn-info" href="/usr/article/question-list">문의사항</a>
 			</li>
 			<c:if test="${isLogined}">
 				<li class="padding-0-10">
-					<a class="btn btn-info" href="/usr/member/doLogout">로그아웃</a>
+					<a class="btn-info" href="/usr/member/doLogout">로그아웃</a>
 				</li>
 				<li class="padding-0-10">
-					<a class="btn btn-info" href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a>
+					<a class="btn-info" href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a>
 				</li>
 				<c:if test="${userLever > 5}">
 					<li class="padding-0-10">
-						<a class="btn btn-info" href="/usr/home/adminPage">관리자 페이지</a>
+						<a class="btn-info" href="/usr/home/adminPage">관리자 페이지</a>
 					</li>
 				</c:if>
 			</c:if>

@@ -8,6 +8,43 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js">
 </script>
+
+<style>
+
+.page-title {
+	display:block;
+	padding-top:30px;
+	text-align:center;
+}
+
+.page-title > h1 {
+	color:black;
+}
+
+.modify-password-background{
+	display:block;
+	margin:0 auto;
+	margin-top:100px;
+	width:500px;
+	height:520px;
+	background-color:#ebebf1;
+	border:5px solid #6b6880;
+}
+
+.modify-password-form {
+	border:1px solid #6b6880;
+	margin:0 20px;
+	margin-top:100px;
+	padding:25px 0;
+}
+
+.modify-password-btn {
+	cursor: pointer;
+}
+
+
+</style>
+
 <script>
 	function ModifyPrivateForm__submit(form) {
 		form.loginPw.value = form.loginPw.value.trim();
@@ -87,8 +124,8 @@
 				<tr>
 					<th>비밀번호 변경</th>
 					<td>
-						<button class="btn btn-primary" type="submit">확인</button>
-						<a href="../home/myPage" class="cancel">취소</a>
+						<button class="modify-password-btn" type="submit">확인</button>
+						<a href="javascript:window.history.back();" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>

@@ -157,13 +157,9 @@
 	
 	
 	<select id="getAllBoards" resultMap="board">
-		SELECT B.*
-		FROM board AS B
-		INNER JOIN boardApplyDoc AS D
-		ON B.id = D.boardId
-		WHERE B.delStatus = 0
-		AND D.delStatus = 0
-		AND D.applyStatus = 1
+		SELECT *
+		FROM board
+		WHERE delStatus = 0
 	</select>
 	
 	<!--  좋아요 기능 -->

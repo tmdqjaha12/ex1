@@ -5,6 +5,42 @@
 <c:set var="pageTitle" value="개인정보 수정" />
 <%@ include file="../part/head.jspf"%>
 
+<style>
+
+.page-title {
+	display:block;
+	padding-top:30px;
+	text-align:center;
+}
+
+.page-title > h1 {
+	color:black;
+}
+
+.modify-background{
+	display:block;
+	margin:0 auto;
+	margin-top:100px;
+	width:500px;
+	height:600px;
+	background-color:#ebebf1;
+	border:5px solid #6b6880;
+}
+
+.modify-form {
+	border:1px solid #6b6880;
+	margin:0 20px;
+	margin-top:100px;
+	padding:25px 0;
+}
+
+.modify-btn {
+	cursor: pointer;
+}
+
+
+</style>
+
 
 <script>
 	var MemberModifyForm__submitDone = false;
@@ -131,7 +167,7 @@
 					<th>아이디</th>
 					<td>
 						<div class="form-control-box">
-							<div style="color:white;">${loginedMember.loginId }</div>
+							<div>${loginedMember.loginId }</div>
 						</div>
 					</td>
 				</tr>
@@ -139,7 +175,7 @@
 					<th>이름</th>
 					<td>
 						<div class="form-control-box">
-							<div style="color:white;">${loginedMember.name }</div>
+							<div>${loginedMember.name }</div>
 						</div>
 					</td>
 				</tr>
@@ -164,8 +200,8 @@
 				<tr>
 					<th>수정</th>
 					<td>
-						<button class="btn btn-primary" type="submit">수정</button>
-						<a href="../home/myPage" class="cancel">취소</a>
+						<button class="modify-btn" type="submit">수정</button>
+						<a href="javascript:window.history.back();" class="cancel">취소</a>
 					</td>
 				</tr>
 			</tbody>

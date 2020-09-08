@@ -58,7 +58,7 @@ var param = ${paramJson};
 			<div class="top-bn-img">
 				<img src="" />
 				<div style="background-color:pink; height:160px; width:100%; text-align: center; border-bottom:3px solid #6b6880;">
-					<a href="/usr/home/main" style="display:block; padding:100px;">임시 배너</a>
+					<a href="/usr/home/main" style="display:block; padding:1px;">임시 배너</a>
 				</div>
 			</div>
 		

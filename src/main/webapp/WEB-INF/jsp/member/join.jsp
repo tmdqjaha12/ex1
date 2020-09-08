@@ -22,7 +22,7 @@
 .join-background{
 	display:block;
 	margin:0 auto;
-	margin-top:200px;
+	margin-top:100px;
 	width:500px;
 	height:550px;
 	background-color:#ebebf1;

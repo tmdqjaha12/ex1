@@ -76,6 +76,8 @@ html>head+body:nth-child(2) .height-300 {
 	padding-bottom: 10px;
 }
 
+
+
 .padding-20-0 {
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -121,8 +123,7 @@ html>head+body:nth-child(2) .height-300 {
   .passwordForPrivate-form > table,
    .modify-password-form > table,
     .modify-form > table,
-     .write-form > table,
-      .my-page-box > table {
+     .write-form > table {
 	width: 100%;
 	border-collapse: collapse;
 }
@@ -130,12 +131,11 @@ html>head+body:nth-child(2) .height-300 {
   .passwordForPrivate-form>table th,
    .modify-password-form>table th,
     .modify-form>table th,
-      .my-page-box>table th,
        .table-box>table td {
 	border-right:none;
 	padding: 10px;
 	text-align: left;
-	color:white;
+	color:black;
 }
 
 .write-form>table th{
@@ -187,13 +187,38 @@ html>head+body:nth-child(2) .height-300 {
   .passwordForPrivate-form th,
    .modify-password-form th,
     .modify-form th,
-     .write-form th,
-      .my-page-box th {
+     .write-form th {
 	/* `로그인 아이디` 문구가 줄 바꿈 될 때 공백기준으로 줄바꿈 되도록 */
 	word-break: keep-all;
 }
 
 /* 버튼관련 */
+btn {
+	width:100%;
+	margin:0 auto;
+	padding: 10px 15px;
+	font-weight: bold;
+	border-radius: 10px;
+	outline: 0;
+	border: 1px solid #6b6880;
+	cursor: pointer;
+	background: linear-gradient(to top, #b8b3c6, #ebebf1);
+	color: black;
+	text-shadow: 1px 1px 20px #000000;
+}
+
+.btn:hover {
+	background: linear-gradient(to bottom, #b8b3c6, #ebebf1);
+}
+
+.btn-success {
+	background-color: green;
+}
+
+.btn-danger {
+	background-color: red;
+}
+/*
 .btn{
 	width:100%;
 	margin:0 auto;
@@ -220,6 +245,7 @@ html>head+body:nth-child(2) .height-300 {
 .btn-danger {
 	background-color: red;
 }
+*/
 
 .cancel:hover {
 	color:blue;
@@ -273,101 +299,23 @@ html>head+body:nth-child(2) .height-300 {
 	background-color:black;
 }
 
-.passwordForPrivate-form{
-	border:1px solid white;
-	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translateX(-50%) translateY(-50%);
-	padding:20px;
-}
+
 /* 회원 비밀번호로 인증 페이지 끝 */
 
 /* 회원 비밀번호 수정 페이지 시작 */
-.modify-password-background{
-	position:absolute;
-	top:20%;
-	left:20%;
-	right:20%;
-	bottom:20%;
-	background-color:black;
-}
-
-.modify-password-form{
-	border:1px solid white;
-	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translateX(-50%) translateY(-50%);
-	padding:20px;
-}
 /* 회원 비밀번호 수정 페이지 끝 */
 
 /* 회원 개인 정보 수정 페이지 시작 */
-.modify-background{
-	position:absolute;
-	top:20%;
-	left:20%;
-	right:20%;
-	bottom:20%;
-	background-color:black;
-}
-
-.modify-form{
-	border:1px solid white;
-	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translateX(-50%) translateY(-50%);
-	padding:20px;
-}
 /* 회원 개인 정보 수정 페이지 끝 */
 
 /* 로그인 관련 시작
-
-.login-background{
-	position:absolute;
-	top:30%;
-	left:30%;
-	right:30%;
-	bottom:30%;
-	background-color:black;
-}
-
-.login-form {
-	border:1px solid white;
-	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translateX(-50%) translateY(-50%);
-	padding:5px;
-}
  로그인 관련 끝*/
+ 
 /* 마이페이지 관련 시작 */
-.my-page-background{
-	position:absolute;
-	top:25%;
-	left:25%;
-	right:25%;
-	bottom:25%;
-	background-color:black;
-}
 
-.my-page-box {
-	border:1px solid white;
-	position:absolute;
-	top:50%;
-	left:50%;
-	transform:translateX(-50%) translateY(-50%);
-	padding:5px;
-}
 
-.all-modify {
-	position: absolute;
-	bottom:7%;
-	left:50%;
-	transform:translateX(-50%) translateY(-50%);
-}
+
+
 /* 마이페이지 관련 끝 */
 
 /* 비밀번호 찾기, 아이디 찾기 시작 */
