@@ -168,5 +168,26 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<!-- 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://ex1.ourducks.com:8080/manager/text</url>
+					<server>TomcatServer</server>
+					<path>/</path>
+					<username>deployer</username>
+					<password>sbs123414</password>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+ -->
 </project>

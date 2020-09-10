@@ -1,10 +1,11 @@
+CREATE DATABASE ex1_n1_service
 # 캐릭터SET 설정
 SET NAMES utf8mb4;
 
 # DB 생성
-DROP DATABASE IF EXISTS ex1;
-CREATE DATABASE ex1;
-USE ex1;
+DROP DATABASE IF EXISTS ex1_n1_service;
+CREATE DATABASE ex1_n1_service;
+USE ex1_n1_service;
 
 # 회원 테이블 생성
 DROP TABLE IF EXISTS `member`;
@@ -110,26 +111,15 @@ SET regDate = NOW(),
 updateDate = NOW(),
 title = 'aaaa',
 `body` = 'aaaa',
-boardId = 2,
-memberId = 2,
+boardId = 3,
+memberId = 1,
 displayStatus = 1;
+
+TRUNCATE TABLE article
 
 delDate = NOW(),
 delStatus = 0,
 
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '제목2',
-`body` = '내용2',
-displayStatus = 1;
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '제목3',
-`body` = '내용3',
-displayStatus = 1;
 
 
 # 게시판 테이블 추가
@@ -144,7 +134,7 @@ CREATE TABLE `board` (
 	`name` CHAR(20) NOT NULL UNIQUE
 );
 
-truncate table board
+TRUNCATE TABLE board
 
 INSERT INTO `board`
 SET regDate = NOW(),
@@ -232,9 +222,9 @@ WHERE relTypeCode = '';
 
 
 ALTER TABLE board ADD COLUMN boardApply INT(10) UNSIGNED DEFAULT 0 NOT NULL
-alter table board change boardApply applyStatus INT(10) UNSIGNED DEFAULT 0 NOT NULL;
-ALTER TABLE `board` add column memberId int(10) unsigned default 0 not null;
-alter table `board` drop applyStatus;
+ALTER TABLE board CHANGE boardApply applyStatus INT(10) UNSIGNED DEFAULT 0 NOT NULL;
+ALTER TABLE `board` ADD COLUMN memberId INT(10) UNSIGNED DEFAULT 0 NOT NULL;
+ALTER TABLE `board` DROP applyStatus;
 
 
 ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED DEFAULT 0 NOT NULL
@@ -253,7 +243,7 @@ CREATE TABLE `articleLike` (
 
 
 # 게시판 신청서
-DROP TABLE IF EXISTS ` `;
+DROP TABLE IF EXISTS `boardApplyDoc`;
 CREATE TABLE boardApplyDoc (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, 
     regDate DATETIME, 
@@ -285,7 +275,7 @@ CREATE TABLE boardDetailList (
         SELECT A.*,
 		M.nickname AS extra__writer
 		FROM article AS A
-		INNER JOIN member AS M
+		INNER JOIN MEMBER AS M
 		ON A.memberId = M.id
 		WHERE A.displayStatus = 1
 		AND A.delStatus = 0
@@ -294,7 +284,7 @@ CREATE TABLE boardDetailList (
 		SELECT D.*,
 		M.nickname AS extra__writer
 		FROM boardApplyDoc AS D
-		INNER JOIN member AS M
+		INNER JOIN MEMBER AS M
 		ON D.memberId = M.id
 		WHERE M.delStatus = 0
 		AND D.delStatus = 0
@@ -307,8 +297,8 @@ CREATE TABLE boardDetailList (
 		INTO board
 		SET regDate = NOW(),
 		updateDate = NOW(),
-		code = '1111111111',
-		name = '111111111',
+		CODE = '1111111111',
+		NAME = '111111111',
 		memberId = 1
 		
 		IFNULL(SUM(AT.point), 0) AS extra__applyPoint
@@ -324,7 +314,7 @@ ON A.memberId = M.id
 LEFT JOIN articleLike AS AL
 ON A.id = AL.articleId
 LEFT JOIN reply AS RL
-on A.id = RL.relId
+ON A.id = RL.relId
 WHERE A.displayStatus = 1
 AND A.delStatus = 0
 AND M.delStatus = 0
@@ -335,8 +325,8 @@ ORDER BY A.id DESC
 LIMIT 0, 10
 
 
-select *
-from article
-where boardId = '2'
-order by id desc
-limit 0, 5
+SELECT *
+FROM article
+WHERE boardId = '2'
+ORDER BY id DESC
+LIMIT 0, 5
