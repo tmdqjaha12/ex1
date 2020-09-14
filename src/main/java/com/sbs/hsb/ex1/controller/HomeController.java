@@ -42,6 +42,26 @@ public class HomeController {
 		return "home/main";
 	}
 	
+	@RequestMapping("/")
+	public String showIndex(Model model) {
+		
+		//boardList
+		List<Board> boards = articleService.getAllBoards();
+		model.addAttribute("boards", boards);
+		
+		//공지
+		List<Article> notices = articleService.getMethForArticles("notice", 5);
+		model.addAttribute("notices", notices);
+		//업데이트
+		List<Article> updates = articleService.getMethForArticles("update", 5);
+		model.addAttribute("updates", updates);
+		//문의
+		List<Article> questions = articleService.getMethForArticles("question", 5);
+		model.addAttribute("questions", questions);
+		
+		return "home/main";
+	}
+	
 	@RequestMapping("/usr/home/myPage")
 	public String showMyPage(HttpServletRequest req, HttpSession session) {
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");

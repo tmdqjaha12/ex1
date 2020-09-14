@@ -14,9 +14,6 @@
 		text-align: center;
 	}
 	
-	.background-home > .search-box {
-		
-	}
 	
 	.background-home > .search-box > form {
 		display:block;
@@ -122,6 +119,7 @@
 		width:400px;
 		margin:50px;
 	}
+
 	
 	/*
 	@media (max-width: 600px) {
@@ -136,7 +134,7 @@
 */
 
 	
-	@media (max-width: 800px) {
+	@media (max-width: 800px){
 			.background-home {
 				padding: 100px;
 		}
@@ -149,10 +147,43 @@
 				margin-bottom:30px;
 		}
 	}
+	
+	@media (max-width: 361px) {
+		/* 박스 */
+			.board {
+				width:200px;
+		} 
+		
+		/* 박스 제목 */
+		    .article-title {
+		    	width:70px !important;
+		}
+		/* 커뮤니티 박스 & 회원 박스 */    
+		    .background-home > .main-top-box > .board-list-box,
+		     .background-home > .main-top-box > .member-box{
+		    	width:200px !important;
+		    	margin-left:0px;
+		}
+		/* 커뮤니티 리스트 */
+			.background-home > .main-top-box > .board-list-box > .select-text-box > a {
+				font-size:1rem !important;		
+		}
+		/* 찾기 가입 */
+			.background-home > .main-top-box > .member-box .find-box, 
+			.background-home > .main-top-box > .member-box .join-box{
+				font-size:0.5rem;
+				display:inline-block;	
+		}
+		/* 상단 목차 */
+			.menu-box-1 > ul > li:first-child:after, .menu-box-1 > ul > li:last-child:before {
+				width:0.5px !important;
+		}
+
+	}
 		
 	/*게시판박스*/	
 	/*서치박스*/
-	@media (max-width: 630px) {
+	@media (max-width: 630px){
 		.background-home > .search-box > form > select {
 			width:70px;
 			height:40px;
@@ -166,6 +197,28 @@
 		.background-home > .search-box > form > button{
 			padding: 10px 15px;
 		}
+	}
+
+	@media (max-width: 361px) {
+		.background-home > .search-box{
+			text-align: center !important;
+			margin: 0 auto !important;		
+			transform:translateX(-25%);
+		}
+		.background-home > .search-box > form > select {
+			width:70px;
+			height:40px;
+		} 
+		
+		.background-home > .search-box > form > input{
+			width:75px;
+			padding: 8px 12px;
+		}
+		
+		.background-home > .search-box > form > button{
+			padding: 10px 15px;
+		}
+		
 	}
 	
 	.board > .board-title{
@@ -260,6 +313,8 @@
 	.menu-box-1 > ul > li:hover > a::after{
 		width:100%;
 	}
+	
+	
 	
 </style>
 <style>
