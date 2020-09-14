@@ -39,14 +39,33 @@ public class MemberController {
 				.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
 		ResultData checkNickNameJoinableResultData = memberService
 				.checkNickNameJoinable(Util.getAsStr(param.get("nickname")));
-		ResultData checkEmailJoinableResultData = memberService.checkEmailJoinable(Util.getAsStr(param.get("email")));
+		ResultData checkEmailJoinableResultData = memberService
+				.checkEmailJoinable(Util.getAsStr(param.get("email")));
 
-		if (checkLoginIdJoinableResultData.isFail() && checkNickNameJoinableResultData.isFail()
-				&& checkEmailJoinableResultData.isFail()) {
+		if(checkLoginIdJoinableResultData.isFail() != false) {
 			model.addAttribute("historyBack", true);
-			model.addAttribute("alertMsg", "제대로 된 정보를 입력해주세요.");
+			model.addAttribute("alertMsg", checkLoginIdJoinableResultData.getMsg());
 			return "common/redirect";
 		}
+		
+		if(checkNickNameJoinableResultData.isFail() != false) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", checkNickNameJoinableResultData.getMsg());
+			return "common/redirect";
+		}
+		
+		if(checkEmailJoinableResultData.isFail() != false) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", checkEmailJoinableResultData.getMsg());
+			return "common/redirect";
+		}
+		
+//		if (checkLoginIdJoinableResultData.isFail() || checkNickNameJoinableResultData.isFail()
+//				|| checkEmailJoinableResultData.isFail()) {
+//			model.addAttribute("historyBack", true);
+//			model.addAttribute("alertMsg", "제대로 된 정보를 입력해주세요.");
+//			return "common/redirect";
+//		}
 
 		int newMemberId = memberService.join(param);// 회원가입
 
