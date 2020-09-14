@@ -48,7 +48,7 @@ public class MemberService {
 		
 		StringBuilder mailBodySb = new StringBuilder();
 		mailBodySb.append("<h1>인증 메일</h1>");
-		mailBodySb.append(String.format("<p><a href=\"localhost:8085/usr/member/authEmail?email=%s&authCode=%s&memberId=%d\" target=\"_blank\">%s로</a> 이동</p>", email, authCode, newMemberId, siteName));
+		mailBodySb.append(String.format("<p><a href=\"https://ex1.ourducks.com/usr/member/authEmail?email=%s&authCode=%s&memberId=%d\" target=\"_blank\">%s로</a> 이동</p>", email, authCode, newMemberId, siteName));
 
 		mailService.send(email, mailTitle, mailBodySb.toString());
 	}
