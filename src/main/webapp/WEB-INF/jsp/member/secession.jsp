@@ -48,7 +48,11 @@
 
 
 
-.
+@media (max-width: 465px){
+		.secession-background {
+			width:350px;
+		}
+}
 </style>
 
 

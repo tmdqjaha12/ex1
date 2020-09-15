@@ -137,6 +137,12 @@
 	cursor: pointer;
 }
 
+@media (max-width: 465px){
+		.my-page-background {
+			width:350px;
+			height: 400px;
+		}
+}
 
 </style>
 

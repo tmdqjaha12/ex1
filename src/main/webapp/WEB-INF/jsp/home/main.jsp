@@ -148,7 +148,94 @@
 		}
 	}
 	
-	@media (max-width: 361px) {
+	
+		
+	/*게시판박스*/	
+	/*서치박스*/
+	@media (max-width: 730px){
+		.background-home > .search-box > form > select {
+			width:70px;
+			height:40px;
+		} 
+		
+		.background-home > .search-box > form > input{
+			width:260px;
+			padding: 8px 12px;
+			font-size:20px;
+		}
+		
+		.background-home > .search-box > form > button{
+			padding: 10px 15px;
+		}
+	}
+	
+	@media (max-width: 570px){
+	/*서치박스*/
+		.background-home > .search-box > form > select {
+			width:70px;
+			height:40px;
+		} 
+		
+		.background-home > .search-box > form > input{
+			width:165px;
+			padding: 8px 12px;
+			font-size:15px;
+		}
+		
+		.background-home > .search-box > form > button{
+			padding: 10px 15px;
+		}
+		
+		
+		/* 박스 */
+			.board {
+				width:300px;
+		} 
+		
+		/* 박스 제목 */
+		    .article-title {
+		    	width:70px !important;
+		}
+		/* 커뮤니티 박스 & 회원 박스 */
+			.background-home > .main-top-box {
+		}    
+		    .background-home > .main-top-box > .board-list-box,
+		     .background-home > .main-top-box > .member-box{
+		    	width:300px;
+		    	margin-left:0px;
+		}
+		/* 커뮤니티 리스트 */
+			.background-home > .main-top-box > .board-list-box > .select-text-box > a {
+				font-size:1rem !important;		
+		}
+		/* 찾기 가입 */
+			.background-home > .main-top-box > .member-box .find-box, 
+			.background-home > .main-top-box > .member-box .join-box{
+				font-size:0.5rem;
+				display:inline-block;	
+		}
+	}
+
+	@media (max-width: 445px) {
+		/*서치박스*/
+		.background-home > .search-box{
+			text-align: center !important;
+			margin: 0 auto !important;
+		}
+		.background-home > .search-box > form > select {
+			width:70px;
+			height:40px;
+		} 
+		
+		.background-home > .search-box > form > input{
+			width:100px;
+			padding: 12px 12px;
+			font-size:10px;
+		}
+		
+		.background-home > .search-box > form > button{
+			padding: 10px 15px;
+		}
 		/* 박스 */
 			.board {
 				width:200px;
@@ -158,7 +245,9 @@
 		    .article-title {
 		    	width:70px !important;
 		}
-		/* 커뮤니티 박스 & 회원 박스 */    
+		/* 커뮤니티 박스 & 회원 박스 */
+			.background-home > .main-top-box {
+		}    
 		    .background-home > .main-top-box > .board-list-box,
 		     .background-home > .main-top-box > .member-box{
 		    	width:200px !important;
@@ -175,50 +264,12 @@
 				display:inline-block;	
 		}
 		/* 상단 목차 */
+			.menu-box-1 > ul > li {
+				margin-left:10px;	
+		}
 			.menu-box-1 > ul > li:first-child:after, .menu-box-1 > ul > li:last-child:before {
 				width:0.5px !important;
 		}
-
-	}
-		
-	/*게시판박스*/	
-	/*서치박스*/
-	@media (max-width: 630px){
-		.background-home > .search-box > form > select {
-			width:70px;
-			height:40px;
-		} 
-		
-		.background-home > .search-box > form > input{
-			width:130px;
-			padding: 8px 12px;
-		}
-		
-		.background-home > .search-box > form > button{
-			padding: 10px 15px;
-		}
-	}
-
-	@media (max-width: 361px) {
-		.background-home > .search-box{
-			text-align: center !important;
-			margin: 0 auto !important;		
-			transform:translateX(-25%);
-		}
-		.background-home > .search-box > form > select {
-			width:70px;
-			height:40px;
-		} 
-		
-		.background-home > .search-box > form > input{
-			width:75px;
-			padding: 8px 12px;
-		}
-		
-		.background-home > .search-box > form > button{
-			padding: 10px 15px;
-		}
-		
 	}
 	
 	.board > .board-title{
@@ -469,7 +520,7 @@
 			
 			<c:if test="${isLogined}">
 				<div class="my-page">
-					<a href="/usr/home/myPage">MY PAGE</a>
+					<a href="/usr/member/myPage">MY PAGE</a>
 				</div>
 			</c:if>
 		</div>

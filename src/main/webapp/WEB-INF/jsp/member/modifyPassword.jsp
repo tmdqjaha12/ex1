@@ -42,7 +42,11 @@
 	cursor: pointer;
 }
 
-
+@media (max-width: 465px){
+		.modify-password-background {
+			width:350px;
+		}		
+}
 </style>
 
 <script>

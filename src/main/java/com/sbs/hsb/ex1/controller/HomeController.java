@@ -62,15 +62,15 @@ public class HomeController {
 		return "home/main";
 	}
 	
-	@RequestMapping("/usr/home/myPage")
-	public String showMyPage(HttpServletRequest req, HttpSession session) {
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		String authCode = memberService.genEmailAuthCode(loginedMemberId);
-		
-		req.setAttribute("authCode", authCode);
-		
-		return "home/myPage";
-	}
+//	@RequestMapping("/usr/home/myPage")
+//	public String showMyPage(HttpServletRequest req, HttpSession session) {
+//		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+//		String authCode = memberService.genEmailAuthCode(loginedMemberId);
+//		
+//		req.setAttribute("authCode", authCode);
+//		
+//		return "home/myPage";
+//	}
 	
 	@RequestMapping("/usr/home/adminPage")
 	public String showAdminPage(Model model) {

@@ -1,11 +1,15 @@
-CREATE DATABASE ex1_n1_service
+SHOW DATABASES;
+USE ex1_n1_service;
+TRUNCATE `member`;
+TRUNCATE `article`;
+
 # 캐릭터SET 설정
 SET NAMES utf8mb4;
 
 # DB 생성
-DROP DATABASE IF EXISTS ex1_n1_service;
-CREATE DATABASE ex1_n1_service;
-USE ex1_n1_service;
+DROP DATABASE IF EXISTS ex1;
+CREATE DATABASE ex1;
+USE ex1;
 
 # 회원 테이블 생성
 DROP TABLE IF EXISTS `member`;
@@ -62,6 +66,7 @@ ALTER TABLE `attr` ADD UNIQUE INDEX (`relTypeCode`, `relId`, `typeCode`, `type2C
 ## 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
 ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`); 
 
+##관리자 attr적용
 INSERT INTO  attr SET
 regDate = NOW(),
 updateDate = NOW(),
@@ -69,7 +74,7 @@ relTypeCode = 'member',
 relId = 1,
 typeCode = 'extra',
 type2Code = 'emailAuthed',
-`value` = 'admin@admin.com'
+`value` = 'admin@admin.com';
 
 INSERT INTO  attr SET
 regDate = NOW(),
@@ -78,7 +83,7 @@ relTypeCode = 'member',
 relId = 1,
 typeCode = 'extra',
 type2Code = 'lastPasswordChangeDate',
-`value` = '2020-08-31 11:06:18'
+`value` = '2020-08-31 11:06:18';
 
 INSERT INTO  attr SET
 regDate = NOW(),
@@ -87,9 +92,7 @@ relTypeCode = 'member',
 relId = 1,
 typeCode = 'extra',
 type2Code = 'emailAuthCode',
-`value` = 'dadadwda-adq1-vvva-1212-ava41g4t5tdd'
-
-member__1__extra__emailAuthed ADMIN@admin.com
+`value` = 'dadadwda-adq1-vvva-1212-ava41g4t5tdd';
 
 # article 테이블 세팅
 CREATE TABLE article (
@@ -109,17 +112,11 @@ CREATE TABLE article (
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-title = 'aaaa',
-`body` = 'aaaa',
+title = '테스트 제목',
+`body` = '테스트 내용',
 boardId = 3,
 memberId = 1,
 displayStatus = 1;
-
-TRUNCATE TABLE article
-
-delDate = NOW(),
-delStatus = 0,
-
 
 
 # 게시판 테이블 추가
@@ -134,8 +131,7 @@ CREATE TABLE `board` (
 	`name` CHAR(20) NOT NULL UNIQUE
 );
 
-TRUNCATE TABLE board
-
+#기본 게시판 생성
 INSERT INTO `board`
 SET regDate = NOW(),
 updateDAte = NOW(),
@@ -153,8 +149,6 @@ SET regDate = NOW(),
 updateDAte = NOW(),
 `code` = 'question',
 `name` = '문의';
-
-################
 
 /* 파일 테이블 생성 */
 CREATE TABLE `file` (
@@ -239,9 +233,6 @@ CREATE TABLE `articleLike` (
   `point` TINYINT(1) UNSIGNED NOT NULL
 );
 
-###임시... 추가예정
-
-
 # 게시판 신청서
 DROP TABLE IF EXISTS `boardApplyDoc`;
 CREATE TABLE boardApplyDoc (
@@ -257,53 +248,8 @@ CREATE TABLE boardApplyDoc (
 );
 
 ALTER TABLE `boardApplyDoc` ADD COLUMN boardId INT(10) UNSIGNED DEFAULT 0 NOT NULL;
-
-# 게시판을 위한 게시판
-CREATE TABLE boardDetailList (
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME,
-    updateDate DATETIME,
-    delDate DATETIME,
-	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-	boardId INT(10) UNSIGNED NOT NULL,
-	memberId INT(10) UNSIGNED NOT NULL,
-	displayStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-    `name` CHAR(200) NOT NULL
-);
-
-
-        SELECT A.*,
-		M.nickname AS extra__writer
-		FROM article AS A
-		INNER JOIN MEMBER AS M
-		ON A.memberId = M.id
-		WHERE A.displayStatus = 1
-		AND A.delStatus = 0
-		ORDER BY A.id DESC
 		
-		SELECT D.*,
-		M.nickname AS extra__writer
-		FROM boardApplyDoc AS D
-		INNER JOIN MEMBER AS M
-		ON D.memberId = M.id
-		WHERE M.delStatus = 0
-		AND D.delStatus = 0
-		AND D.applyStatus = 0
-		
-		
-		
-		
-		INSERT
-		INTO board
-		SET regDate = NOW(),
-		updateDate = NOW(),
-		CODE = '1111111111',
-		NAME = '111111111',
-		memberId = 1
-		
-		IFNULL(SUM(AT.point), 0) AS extra__applyPoint
-		INNER JOIN reply AS R
-		
+#검색
 SELECT A.*, 
 M.nickname AS extra__writer,
 IFNULL(SUM(AL.point), 0) AS extra__likePoint,
@@ -323,10 +269,3 @@ AND A.body LIKE CONCAT('%' , '', '%')
 GROUP BY A.id
 ORDER BY A.id DESC
 LIMIT 0, 10
-
-
-SELECT *
-FROM article
-WHERE boardId = '2'
-ORDER BY id DESC
-LIMIT 0, 5

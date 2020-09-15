@@ -470,11 +470,21 @@ public class MemberController {
 		return "common/redirect";
 	}
 	
-	// 회원관리 페이지
 	
-	// 회원 가입 페이지
-	@RequestMapping("/usr/member/administrate")
-	public String showAdministrate() {
-		return "member/administrate";
+//	// 회원 관리 페이지
+//	@RequestMapping("/usr/member/administrate")
+//	public String showAdministrate() {
+//		return "member/administrate";
+//	}
+	
+	// MY PAGE
+	@RequestMapping("/usr/member/myPage")
+	public String showMyPage(HttpServletRequest req, HttpSession session) {
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		String authCode = memberService.genEmailAuthCode(loginedMemberId);
+		
+		req.setAttribute("authCode", authCode);
+		
+		return "member/myPage";
 	}
 }

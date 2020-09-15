@@ -96,6 +96,14 @@
 .findId-form .btn-danger {
 	background-color: red;
 }
+
+@media (max-width: 465px){
+		.findId-background {
+			width:350px;
+			height: 400px;
+		}
+}
+
 </style>
 
 <script>

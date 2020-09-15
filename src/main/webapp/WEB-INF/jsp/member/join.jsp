@@ -95,6 +95,8 @@
 .join-form .btn-danger {
 	background-color: red;
 }
+
+
 </style>
 
 <script>

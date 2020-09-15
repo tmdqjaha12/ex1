@@ -43,6 +43,13 @@
 }
 
 
+@media (max-width: 650px){
+		.passwordForPrivate-background {
+			width:350px !important;
+			height: 400px;
+		}
+}
+
 </style>
 
 <script

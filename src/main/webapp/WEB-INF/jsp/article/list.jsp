@@ -54,6 +54,23 @@
 	float:left;
 }
 
+@media screen and (max-width: 465px) {
+    .list-background .search-box > form > select {
+	width:60px;
+	height:40px;
+} 
+
+.list-background .search-box > form > input{
+	width:90px;
+	padding: 5px 7px;
+	font-size:0.8rem;
+}
+
+.list-background .search-box > form > button{
+	padding: 8px 12px;
+}
+}
+
 /*글쓰기*/
 .write-box {
 	float:right;
@@ -71,6 +88,11 @@
 /* search-write */
 .search-write {
 	margin:0 20px;
+}
+@media (max-width: 465px) {
+	.write-box {
+	}
+    .go-write-form input  { padding: 20px 10px; }
 }
 
 /*테이블*/

@@ -38,7 +38,16 @@
 	cursor: pointer;
 }
 
-
+@media (max-width: 465px){
+		.modify-background {
+			width:350px;
+		}
+		
+		col{
+			width:0;
+		}
+		
+}
 </style>
 
 

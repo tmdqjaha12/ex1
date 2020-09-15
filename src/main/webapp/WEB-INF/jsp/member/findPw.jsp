@@ -96,6 +96,13 @@
 .findPw-form .btn-danger {
 	background-color: red;
 }
+
+@media (max-width: 465px){
+		.findPw-background {
+			width:350px;
+		}
+}
+
 </style>
 
 <script>
