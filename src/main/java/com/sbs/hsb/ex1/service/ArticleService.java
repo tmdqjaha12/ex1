@@ -243,6 +243,20 @@ public class ArticleService {
 		return articleDao.getMethForArticles(board.getId(), limit);
 	}
 
+//////////////////////////////////////////MYPAGE START//////////////////////////////////////////
+	
+	// articleList
+	public List<Article> getMyPageArticles(int nowPage, int itemsInAPage, int loginedMemberId) {
+		
+		Map<String, Object> param = new HashMap<>();
+		int limitFrom = (nowPage - 1) * itemsInAPage;
+		param.put("limitFrom", limitFrom);
+		param.put("itemsInAPage", itemsInAPage);
+		param.put("loginedMemberId", loginedMemberId);
+		
+		return articleDao.getMyPageArticles(param);
+	}
+
 	
 
 }

@@ -25,6 +25,7 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 
+	// 커뮤니티별 리스트
 	@RequestMapping("/usr/article/{boardCode}-list")
 	public String showList(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
 		Board board = articleService.getBoardByCode(boardCode);
@@ -74,6 +75,7 @@ public class ArticleController {
 		return "article/list";
 	}
 	
+	// 전체 검색 리스트
 	@RequestMapping("/usr/article/alllist")
 	public String showAlllist(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
 		
@@ -120,6 +122,7 @@ public class ArticleController {
 		return "article/list";
 	}
 
+	// 디테일
 	@RequestMapping("/usr/article/{boardCode}-detail")
 	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, String listUrl) {
 		if ( listUrl == null ) {
@@ -140,6 +143,7 @@ public class ArticleController {
 		return "article/detail";
 	}
 	
+	// 수정 페이지
 	@RequestMapping("/usr/article/{boardCode}-modify")
 	public String showModify(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, String listUrl) {
 		model.addAttribute("listUrl", listUrl);
@@ -157,6 +161,7 @@ public class ArticleController {
 		return "article/modify";
 	}
 
+	// 글쓰기 페이지
 	@RequestMapping("/usr/article/{boardCode}-write")
 	public String showWrite(@PathVariable("boardCode") String boardCode, HttpServletRequest req, Model model, String listUrl) {
 		if ( listUrl == null ) {
@@ -180,6 +185,7 @@ public class ArticleController {
 		return "article/write";
 	}
 	
+	// 수정 실행
 	@RequestMapping("/usr/article/{boardCode}-doModify")
 	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, @PathVariable("boardCode") String boardCode, Model model) {
 		Board board = articleService.getBoardByCode(boardCode);
@@ -203,6 +209,7 @@ public class ArticleController {
 		return "redirect:" + redirectUri;
 	}
 
+	// 글쓰기 실행
 	@RequestMapping("/usr/article/{boardCode}-doWrite")
 	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, Model model) {
 		Board board = articleService.getBoardByCode(boardCode);
@@ -259,4 +266,47 @@ public class ArticleController {
 
 		return "common/redirect";
 	}
+	
+	//////////////////////////////////////////MYPAGE START//////////////////////////////////////////
+	
+	// 전체 검색 리스트
+		@RequestMapping("/usr/article/myPageArticleList")
+		public String showMyPageArticleList(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
+			int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+			
+			//기본값 넣어주자
+			int boardId = 1;
+			int page = 1; 		
+			String searchKeywordType = ""; 
+			String searchKeyword = "";
+			
+			if(param.get("page") != null) {
+				page = Integer.parseInt((String) param.get("page"));
+			}
+
+			
+			int itemsInAPage = 10;
+			int totalCount = articleService.getNotBoardIdForPrintListArticlesCount(searchKeywordType, searchKeyword);
+			int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+			
+			int nowPage = page;
+			
+			if(page % 5 != 0) {
+				page = page/5;
+				page = (page*5)+1;
+			} else if(page % 5 == 0) {
+				page = page - 4;
+			}
+
+			req.setAttribute("page", page);		
+			req.setAttribute("totalCount", totalCount);
+			req.setAttribute("totalPage", totalPage);
+			req.setAttribute("cPagedoReply", page);
+			
+			List<Article> articles = articleService.getMyPageArticles(nowPage, itemsInAPage, loginedMemberId);
+
+			model.addAttribute("articles", articles);
+			
+			return "article/myPageArticleList";
+		}
 }

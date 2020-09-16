@@ -22,6 +22,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
+	//신청서 리스트
 	@RequestMapping("/usr/board/boardApplyList")
 	public String showBoardApplyList(Model model) {
 		// 페이징은 나중		
@@ -39,6 +40,7 @@ public class BoardController {
 		return "board/createBoard";
 	}
 
+	//create-board-jsp
 	@RequestMapping("/usr/board/doSendBoardApplyDoc")
 	public String doCreateBoard(@RequestParam Map<String, Object> param, HttpServletRequest req, Model model) {
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");

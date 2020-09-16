@@ -22,9 +22,10 @@
 	margin:0 auto;
 	margin-top:200px;
 	width:500px;
-	height:500px;
+	height:600px;
 	background-color:#ebebf1;
 	border:5px solid #6b6880;
+	margin-bottom:50px;
 }
 
 .adminPage-form {
@@ -97,36 +98,30 @@
 
 <div class="adminPage-background con">
 	
-	
 	<div class="page-title">
 		<h1>${pageTitle}</h1>
 	</div>
 
-	<form method="POST" class="adminPage-form table-box con form1">
-
+	<form method="POST" class="adminPage-form table-box con form1" style="border:none;">
+		<div class="backA">
+			<a href="javascript:window.history.back();" class="cancel">뒤로가기</a>
+		</div>
+		
 		<table border="1">
 			<colgroup>
 				<col class="table-first-col">
 			</colgroup>
 			<tbody>
 				<tr>
-					<th>회원 관리</th>
+					<th>내 글 목록</th>
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/member/administrate">이동</a> 
+							<a href="/usr/article/myPageArticleList">이동</a> 
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<th>커뮤니티 게시판 신청서 관리</th>
-					<td>
-						<div class="form-control-box">
-							<a href="/usr/board/boardApplyList">이동</a> 
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th>고객센터 문의 내역 관리</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
+					<th>내 댓글 목록</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
 					<td>
 						<div class="form-control-box">
 							<a href="/usr/article/question-list">이동</a> 
@@ -134,8 +129,36 @@
 					</td>
 				</tr>
 				<tr>
-					<th style="text-decoration: underline;">뒤로가기</th>
-					<td><a href="javascript:window.history.back();" class="cancel">취소</a></td>
+					<th>내 신청서 목록</th>
+					<td>
+						<div class="form-control-box">
+							<a href="/usr/board/boardApplyList">이동</a> 
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>내 커뮤니티 관리</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
+					<td>
+						<div class="form-control-box">
+							<a href="/usr/article/question-list">이동</a> 
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>내 문의사항 목록</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
+					<td>
+						<div class="form-control-box">
+							<a href="/usr/article/question-list">이동</a> 
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>내 신고 진행상황 목록</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
+					<td>
+						<div class="form-control-box">
+							<a href="/usr/article/question-list">이동</a> 
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>

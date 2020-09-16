@@ -26,20 +26,23 @@ public class BoardService {
 		boardDao.docApplyConfirm(param);
 	}
 
+	//신청서 저장
 	public int setBoardApplyDoc(Map<String, Object> param) {
+		//신청서이름과 현재존재하는 커뮤니티 이름을 비교
 		int count = boardDao.getBoardNameDupCount((String) param.get("name"));
 		
 		if ( count == 1) {
 			return count;
 		}
 		
+		//신청서 저장
 		boardDao.setBoardApplyDoc(param);
 		
 		return 0;
 	}
 	
 	
-
+	// 게시판 증설 신청 name 중복 방지
 	public ResultData checkBoardNameable(String name) {
 		int count = boardDao.getBoardNameDupCount(name);
 		
@@ -50,6 +53,7 @@ public class BoardService {
 		return new ResultData("F-1", "이미 존재하는 커뮤니티 입니다.", "loginId", name);
 	}
 
+	//신청서 리스트
 	public List<BoardApplyDoc> getAllBoardApplyDocs() {
 		return boardDao.getAllBoardApplyDocs();
 	}

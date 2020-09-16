@@ -40,6 +40,7 @@
 		AND boardId = #{boardId}
 	</update>
 	
+	<!-- 신청서 저장 -->
 	<insert id="setBoardApplyDoc" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		INTO boardApplyDoc
@@ -50,6 +51,7 @@
 		body = #{body}
 	</insert>
 	
+	<!-- 신청서이름과 현재존재하는 커뮤니티 이름을 비교 -->
 	<select id="getBoardNameDupCount" resultType="int">
 		SELECT COUNT(*) AS
 		cnt
@@ -66,7 +68,7 @@
 	</select>
 	
 	
-	<!-- 추후에 INNER JOIN 으로 탈퇴한 회원의 delStatus도 함께 비교하여 가져올것 -->
+	<!-- 신청서 리스트 !페이징아직없음 -->
 	<select id="getAllBoardApplyDocs" resultMap="boardApplyDoc">
 		SELECT D.*,
 		M.nickname AS extra__writer

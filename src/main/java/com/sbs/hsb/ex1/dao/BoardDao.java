@@ -15,10 +15,13 @@ public interface BoardDao {
 	
 	void docApplyConfirm(Map<String, Object> param);
 
+	//신청서 저장
 	int setBoardApplyDoc(Map<String, Object> param);
 
+	//신청서이름과 현재존재하는 커뮤니티 이름을 비교
 	int getBoardNameDupCount(@Param("name") String name);
 
+	//신청서 리스트
 	List<BoardApplyDoc> getAllBoardApplyDocs();
 
 	void doBoardReject(Map<String, Object> param);

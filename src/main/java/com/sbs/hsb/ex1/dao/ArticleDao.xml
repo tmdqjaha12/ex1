@@ -61,6 +61,22 @@
 		ORDER BY A.id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
+	
+	<!-- My Page Article List-->
+	<select id="getMyPageArticles" resultMap="article">
+		SELECT A.*,
+		B.name AS extra__boardName
+		FROM article AS A
+		INNER JOIN board AS B
+		ON A.boardId = B.id
+		WHERE B.delStatus = 0
+		AND A.memberId = #{loginedMemberId}
+		AND A.delStatus = 0
+		AND A.displayStatus = 1
+		GROUP BY A.id
+		ORDER BY A.id DESC
+		LIMIT #{limitFrom}, #{itemsInAPage}
+	</select>
 	 
 	
 	<!-- 게시물 카운트 not null boardId  -->
@@ -221,6 +237,7 @@
 			<id property="writer" column="extra__writer" />
 			<id property="likePoint" column="extra__likePoint" />
 			<id property="applyPoint" column="extra__applyPoint" />
+			<id property="boardName" column="extra__boardName" />
 		</association>
 	</resultMap>
 </mapper>

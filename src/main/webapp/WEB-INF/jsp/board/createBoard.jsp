@@ -6,6 +6,19 @@
 
 <!-- 일반 회원들이 자기만의 게시판을 만들기위해, 신청하는 공간, 신청서 -->
 
+<style>
+.create-board-title {
+	background-color:#6b6880;
+	margin-top:50px;
+	margin-bottom:-50px;
+}
+
+.create-board-title h1{
+	background-color:white;
+	text-align: center;
+}
+</style>
+
 <script>
 	var CreateBoardForm__submitDone = false;
 	var CreateBoardForm__validBoardName = '';
@@ -68,7 +81,7 @@
 
 <div class="create-board con" style="background-color:#ebebf1;">
 
-	<div class="write-page-title">
+	<div class="create-board-title">
 		<h1>${pageTitle}</h1>
 	</div>
 
