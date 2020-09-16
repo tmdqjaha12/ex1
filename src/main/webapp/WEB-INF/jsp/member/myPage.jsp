@@ -124,7 +124,7 @@
 					<th>내 댓글 목록</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/article/question-list">이동</a> 
+							<a href="/usr/reply/myPageReplyList">이동</a> 
 						</div>
 					</td>
 				</tr>

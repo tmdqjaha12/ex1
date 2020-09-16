@@ -19,4 +19,7 @@ public interface ReplyDao {
 	Reply getForPrintReplyById(@Param("id") int id);
 
 	void modifyReply(Map<String, Object> param);
+
+	// 내 댓글 목록
+	List<Reply> getMyReplyList(@Param("loginedMemberId") int loginedMemberId);
 }

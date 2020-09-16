@@ -123,4 +123,9 @@ public class ReplyService {
 
 		return new ResultData("S-1", String.format("%d번 댓글을 수정하였습니다.", Util.getAsInt(param.get("id"))), param);
 	}
+
+	// 내 댓글 목록
+	public List<Reply> getMyReplyList(int loginedMemberId) {
+		return replyDao.getMyReplyList(loginedMemberId);
+	}
 }

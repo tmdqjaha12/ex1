@@ -289,3 +289,17 @@ LIMIT 0, 5
 SELECT *
 FROM boardApplyDoc 
 WHERE memberId = ~~~
+
+## MyPageReplyList #댓글, 글, 커뮤니티 del=0 id code까지, 번호, 날짜, 내용, x댓글좋아요
+SELECT R.*,
+B.code AS extra__boardCode,
+A.id AS extra__articleId
+FROM reply AS R
+INNER JOIN article AS A
+ON R.relId = A.id
+INNER JOIN board AS B
+ON A.boardId = B.id
+WHERE R.memberId = 1
+AND R.delStatus = 0
+AND A.delStatus = 0
+AND B.delStatus = 0

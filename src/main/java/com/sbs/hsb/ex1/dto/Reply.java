@@ -33,4 +33,8 @@ public class Reply {
 
 		return bodyForPrint;
 	}
+	
+	public String getDetailLink(String boardCode, int articleId) {
+		return "/usr/article/" + boardCode + "-detail?id=" + articleId;
+	}
 }

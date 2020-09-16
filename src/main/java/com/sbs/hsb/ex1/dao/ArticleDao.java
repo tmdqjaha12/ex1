@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.sbs.hsb.ex1.dto.Article;
 import com.sbs.hsb.ex1.dto.Board;
+import com.sbs.hsb.ex1.dto.Reply;
 
 @Mapper
 public interface ArticleDao {
@@ -51,10 +52,7 @@ public interface ArticleDao {
 
 //////////////////////////////////////////MYPAGE START//////////////////////////////////////////
 
-	// MyPage articleList
+	// 내 글 목록
 	List<Article> getMyPageArticles(Map<String, Object> param);
-
-
-
 	
 }

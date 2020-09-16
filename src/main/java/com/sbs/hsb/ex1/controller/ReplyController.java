@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,5 +84,17 @@ public class ReplyController {
 		ResultData rd = replyService.modfiyReply(modfiyReplyParam);
 
 		return rd;
+	}
+	
+	// 내 댓글 목록
+	@RequestMapping("/usr/reply/myPageReplyList")
+	public String showMyPageReplyList(Model model, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		
+		List<Reply> myReplyList = replyService.getMyReplyList(loginedMemberId);
+		
+		model.addAttribute("myReplyList", myReplyList);
+		
+		return "reply/myPageReplyList";
 	}
 }

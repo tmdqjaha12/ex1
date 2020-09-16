@@ -1,6 +1,5 @@
 package com.sbs.hsb.ex1.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sbs.hsb.ex1.dto.Article;
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.Member;
+import com.sbs.hsb.ex1.dto.Reply;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.ArticleService;
 import com.sbs.hsb.ex1.util.Util;
@@ -269,7 +269,7 @@ public class ArticleController {
 	
 	//////////////////////////////////////////MYPAGE START//////////////////////////////////////////
 	
-	// 전체 검색 리스트
+	// 내 글 목록
 		@RequestMapping("/usr/article/myPageArticleList")
 		public String showMyPageArticleList(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
 			int loginedMemberId = (int) req.getAttribute("loginedMemberId");

@@ -63,6 +63,22 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+	
+	<!-- 내 댓글 목록 -->
+	<select id="getMyReplyList" resultMap="reply">
+		SELECT R.*,
+		B.code AS extra__boardCode,
+		A.id AS extra__articleId
+		FROM reply AS R
+		INNER JOIN article AS A
+		ON R.relId = A.id
+		INNER JOIN board AS B
+		ON A.boardId = B.id
+		WHERE R.memberId = #{loginedMemberId}
+		AND R.delStatus = 0
+		AND A.delStatus = 0
+		AND B.delStatus = 0
+	</select>
 
 	<resultMap type="Reply" id="reply">
 		<id property="id" column="id" />
@@ -76,6 +92,8 @@
 		<id property="relTypeCode" column="relTypeCode" />
 		<association property="extra" javaType="map">
 			<id property="writer" column="extra__writer" />
+			<id property="boardCode" column="extra__boardCode" />
+			<id property="articleId" column="extra__articleId" />
 		</association>
 	</resultMap>
 </mapper>

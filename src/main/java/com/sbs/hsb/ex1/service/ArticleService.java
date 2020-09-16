@@ -14,6 +14,7 @@ import com.sbs.hsb.ex1.dto.Article;
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.File;
 import com.sbs.hsb.ex1.dto.Member;
+import com.sbs.hsb.ex1.dto.Reply;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.util.Util;
 
@@ -245,7 +246,7 @@ public class ArticleService {
 
 //////////////////////////////////////////MYPAGE START//////////////////////////////////////////
 	
-	// articleList
+	// 내 글 목록
 	public List<Article> getMyPageArticles(int nowPage, int itemsInAPage, int loginedMemberId) {
 		
 		Map<String, Object> param = new HashMap<>();
@@ -256,7 +257,5 @@ public class ArticleService {
 		
 		return articleDao.getMyPageArticles(param);
 	}
-
-	
 
 }

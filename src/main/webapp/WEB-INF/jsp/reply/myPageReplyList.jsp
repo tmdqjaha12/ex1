@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="내 신청서 목록" />
+<c:set var="pageTitle" value="내 댓글 목록" />
 <%@ include file="../part/head.jspf"%>
 
 <style>
@@ -134,19 +134,17 @@
 		
 		<table border="1">
 			<colgroup>
-				<col width="100" />
-				<col width="250" />
-				<col width="400" />
+				<col width="80" />
+				<col width="450" />
 				<col width="180" />
-				<col width="100" />
+				<col width="150" />
 			</colgroup>
 			<thead class="table-thead">
 				<tr>
-					<th>신청번호</th>
-					<th>커뮤니티이름</th>
-					<th class="Rbody">커뮤니티설명</th>
-					<th class="regdate">신청날짜</th>
-					<th>승인여부</th>
+					<th>댓글번호</th>
+					<th>내용</th>
+					<th class="regDate">날짜</th>
+					<th>좋아요</th>
 				</tr>
 			</thead>
 
@@ -154,15 +152,18 @@
 
 			<tbody class="table-tbody">
 
-				<c:forEach items="${myBoardList}" var="myBoard">
+				<c:forEach items="${myReplyList}" var="myReply">
 					<tr>
-						<td class="padding-left-10">${myBoard.id}</td>
-						<td class="padding-left-10">${myBoard.name}</td>
-						<td class="padding-left-10 Rbody">${myBoard.body}</td>
-						<td class="text-center regdate">${myBoard.regDate}</td>
+						<td class="padding-left-10">${myReply.id}</td>
+						<td class="padding-left-10 list-title-1">
+							<a style="width: 200px; cursor: pointer;" 
+							href="${myReply.getDetailLink(myReply.extra.boardCode, myReply.extra.articleId)}">
+								${myReply.body}
+							</a>
+						</td>
+						<td class="text-center regDate">${myReply.regDate}</td>
 						<td class="text-center">
-							<c:if test="${myBoard.applyStatus == true}">승인완료</c:if>
-							<c:if test="${myBoard.applyStatus == false}">미승인</c:if>
+							Nhit
 						</td>
 						
 					</tr>
@@ -196,6 +197,5 @@
 
 
 </div>
-
 
 <%@ include file="../part/foot.jspf"%>
