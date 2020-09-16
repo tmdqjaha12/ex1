@@ -66,4 +66,9 @@ public class BoardService {
 		boardDao.doDelDocNameDup(name);
 	}
 
+	// 내 신청서 목록
+	public List<BoardApplyDoc> getMyBoardList(int loginedMemberId) {
+		return boardDao.getMyBoardList(loginedMemberId);
+	}
+
 }

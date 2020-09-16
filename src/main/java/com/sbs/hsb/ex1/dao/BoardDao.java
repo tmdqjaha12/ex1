@@ -32,5 +32,8 @@ public interface BoardDao {
 
 	void doDelDocNameDup(@Param("name") String name);
 
+	// 내 신청서 목록
+	List<BoardApplyDoc> getMyBoardList(@Param("loginedMemberId") int loginedMemberId);
+
 
 }

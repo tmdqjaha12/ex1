@@ -132,7 +132,7 @@
 					<th>내 신청서 목록</th>
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/board/boardApplyList">이동</a> 
+							<a href="/usr/board/myPageBoardList">이동</a> 
 						</div>
 					</td>
 				</tr>

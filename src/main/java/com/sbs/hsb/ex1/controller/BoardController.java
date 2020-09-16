@@ -95,7 +95,6 @@ public class BoardController {
 	
 	@RequestMapping("/usr/board/doBoardReject")
 	public String doBoardReject(@RequestParam Map<String, Object> param, Model model) {
-		System.out.println("설마이게");
 		boardService.doBoardReject(param);
 		
 		String redirectUri = (String) param.get("redirectUri");
@@ -103,4 +102,19 @@ public class BoardController {
 		
 		return "common/redirect";
 	}
+	//////////////////////////////MY-PAGE///////////////////////////////
+	
+	// 내 신청서 목록
+	@RequestMapping("/usr/board/myPageBoardList")
+	public String showMyPageBoardList(Model model, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		
+		List<BoardApplyDoc> myBoardList = boardService.getMyBoardList(loginedMemberId);
+		
+		model.addAttribute("myBoardList", myBoardList);
+		System.out.println("myBoardList : " + myBoardList);
+		
+		return "board/myPageBoardList";
+	}
+	
 }

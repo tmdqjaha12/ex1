@@ -269,3 +269,23 @@ AND A.body LIKE CONCAT('%' , '', '%')
 GROUP BY A.id
 ORDER BY A.id DESC
 LIMIT 0, 10
+
+
+## MyPageArticleList #커뮤니티이름, 번호, 제목, 날짜
+SELECT A.*,
+B.name AS extra__boardName
+FROM article AS A
+INNER JOIN board AS B
+ON A.boardId = B.id
+WHERE B.delStatus = 0
+AND A.memberId = 1
+AND A.delStatus = 0
+AND A.displayStatus = 1
+GROUP BY A.id
+ORDER BY A.id DESC
+LIMIT 0, 5
+
+## MyPageBoardApplyDocList #날짜, 이름, 승인여부
+SELECT *
+FROM boardApplyDoc 
+WHERE memberId = ~~~
