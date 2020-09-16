@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 
 @Mapper
@@ -33,7 +34,10 @@ public interface BoardDao {
 	void doDelDocNameDup(@Param("name") String name);
 
 	// 내 신청서 목록
-	List<BoardApplyDoc> getMyBoardList(@Param("loginedMemberId") int loginedMemberId);
+	List<BoardApplyDoc> getMyBoardApplyList(@Param("loginedMemberId") int loginedMemberId);
+
+	// 내 커뮤니티 목록
+	List<Board> getMyBoardList(@Param("loginedMemberId") int loginedMemberId);
 
 
 }

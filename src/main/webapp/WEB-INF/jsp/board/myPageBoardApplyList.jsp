@@ -105,15 +105,6 @@
 	cursor: default;
 }
 
-.list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
-	text-decoration:underline;
-	color:blue;
-}
-
-.list-background >  .list-box-1 .table-tbody  .list-title-1 > a:active {
-	color:red;
-}
-
 
 /* 게시판 리스트 끝 */
 </style>
@@ -121,7 +112,7 @@
 
 
 
-<div class="list-background" style="width:700px;">
+<div class="list-background">
 
 	<div class="list-page-title">
 		<h1>* ${pageTitle} *</h1>
@@ -135,6 +126,8 @@
 		<table border="1">
 			<colgroup>
 				<col width="100" />
+				<col width="250" />
+				<col width="400" />
 				<col width="180" />
 				<col width="100" />
 			</colgroup>
@@ -142,7 +135,9 @@
 				<tr>
 					<th>신청번호</th>
 					<th>커뮤니티이름</th>
-					<th class="regdate">생성날짜</th>
+					<th class="Rbody">커뮤니티설명</th>
+					<th class="regdate">신청날짜</th>
+					<th>승인여부</th>
 				</tr>
 			</thead>
 
@@ -150,13 +145,17 @@
 
 			<tbody class="table-tbody">
 
-				<c:forEach items="${myBoardList}" var="myBoard">
+				<c:forEach items="${myBoardApplyList}" var="myBoard">
 					<tr>
 						<td class="padding-left-10">${myBoard.id}</td>
-						<td class="padding-left-10 list-title-1">
-							<a href="">${myBoard.name}</a>
-						</td>
+						<td class="padding-left-10">${myBoard.name}</td>
+						<td class="padding-left-10 Rbody">${myBoard.body}</td>
 						<td class="text-center regdate">${myBoard.regDate}</td>
+						<td class="text-center">
+							<c:if test="${myBoard.applyStatus == true}">승인완료</c:if>
+							<c:if test="${myBoard.applyStatus == false}">미승인</c:if>
+						</td>
+						
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -188,7 +187,6 @@
 
 
 </div>
-
 
 
 <%@ include file="../part/foot.jspf"%>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.hsb.ex1.dao.BoardDao;
+import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 
@@ -67,7 +68,12 @@ public class BoardService {
 	}
 
 	// 내 신청서 목록
-	public List<BoardApplyDoc> getMyBoardList(int loginedMemberId) {
+	public List<BoardApplyDoc> getMyBoardApplyList(int loginedMemberId) {
+		return boardDao.getMyBoardApplyList(loginedMemberId);
+	}
+
+	// 내 커뮤니티 목록
+	public List<Board> getMyBoardList(int loginedMemberId) {
 		return boardDao.getMyBoardList(loginedMemberId);
 	}
 

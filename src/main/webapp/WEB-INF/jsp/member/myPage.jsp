@@ -132,7 +132,7 @@
 					<th>내 신청서 목록</th>
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/board/myPageBoardList">이동</a> 
+							<a href="/usr/board/myPageBoardApplyList">이동</a> 
 						</div>
 					</td>
 				</tr>
@@ -140,7 +140,7 @@
 					<th>내 커뮤니티 관리</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/article/question-list">이동</a> 
+							<a href="/usr/board/myPageBoardList">이동</a> 
 						</div>
 					</td>
 				</tr>

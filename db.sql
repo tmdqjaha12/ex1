@@ -303,3 +303,9 @@ WHERE R.memberId = 1
 AND R.delStatus = 0
 AND A.delStatus = 0
 AND B.delStatus = 0
+
+##board - memberId - 1
+## MyPageBoardList
+SELECT *
+FROM board
+WHERE memberId = 1

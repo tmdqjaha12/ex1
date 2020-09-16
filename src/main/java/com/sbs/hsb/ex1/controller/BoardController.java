@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.BoardService;
@@ -105,11 +106,23 @@ public class BoardController {
 	//////////////////////////////MY-PAGE///////////////////////////////
 	
 	// 내 신청서 목록
+	@RequestMapping("/usr/board/myPageBoardApplyList")
+	public String showMyPageBoardApplyList(Model model, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		
+		List<BoardApplyDoc> myBoardApplyList = boardService.getMyBoardApplyList(loginedMemberId);
+		
+		model.addAttribute("myBoardApplyList", myBoardApplyList);
+		
+		return "board/myPageBoardApplyList";
+	}
+	
+	// 내 커뮤니티 목록
 	@RequestMapping("/usr/board/myPageBoardList")
 	public String showMyPageBoardList(Model model, HttpServletRequest req) {
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 		
-		List<BoardApplyDoc> myBoardList = boardService.getMyBoardList(loginedMemberId);
+		List<Board> myBoardList = boardService.getMyBoardList(loginedMemberId);
 		
 		model.addAttribute("myBoardList", myBoardList);
 		System.out.println("myBoardList : " + myBoardList);
