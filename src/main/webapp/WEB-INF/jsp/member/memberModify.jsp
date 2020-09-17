@@ -22,7 +22,7 @@
 	margin:0 auto;
 	margin-top:100px;
 	width:500px;
-	height:600px;
+	padding-bottom:100px;
 	background-color:#ebebf1;
 	border:5px solid #6b6880;
 }
@@ -48,53 +48,136 @@
 		}
 		
 }
+
+/* 프로파일 이미지 */
+.pre-pro-img {
+	text-align: center;
+	margin-top:100px;
+}
+
+.pre-pro-img > img {
+	border:2px solid black;
+	border-radius : 33.333%;
+	width: 100px;
+	height: 100px;
+	margin-top:-100px;
+}
+.pro-img > img {
+	border:2px solid black;
+	border-radius : 33.333%;
+	width: 100px;
+	height: 100px;
+}
 </style>
 
 
 <script>
+
 	var MemberModifyForm__submitDone = false;
-	var JoinForm__validLoginId = '';
+	var modifyForm_nickNameData = '';
+	var modifyForm_emailData = '';
 	function MemberModifyForm__submit(form) {
 		if (MemberModifyForm__submitDone) {
 			alert('처리중입니다.');
 			return;
 		}
-
-		form.name.value = form.name.value.trim();
-
-		if (form.name.value.length == 0) {
-			form.name.focus();
-			alert('이름을 입력해주세요.');
-
-			return;
-		}
-
 		form.nickname.value = form.nickname.value.trim();
-
 		if (form.nickname.value.length == 0) {
 			form.nickname.focus();
 			alert('활동명을 입력해주세요.');
-
 			return;
 		}
 		
 		form.email.value = form.email.value.trim();
-
 		if (form.email.value.length == 0) {
 			form.email.focus();
 			alert('이메일을 입력해주세요.');
-
 			return;
 		}
 
-		form.loginPwReal.value = sha256(form.loginPw.value);
-		form.loginPw.value = '';
-		form.loginPwConfirm.value = '';
+		if(modifyForm_nickNameData == 'F-'){
+			form.nickname.focus();
+			alert('이미 사용중인 활동명 입니다.');
+			return;
+		}
+		if(modifyForm_nickNameData == 'X-'){
+			form.nickname.focus();
+			alert('활동명을 입력해 주세요.');
+			return;
+		}
 
-		form.submit();
-		MemberJoinForm__submitDone = true;
+		if(modifyForm_emailData == 'F-'){
+			form.nickname.focus();
+			alert('이미 사용중인 이메일 입니다.');
+			return;
+		}
+		if(modifyForm_emailData == 'X-'){
+			form.nickname.focus();
+			alert('이메일을 입력해 주세요.');
+			return;
+		}
+
+		
+		
+		// form.loginPwReal.value = sha256(form.loginPw.value);
+		// form.loginPw.value = '';
+		// form.loginPwConfirm.value = '';
+		// form.submit();
+		// MemberModifyForm__submitDone = true;
+
+
+		var maxSizeMb = 50;
+		var maxSize = maxSizeMb * 1024 * 1024 //50MB
+		if (form.file__member__0__common__proImg__1.value) {
+			
+			if( form.file__member__0__common__proImg__1.value.split('.')[1].toString() == 'jpg'||
+					form.file__member__0__common__proImg__1.value.split('.')[1].toString() == 'png' ||
+						form.file__member__0__common__proImg__1.value.split('.')[1].toString() == 'gif'){
+			} else {
+				alert("옳바른 형식의 파일을 선택해 주세요.");
+				return;
+			}
+			
+			if (form.file__member__0__common__proImg__1.files[0].size > maxSize) {
+				alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
+				return;
+			}
+		}
+		var startUploadFiles = function(onSuccess) {
+			var needToUpload = form.file__member__0__common__proImg__1.value.length > 0;
+			if (needToUpload == false) {
+				onSuccess();
+				return;
+			}
+			var fileUploadFormData = new FormData(form);
+			$.ajax({
+				url : './../file/doUploadAjax',
+				data : fileUploadFormData,
+				processData : false,
+				contentType : false,
+				dataType : "json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+		
+		MemberModifyForm__submitDone = true;
+		
+		startUploadFiles(function(data) {
+			var fileIdsStr = '';
+			if (data && data.body && data.body.fileIdsStr) {
+				fileIdsStr = data.body.fileIdsStr;
+			}
+			form.fileIdsStr.value = fileIdsStr;
+			form.file__member__0__common__proImg__1.value = '';
+			form.submit();
+	
+		});
 	}
 
+
+
+	// dup
 	var JoinForm__checkNickNameDup = _.debounce(function(input) {
 		var form = input.form;
 		form.nickname.value = form.nickname.value.trim();
@@ -105,6 +188,8 @@
 			nickname : form.nickname.value
 		}, function(data) {
 			var $message = $(form.nickname).next();
+			modifyForm_nickNameData = data.resultCode.substr(0, 2);
+			
 			if (data.resultCode.substr(0, 2) == 'S-') {
 				$message.empty().append(
 						'<div style="color:green;">' + data.msg + '</div>');
@@ -123,7 +208,6 @@
 			}
 		}, 'json');
 	}, 1000);
-
 	var JoinForm__checkEmailDup = _.debounce(function(input) {
 		var form = input.form;
 		form.email.value = form.email.value.trim();
@@ -134,6 +218,8 @@
 			email : form.email.value
 		}, function(data) {
 			var $message = $(form.email).next();
+			modifyForm_emailData = data.resultCode.substr(0, 2);
+			
 			if (data.resultCode.substr(0, 2) == 'S-') {
 				$message.empty().append(
 						'<div style="color:green;">' + data.msg + '</div>');
@@ -157,6 +243,17 @@
 		}, 'json');
 	}, 1000);
 
+	// 프로필 이미지 미리보기
+	function setThumbnail(event) { 
+		var reader = new FileReader(); 
+		
+		reader.onload = function(event) {
+			var img = document.querySelector("img#my-pro-img"); 
+			img.setAttribute("src", event.target.result);
+		};
+		 
+		reader.readAsDataURL(event.target.files[0]); 
+	}
 </script>
 
 <div class="modify-background">
@@ -164,14 +261,39 @@
 	<div class="page-title"><h1>${pageTitle}</h1></div>
 
 	<form method="POST" class="modify-form table-box" action="doMemberModify" onsubmit="MemberModifyForm__submit(this); return false;">
-		<input type="hidden" name="redirectUri" value="/usr/home/myPage">
-		
+		<input type="hidden" name="fileIdsStr" />
+		<input type="hidden" name="memberId" value="${loginedMember.id}" />
+		<input type="hidden" name="redirectUri" value="/usr/member/myPage">
 
 		<table>
 			<colgroup>
 				<col width="200">
 			</colgroup>
 			<tbody>
+				<c:forEach var="i" begin="1" end="1" step="1">
+					<c:set var="fileNo" value="${String.valueOf(i)}" />
+					<c:set var="file" value="${member.extra.file__common__proImg[fileNo]}" />
+					<c:set var="fileExtTypeCode" value="${appConfig.getAttachmentFileExtTypeCode('member', i)}" />
+					<tr>
+						<th>프로필
+							${appConfig.getAttachmentFileExtTypeDisplayName('member', i)}</th>
+						<td> 
+							<!-- 내 프로필 이미지  -->
+							<c:if test="${file != null && file.fileExtTypeCode == 'img'}">
+								<div class="img-box img-box-auto pro-img">
+									<img id="my-pro-img" src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="ㅎㅇㅎㅇ" />
+								</div>
+							</c:if>
+							<!-- 이미지 input -->
+							<div class="form-control-box">
+								<input type="file"
+									accept="image/png, image/jpeg"
+									name="file__member__0__common__proImg__${fileNo}" 
+									onchange="setThumbnail(event);">
+							</div>
+						</td>
+					</tr>
+				</c:forEach>
 				<tr>
 					<th>아이디</th>
 					<td>

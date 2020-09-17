@@ -21,7 +21,7 @@
 	margin:0 auto;
 	margin-top:100px;
 	width:500px;
-	height:500px;
+	padding-bottom:50px;
 	background-color:#ebebf1;
 	border:5px solid #6b6880;
 }
@@ -144,6 +144,13 @@
 		}
 }
 
+
+.pro-img > img {
+	border:2px solid black;
+	border-radius : 33.333%;
+	width: 100px;
+	height: 100px;
+}
 </style>
 
 
@@ -162,6 +169,20 @@
 	
 	<div class="my-page-box table-box">
 		<table>
+			<c:forEach var="i" begin="1" end="1" step="1">
+				<c:set var="fileNo" value="${String.valueOf(i)}" />
+				<c:set var="file" value="${member.extra.file__common__proImg[fileNo]}" />
+				<tr>
+					<th>프로필</th>
+					<td> 
+						<c:if test="${file != null && file.fileExtTypeCode == 'img'}">
+							<div class="img-box img-box-auto pro-img">
+								<img src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="ㅎㅇㅎㅇ" />
+							</div>
+						</c:if>
+					</td>
+				</tr>
+			</c:forEach>
 			<tr>
 				<th>아이디</th>
 				<td>${loginedMember.loginId}</td>

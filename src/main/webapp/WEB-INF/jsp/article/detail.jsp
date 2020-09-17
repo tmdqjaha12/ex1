@@ -34,25 +34,24 @@
 				</tr>
 				<c:forEach var="i" begin="1" end="3" step="1">
 					<c:set var="fileNo" value="${String.valueOf(i)}" />
-					<c:set var="file"
-						value="${article.extra.file__common__attachment[fileNo]}" />
+					<c:set var="file" value="${article.extra.file__common__attachment[fileNo]}" />
 					<c:if test="${file != null}">
 						<tr>
 							<th>첨부파일 ${fileNo}</th>
-							<td><c:if test="${file.fileExtTypeCode == 'video'}">
+							<td>
+								<c:if test="${file.fileExtTypeCode == 'video'}">
 									<div class="video-box">
-										<video controls
-											src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}">video
-											not supported
+										<video controls src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}">
+											video not supported
 										</video>
 									</div>
-								</c:if> <c:if test="${file.fileExtTypeCode == 'img'}">
+								</c:if> 
+								<c:if test="${file.fileExtTypeCode == 'img'}">
 									<div class="img-box img-box-auto">
-										<img
-											src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}"
-											alt="" />
+										<img src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="" />
 									</div>
-								</c:if></td>
+								</c:if>
+							</td>
 						</tr>
 					</c:if>
 				</c:forEach>
@@ -521,7 +520,7 @@
 			$('html').removeClass('reply-modify-form-modal-actived');
 		}
 		// 1초
-		ReplyList__loadMoreInterval = 1 * 1000;
+		ReplyList__loadMoreInterval = 1 * 1000000000;// +-6
 		function ReplyList__loadMoreCallback(data) {
 			if (data.body.replies && data.body.replies.length > 0) {
 				ReplyList__lastLodedId = data.body.replies[data.body.replies.length - 1].id;
@@ -1102,7 +1101,7 @@
 			$('html').removeClass('reply-modify-form-modal-actived');
 		}
 		// 1초
-		ReplyList__loadMoreInterval = 1 * 1000;
+		ReplyList__loadMoreInterval = 1 * 1000000;
 		function ReplyList__loadMoreCallback(data) {
 			if (data.body.replies && data.body.replies.length > 0) {
 				ReplyList__lastLodedId = data.body.replies[data.body.replies.length - 1].id;

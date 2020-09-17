@@ -23,8 +23,9 @@
 	display:block;
 	margin:0 auto;
 	margin-top:100px;
+	margin-bottom:60px;
 	width:500px;
-	height:600px;
+	height:750px;
 	background-color:#ebebf1;
 	border:5px solid #6b6880;
 }
@@ -96,6 +97,19 @@
 	background-color: red;
 }
 
+/* 프로파일 이미지 */
+.pre-pro-img {
+	text-align: center;
+	margin-top:100px;
+}
+
+.pre-pro-img > img {
+	border:2px solid black;
+	border-radius : 33.333%;
+	width: 100px;
+	height: 100px;
+	margin-top:-100px;
+}
 
 </style>
 
@@ -195,16 +209,16 @@
 		// form.submit();
 		//alert(getFile(form.file__member__0__common__proImg__1.value));
 		//form.file__member__0__common__proImg__1.value.split('.')[1] != 'png'
-		alert(form.file__member__0__common__proImg__1.value.split('.')[1].toString());
+		//alert(form.file__member__0__common__proImg__1.value.split('.')[1].toString());
 		
 		var maxSizeMb = 50;
 		var maxSize = maxSizeMb * 1024 * 1024 //50MB
 		if (form.file__member__0__common__proImg__1.value) {
 			
-			if( form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'jpg'||
-					form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'jpeg'||
-						form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'png' ||
-							form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'gif'){
+			if( form.file__member__0__common__proImg__1.value.split('.')[1].toString() == 'jpg'||
+					form.file__member__0__common__proImg__1.value.split('.')[1].toString() == 'png' ||
+						form.file__member__0__common__proImg__1.value.split('.')[1].toString() == 'gif'){
+			} else {
 				alert("옳바른 형식의 파일을 선택해 주세요.");
 				return;
 			}
@@ -343,13 +357,29 @@
 	}, 1000);
 
 
+	// 프로필 이미지 미리보기
 	function setThumbnail(event) { 
+		
+		if(document.querySelector("div#image_container")){ // 엘리먼트 제거
+			var header = document.querySelector("div#image_container");
+			header.parentNode.removeChild(header); 
+		}
+
+		var div = document.createElement("div"); // 엘리먼트 추가
+		div.className = 'pre-pro-img';
+		div.id = 'image_container';
+		document.querySelector("div#div-pro-img").append(div);
+		
 		var reader = new FileReader(); 
-		reader.onload = function(event) { 
+		
+		reader.onload = function(event) {
 			var img = document.createElement("img"); 
+			img.id = 'profile-img';
 			img.setAttribute("src", event.target.result); 
-			document.querySelector("div#image_container").appendChild(img); }; 
-			reader.readAsDataURL(event.target.files[0]); 
+			document.querySelector("div#image_container").appendChild(img); 
+		};
+		 
+		reader.readAsDataURL(event.target.files[0]); 
 	}
 
 </script>
@@ -360,8 +390,10 @@
 
 	<form method="POST" class="join-form" action="doJoin" onsubmit="MemberJoinForm__submit(this); return false;">
 		<input type="hidden" name="fileIdsStr" /> 
-		<input type="hidden" name="redirectUri" value="/usr/member/login">
 		<input type="hidden" name="loginPwReal">
+		<input type="hidden" name="redirectUri" value="/usr/member/login">
+		<div id="div-pro-img"></div> <!-- 프로필 이미지 미리보기 -->
+		<div class="pre-pro-img" id="image_container"></div>
 
 		<table>
 			<colgroup>
@@ -372,8 +404,8 @@
 					<c:set var="fileNo" value="${String.valueOf(i)}" />
 					<c:set var="fileExtTypeCode"
 						value="${appConfig.getAttachmentFileExtTypeCode('member', i)}" />
-					<tr>
-						<th>첨부
+					<tr id="tr_pro">
+						<th>프로필
 							${appConfig.getAttachmentFileExtTypeDisplayName('member', i)}</th>
 						<td>
 							<div class="form-control-box">
@@ -383,7 +415,6 @@
 									onchange="setThumbnail(event);">
 							</div>
 						</td>
-						<div id="image_container"></div>
 					</tr>
 				</c:forEach>
 				<tr>

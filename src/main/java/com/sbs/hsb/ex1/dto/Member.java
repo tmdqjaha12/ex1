@@ -1,5 +1,7 @@
 package com.sbs.hsb.ex1.dto;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +23,5 @@ public class Member {
 	private String email;
 	private String cellphoneNo;
 	private int level;
+	private Map<String, Object> extra;
 }
