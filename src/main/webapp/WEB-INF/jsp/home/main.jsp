@@ -476,11 +476,6 @@
 				<li class="padding-0-10">
 					<a class="btn-info" href="/usr/board/createBoard">새 커뮤니티 게시판 신청</a>
 				</li>
-				<c:if test="${userLever > 5}">
-					<li class="padding-0-10">
-						<a class="btn-info" href="/usr/home/adminPage">관리자 페이지</a>
-					</li>
-				</c:if>
 			</c:if>
 		</ul>
 	</nav>

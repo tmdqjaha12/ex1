@@ -28,7 +28,6 @@
 }
 
 .adminPage-form {
-	border:1px solid #6b6880;
 	margin:0 20px;
 	margin-top:100px;
 }
@@ -103,6 +102,9 @@
 	</div>
 
 	<form method="POST" class="adminPage-form table-box con form1">
+		<div class="backA">
+			<a href="javascript:window.history.back();" class="cancel">뒤로가기</a>
+		</div>
 
 		<table border="1">
 			<colgroup>
@@ -132,10 +134,6 @@
 							<a href="/usr/article/question-list">이동</a> 
 						</div>
 					</td>
-				</tr>
-				<tr>
-					<th style="text-decoration: underline;">뒤로가기</th>
-					<td><a href="javascript:window.history.back();" class="cancel">취소</a></td>
 				</tr>
 			</tbody>
 		</table>

@@ -487,4 +487,22 @@ public class MemberController {
 		
 		return "member/myPage";
 	}
+	
+	// 관리자 페이지
+	@RequestMapping("/usr/member/adminPage")
+	public String showAdminPage(Model model) {
+	
+		return "member/adminPage";
+	}
+	
+	// 내 정보
+	@RequestMapping("/usr/member/myInfo")
+	public String showMyInfo(HttpServletRequest req, HttpSession session) {
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		String authCode = memberService.genEmailAuthCode(loginedMemberId);
+		
+		req.setAttribute("authCode", authCode);
+		
+		return "member/myInfo";
+	}
 }

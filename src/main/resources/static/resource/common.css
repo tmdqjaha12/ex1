@@ -290,14 +290,7 @@ btn {
  회원가입 관련 끝*/
 
 /* 회원 비밀번호로 인증 페이지 시작 */
-.passwordForPrivate-background{
-	position:absolute;
-	top:20%;
-	left:20%;
-	right:20%;
-	bottom:20%;
-	background-color:black;
-}
+
 
 
 /* 회원 비밀번호로 인증 페이지 끝 */
