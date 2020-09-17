@@ -342,6 +342,16 @@
 		}, 'json');
 	}, 1000);
 
+
+	function setThumbnail(event) { 
+		var reader = new FileReader(); 
+		reader.onload = function(event) { 
+			var img = document.createElement("img"); 
+			img.setAttribute("src", event.target.result); 
+			document.querySelector("div#image_container").appendChild(img); }; 
+			reader.readAsDataURL(event.target.files[0]); 
+	}
+
 </script>
 
 <div class="join-background">
@@ -369,9 +379,11 @@
 							<div class="form-control-box">
 								<input type="file"
 									accept="image/png, image/jpeg"
-									name="file__member__0__common__proImg__${fileNo}">
+									name="file__member__0__common__proImg__${fileNo}" 
+									onchange="setThumbnail(event);">
 							</div>
 						</td>
+						<div id="image_container"></div>
 					</tr>
 				</c:forEach>
 				<tr>
