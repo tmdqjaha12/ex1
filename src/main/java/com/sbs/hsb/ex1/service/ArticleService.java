@@ -66,6 +66,7 @@ public class ArticleService {
 
 	public int write(Map<String, Object> param) {
 		articleDao.write(param);
+		
 		int id = Util.getAsInt(param.get("id"));
 
 		String fileIdsStr = (String) param.get("fileIdsStr");

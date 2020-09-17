@@ -66,7 +66,8 @@ public class MemberController {
 //			model.addAttribute("alertMsg", "제대로 된 정보를 입력해주세요.");
 //			return "common/redirect";
 //		}
-
+		
+		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr");
 		int newMemberId = memberService.join(param);// 회원가입
 
 		String authCode = memberService.genEmailAuthCode(newMemberId); // 회원 attr 테이블 저장 & 인증코드

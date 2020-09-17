@@ -1,7 +1,10 @@
 package com.sbs.hsb.ex1.service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +27,8 @@ public class MemberService {
 	private String siteMainUri;
 	@Value("${custom.siteName}")
 	private String siteName;
+	@Autowired
+	private FileService fileService;
 
 	// id로 회원 찾기
 	public Member getMemberById(int id) {
@@ -33,8 +38,40 @@ public class MemberService {
 	// 회원 가입
 	public int join(Map<String, Object> param) {
 		memberDao.join(param);
+		
+		int id = Util.getAsInt(param.get("id"));
 
-		return Util.getAsInt(param.get("id"));
+		String fileIdsStr = (String) param.get("fileIdsStr");
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			fileIdsStr = fileIdsStr.trim();
+
+			if (fileIdsStr.startsWith(",")) {
+				fileIdsStr = fileIdsStr.substring(1);
+			}
+		}
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			fileIdsStr = fileIdsStr.trim();
+
+			if (fileIdsStr.equals(",")) {
+				fileIdsStr = "";
+			}
+		}
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim())).collect(Collectors.toList());
+
+			// 파일이 먼저 생성된 후에, 관련 데이터가 생성되는 경우에는, file의 relId가 일단 0으로 저장된다.
+			// 그것을 뒤늦게라도 이렇게 고처야 한다.
+			for (int fileId : fileIds) {
+				fileService.changeRelId(fileId, id);
+			}
+		}
+
+		return id;
+
+//		return Util.getAsInt(param.get("id"));
 	}
 	
 	// 인증 메일 발송
@@ -88,7 +125,7 @@ public class MemberService {
 			return new ResultData("S-1", "가입가능한 이메일 입니다.", "loginId", email);
 		}
 
-		return new ResultData("F-1", "이미 사용중인 이메 입니다.", "loginId", email);
+		return new ResultData("F-1", "이미 사용중인 이메일 입니다.", "loginId", email);
 	}
 
 	public Member getMemberByLoginId(String loginId) {

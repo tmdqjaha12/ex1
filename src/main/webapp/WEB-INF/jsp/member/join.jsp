@@ -24,7 +24,7 @@
 	margin:0 auto;
 	margin-top:100px;
 	width:500px;
-	height:550px;
+	height:600px;
 	background-color:#ebebf1;
 	border:5px solid #6b6880;
 }
@@ -104,6 +104,7 @@
 	var JoinForm__validLoginId = '';
 	var JoinForm__validNickName = '';
 	var JoinForm__validEmail = '';
+	// var JoinForm__proIng = '';
 	function MemberJoinForm__submit(form) {
 		if (MemberJoinForm__submitDone) {
 			alert('처리중입니다.');
@@ -128,13 +129,6 @@
 
 			return;
 		}
-
-		//if (form.loginId.value != JoinForm__validLoginId) {
-		//	alert('다른 아이디를 입력해주세요.');
-		//	form.loginId.focus();
-		//	return;
-		//}
-		
 
 		form.loginPw.value = form.loginPw.value.trim();
 
@@ -183,13 +177,7 @@
 
 			return;
 		}
-
-		//if (form.nickname.value != JoinForm__checkNickNameDup) {
-		//	alert('다른 활동명을 입력해주세요.');
-		//	form.nickname.focus();
-		//	return;
-		//}
-
+		
 		form.email.value = form.email.value.trim();
 
 		if (form.email.value.length == 0) {
@@ -199,20 +187,70 @@
 			return;
 		}
 
-		//if (form.email.value != JoinForm__checkEmailDup) {
-		//	alert('다른 이메일을 입력해주세요.');
-		//	form.email.focus();
-		//	return;
-		//}
+		// form.loginPwReal.value = sha256(form.loginPw.value);
+		// form.loginPw.value = '';
+		// form.loginPwConfirm.value = '';
 
-		form.loginPwReal.value = sha256(form.loginPw.value);
-		form.loginPw.value = '';
-		form.loginPwConfirm.value = '';
-
-		form.submit();
+		//MemberJoinForm__submitDone = true;
+		// form.submit();
+		//alert(getFile(form.file__member__0__common__proImg__1.value));
+		//form.file__member__0__common__proImg__1.value.split('.')[1] != 'png'
+		alert(form.file__member__0__common__proImg__1.value.split('.')[1].toString());
+		
+		var maxSizeMb = 50;
+		var maxSize = maxSizeMb * 1024 * 1024 //50MB
+		if (form.file__member__0__common__proImg__1.value) {
+			
+			if( form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'jpg'||
+					form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'jpeg'||
+						form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'png' ||
+							form.file__member__0__common__proImg__1.value.split('.')[1].toString() != 'gif'){
+				alert("옳바른 형식의 파일을 선택해 주세요.");
+				return;
+			}
+			
+			if (form.file__member__0__common__proImg__1.files[0].size > maxSize) {
+				alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
+				return;
+			}
+		}
+		var startUploadFiles = function(onSuccess) {
+			var needToUpload = form.file__member__0__common__proImg__1.value.length > 0;
+			if (needToUpload == false) {
+				onSuccess();
+				return;
+			}
+			var fileUploadFormData = new FormData(form);
+			$.ajax({
+				url : './../file/doUploadAjax',
+				data : fileUploadFormData,
+				processData : false,
+				contentType : false,
+				dataType : "json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+		
 		MemberJoinForm__submitDone = true;
+		
+		startUploadFiles(function(data) {
+			var fileIdsStr = '';
+			if (data && data.body && data.body.fileIdsStr) {
+				fileIdsStr = data.body.fileIdsStr;
+			}
+			form.loginPwReal.value = sha256(form.loginPw.value);
+			form.loginPw.value = '';
+			form.loginPwConfirm.value = '';
+			form.fileIdsStr.value = fileIdsStr;
+			form.file__member__0__common__proImg__1.value = '';
+			form.submit();
+	
+		});
 	}
 
+	
+	// dup_start
 	var JoinForm__checkLoginIdDup = _.debounce(function(input) {
 		var form = input.form;
 		
@@ -304,21 +342,6 @@
 		}, 'json');
 	}, 1000);
 
-
-	//function JoinForm__checkLoginIdDup(input) {
-		//var form = input.form;
-		//var checkLoginIdFormData = new FormData(form); 
-	//	
-	//	$.ajax({
-	//		url : './../member/getLoginIdDup',
-	//		data : checkLoginIdFormData,
-	//		processData : false,
-		//	contentType : false,
-	//		dataType:"json",
-	//		type : 'POST',
-	//		success : onSuccess
-	//	});
-	//}
 </script>
 
 <div class="join-background">
@@ -326,6 +349,7 @@
 	<div class="page-title"><h1>${pageTitle}</h1></div>
 
 	<form method="POST" class="join-form" action="doJoin" onsubmit="MemberJoinForm__submit(this); return false;">
+		<input type="hidden" name="fileIdsStr" /> 
 		<input type="hidden" name="redirectUri" value="/usr/member/login">
 		<input type="hidden" name="loginPwReal">
 
@@ -334,6 +358,22 @@
 				<col width="200">
 			</colgroup>
 			<tbody>
+				<c:forEach var="i" begin="1" end="1" step="1">
+					<c:set var="fileNo" value="${String.valueOf(i)}" />
+					<c:set var="fileExtTypeCode"
+						value="${appConfig.getAttachmentFileExtTypeCode('member', i)}" />
+					<tr>
+						<th>첨부
+							${appConfig.getAttachmentFileExtTypeDisplayName('member', i)}</th>
+						<td>
+							<div class="form-control-box">
+								<input type="file"
+									accept="image/png, image/jpeg"
+									name="file__member__0__common__proImg__${fileNo}">
+							</div>
+						</td>
+					</tr>
+				</c:forEach>
 				<tr>
 					<th>로그인 아이디</th>
 					<td>

@@ -82,6 +82,7 @@
 			form.fileIdsStr.value = fileIdsStr;
 			form.file__article__0__common__attachment__1.value = '';
 			form.file__article__0__common__attachment__2.value = '';
+			form.file__article__0__common__attachment__3.value = '';
 			if (bodyEditor.inBodyFileIdsStr) {
 				form.fileIdsStr.value += bodyEditor.inBodyFileIdsStr;
 			}
@@ -107,8 +108,8 @@
 	<form method="POST" class="write-form table-box con form1"
 		action="${board.code}-doWrite"
 		onsubmit="ArticleWriteForm__submit(this); return false;">
-		<input type="hidden" name="fileIdsStr" /> <input type="hidden"
-			name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
+		<input type="hidden" name="fileIdsStr" /> 
+		<input type="hidden" name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
 
 		<table border="1">
 			<colgroup>

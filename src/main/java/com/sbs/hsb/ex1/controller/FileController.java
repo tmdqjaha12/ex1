@@ -158,7 +158,7 @@ public class FileController {
 	@RequestMapping("/usr/file/doUploadAjax")
 	@ResponseBody
 	public ResultData uploadAjax(@RequestParam Map<String, Object> param, HttpServletRequest req, MultipartRequest multipartRequest) {
-		System.out.println("실행여부");
+		
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 
 		List<Integer> fileIds = new ArrayList<>();
@@ -185,7 +185,7 @@ public class FileController {
 				String fileExtType2Code = Util.getFileExtType2CodeFromFileName(multipartFile.getOriginalFilename());
 				String fileExt = Util.getFileExtFromFileName(multipartFile.getOriginalFilename()).toLowerCase();
 				int fileSize = (int) multipartFile.getSize();
-
+				
 				boolean fileUpdated = false;
 
 				if (relId != 0) {

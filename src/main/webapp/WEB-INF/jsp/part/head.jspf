@@ -33,7 +33,6 @@
 <script src="/resource/common.js"></script>
 <!-- 공통 CSS -->
 <link rel="stylesheet" href="/resource/app.css" />
-<link rel="stylesheet" href="/resource/keyframes.css" />
 <!-- 공통 JS -->
 <script src="/resource/app.js"></script>
 
