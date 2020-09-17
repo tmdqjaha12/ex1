@@ -145,9 +145,12 @@ public class MemberService {
 	// 회원 개인 정보 수정 닉네임 이메일 프로필
 	public int doMemberModify(Map<String, Object> param) {
 		memberDao.doMemberModify(param);// 개인 정보 수정
-	
+
 		int id = Util.getAsInt(param.get("id"));
-		fileDao.deleteFiles("member", id);// 기존 회원 프로필 삭제
+		
+		if(param.get("fileIdsStr").toString().length() != 0) { // input한 이미지가 있을 경우에만
+			fileDao.deleteFiles("member", id);// 기존 회원 프로필 삭제
+		}
 
 		
 		String fileIdsStr = (String) param.get("fileIdsStr");

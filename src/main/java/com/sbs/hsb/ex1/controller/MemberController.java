@@ -34,7 +34,7 @@ public class MemberController {
 	@RequestMapping("/usr/member/doJoin")
 	public String doJoin(@RequestParam Map<String, Object> param, Model model) {
 		Util.changeMapKey(param, "loginPwReal", "loginPw");
-		// 중복 확인
+		// 중복 확인 -- 스크립트에서 해도 된다...
 		ResultData checkLoginIdJoinableResultData = memberService
 				.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
 		ResultData checkNickNameJoinableResultData = memberService
@@ -473,6 +473,7 @@ public class MemberController {
 			memberService.genEmailAuthed(loginedMemberId, "");// 이메일 인증 초기화
 		}
 
+//		System.out.println("param :: " + param);
 		param.put("id", loginedMemberId);
 		memberService.doMemberModify(param);// 수정
 

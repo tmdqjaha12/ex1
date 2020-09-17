@@ -165,7 +165,12 @@
 
 <div class="my-page-background">
 
+	<div class="backA" style="margin-top:-30px;">
+		<a href="javascript:window.history.back();" class="cancel">뒤로가기</a>
+	</div>
+
 	<div class="page-title"><h1>${pageTitle}</h1></div>
+	
 	
 	<div class="my-page-box table-box">
 		<table>

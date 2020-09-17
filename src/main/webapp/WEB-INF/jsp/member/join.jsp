@@ -234,6 +234,8 @@
 				onSuccess();
 				return;
 			}
+
+			
 			var fileUploadFormData = new FormData(form);
 			$.ajax({
 				url : './../file/doUploadAjax',

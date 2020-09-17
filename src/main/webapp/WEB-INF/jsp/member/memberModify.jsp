@@ -243,13 +243,38 @@
 		}, 'json');
 	}, 1000);
 
-	// 프로필 이미지 미리보기
+	// 프로필 이미지 미리보기notnull
 	function setThumbnail(event) { 
 		var reader = new FileReader(); 
 		
 		reader.onload = function(event) {
 			var img = document.querySelector("img#my-pro-img"); 
 			img.setAttribute("src", event.target.result);
+		};
+		 
+		reader.readAsDataURL(event.target.files[0]); 
+	}
+
+	// 프로필 이미지 미리보기null
+	function setThumbnailNull(event) { 
+		
+		if(document.querySelector("div#image_container")){ // 엘리먼트 제거
+			var header = document.querySelector("div#image_container");
+			header.parentNode.removeChild(header); 
+		}
+
+		var div = document.createElement("div"); // 엘리먼트 추가
+		div.className = 'pre-pro-img';
+		div.id = 'image_container';
+		document.querySelector("div#div-pro-img").append(div);
+		
+		var reader = new FileReader(); 
+		
+		reader.onload = function(event) {
+			var img = document.createElement("img"); 
+			img.id = 'profile-img';
+			img.setAttribute("src", event.target.result); 
+			document.querySelector("div#image_container").appendChild(img); 
 		};
 		 
 		reader.readAsDataURL(event.target.files[0]); 
@@ -279,18 +304,36 @@
 							${appConfig.getAttachmentFileExtTypeDisplayName('member', i)}</th>
 						<td> 
 							<!-- 내 프로필 이미지  -->
-							<c:if test="${file != null && file.fileExtTypeCode == 'img'}">
-								<div class="img-box img-box-auto pro-img">
-									<img id="my-pro-img" src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="ㅎㅇㅎㅇ" />
-								</div>
-							</c:if>
-							<!-- 이미지 input -->
-							<div class="form-control-box">
-								<input type="file"
-									accept="image/png, image/jpeg"
-									name="file__member__0__common__proImg__${fileNo}" 
-									onchange="setThumbnail(event);">
-							</div>
+							<c:choose>
+							
+								<c:when test="${file != null && file.fileExtTypeCode == 'img'}">
+									<div class="img-box img-box-auto pro-img">
+										<img id="my-pro-img" src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="ㅎㅇㅎㅇ" />
+									</div>
+									
+									<!-- 이미지 input -->
+									<div class="form-control-box">
+										<input type="file"
+											accept="image/png, image/jpeg"
+											name="file__member__0__common__proImg__${fileNo}" 
+											onchange="setThumbnail(event);">
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div id="div-pro-img"></div> <!-- 프로필 이미지 미리보기 -->
+									<div class="pre-pro-img" id="image_container"></div>
+									
+									<!-- 이미지 input -->
+									<div class="form-control-box">
+										<input type="file"
+											accept="image/png, image/jpeg"
+											name="file__member__0__common__proImg__${fileNo}" 
+											onchange="setThumbnailNull(event);">
+									</div>
+								</c:otherwise>
+							</c:choose>
+							
+							
 						</td>
 					</tr>
 				</c:forEach>
