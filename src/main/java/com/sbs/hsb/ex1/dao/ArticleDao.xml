@@ -171,7 +171,7 @@
 		WHERE id = #{id}
 	</update>
 	
-	
+	<!-- board list -->
 	<select id="getAllBoards" resultMap="board">
 		SELECT *
 		FROM board

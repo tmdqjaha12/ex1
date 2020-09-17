@@ -26,6 +26,7 @@ public interface ArticleDao {
 
 	void doDelete(@Param("memberId")int memberId,@Param("boardId") int boardId, @Param("id") int id);
 
+	// board list
 	List<Board> getAllBoards();
 
 	// not null boardId articleList Count

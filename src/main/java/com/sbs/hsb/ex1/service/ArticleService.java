@@ -149,6 +149,7 @@ public class ArticleService {
 		articleDao.doDelete(memberId, boardId, id);
 	}
 
+	// board list
 	public List<Board> getAllBoards() {
 		return articleDao.getAllBoards();
 	}

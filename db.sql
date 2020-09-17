@@ -309,3 +309,8 @@ AND B.delStatus = 0
 SELECT *
 FROM board
 WHERE memberId = 1
+
+## 보드 코드 중복 방지
+SELECT COUNT(`code`) AS cnt
+FROM board
+WHERE `code` = 'notice'

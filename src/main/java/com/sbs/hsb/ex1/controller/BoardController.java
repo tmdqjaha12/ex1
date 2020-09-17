@@ -77,16 +77,18 @@ public class BoardController {
 		return boardService.checkBoardNameable(name);
 	}
 	
+	// 승인
 	@RequestMapping("/usr/board/doBoardApply")
 	public String doApplyForCreateBoard(@RequestParam Map<String, Object> param, Model model) {
 		String randomCode = Util.getRandomPassword(10);
-		param.put("code", randomCode);
+		boardService.getBoardCodeDup(randomCode);// 현재 생성된 board 랜덤 코드 중복 방지
+		param.put("code", randomCode);// 랜덤 코드
 		
-		int newCreateBoard = boardService.doApplyForCreateBoard(param);
-		System.out.println("hihihi: " + newCreateBoard); 
+		int newCreateBoard = boardService.doApplyForCreateBoard(param);// 커뮤니티 보드 만들기
+
 		param.put("boardId", newCreateBoard);
-		boardService.docApplyConfirm(param);
-		boardService.doDelDocNameDup((String) param.get("name"));
+		boardService.docApplyConfirm(param);// 신청서에 applyStatus = 1
+		boardService.doDelDocNameDup((String) param.get("name"));// 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다
 		
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
@@ -94,9 +96,10 @@ public class BoardController {
 		return "common/redirect";
 	}
 	
+	// 거절
 	@RequestMapping("/usr/board/doBoardReject")
 	public String doBoardReject(@RequestParam Map<String, Object> param, Model model) {
-		boardService.doBoardReject(param);
+		boardService.doBoardReject(param);// 커뮤니티 신청 거절
 		
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);

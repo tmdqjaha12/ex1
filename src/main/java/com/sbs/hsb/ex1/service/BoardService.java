@@ -17,14 +17,21 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
+	// 커뮤니티 보드 만들기
 	public int doApplyForCreateBoard(Map<String, Object> param) {
-		boardDao.doApplyForCreateBoard(param);
+		boardDao.doApplyForCreateBoard(param);// 커뮤니티 보드 만들기
 		
-		return boardDao.getBoardId(param);
+		return boardDao.getBoardId(param);// 만들어진 커뮤니티 보드의 id가져오기
 	}
 	
+	// 신청서에 applyStatus = 1
 	public void docApplyConfirm(Map<String, Object> param) {
 		boardDao.docApplyConfirm(param);
+	}
+	
+	// 커뮤니티 신청 거절
+	public void doBoardReject(Map<String, Object> param) {
+		boardDao.doBoardReject(param);
 	}
 
 	//신청서 저장
@@ -54,15 +61,12 @@ public class BoardService {
 		return new ResultData("F-1", "이미 존재하는 커뮤니티 입니다.", "loginId", name);
 	}
 
-	//신청서 리스트
+	// 신청서 리스트
 	public List<BoardApplyDoc> getAllBoardApplyDocs() {
 		return boardDao.getAllBoardApplyDocs();
 	}
 
-	public void doBoardReject(Map<String, Object> param) {
-		boardDao.doBoardReject(param);
-	}
-
+	// 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다
 	public void doDelDocNameDup(String name) {
 		boardDao.doDelDocNameDup(name);
 	}
@@ -75,6 +79,21 @@ public class BoardService {
 	// 내 커뮤니티 목록
 	public List<Board> getMyBoardList(int loginedMemberId) {
 		return boardDao.getMyBoardList(loginedMemberId);
+	}
+
+	// 현재 생성된 board 랜덤 코드 중복 방지
+	public int getBoardCodeDup(String randomCode) {
+		int boardCodedup = -1;
+		
+		while( true ) {
+			boardCodedup = boardDao.getBoardCodeDup(randomCode); 
+			// 현재 생성된 board 랜덤 코드가, 기존 board 코드와 중복이 있는가
+			
+			if(boardCodedup == 0) {
+				break;
+			}
+		}
+		return boardCodedup;
 	}
 
 }

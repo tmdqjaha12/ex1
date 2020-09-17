@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sbs.hsb.ex1.dao.BoardDao">
 
+	<!-- 커뮤니티 보드 만들기 -->
 	<insert id="doApplyForCreateBoard" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		INTO board
@@ -14,22 +15,14 @@
 		memberId = #{memberId}
 	</insert>
 	
+	<!-- 만들어진 커뮤니티 보드의 id 가져오기 -->
 	<select id="getBoardId" resultType="int">
 		SELECT id
 		FROM board
 		WHERE name = #{name}
 	</select>
 	
-	<update id="docApplyConfirm">
-		UPDATE boardApplyDoc
-		SET
-		updateDate = NOW(),
-		applyStatus = 1,
-		boardId = #{boardId}
-		WHERE memberId = #{memberId}
-		AND name = #{name}
-	</update>
-	
+	<!-- 커뮤니티 신청 거절 -->
 	<update id="doBoardReject">
 		UPDATE boardApplyDoc
 		SET
@@ -38,6 +31,17 @@
 		WHERE memberId = #{memberId}
 		AND name = #{name}
 		AND boardId = #{boardId}
+	</update>
+	
+	<!-- 신청서에 applyStatus = 1 -->
+	<update id="docApplyConfirm">
+		UPDATE boardApplyDoc
+		SET
+		updateDate = NOW(),
+		applyStatus = 1,
+		boardId = #{boardId}
+		WHERE memberId = #{memberId}
+		AND name = #{name}
 	</update>
 	
 	<!-- 신청서 저장 -->
@@ -60,14 +64,6 @@
 		AND delStatus = 0
 	</select>
 	
-	<select id="getBoardApplyDocCount" resultType="int">
-		SELECT COUNT(*) AS
-		cnt
-		FROM boardApplyDoc
-		WHERE name = #{name}
-	</select>
-	
-	
 	<!-- 신청서 리스트 !페이징아직없음 -->
 	<select id="getAllBoardApplyDocs" resultMap="boardApplyDoc">
 		SELECT D.*,
@@ -80,7 +76,7 @@
 		AND D.applyStatus = 0
 	</select>
 	
-	
+	<!-- 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다 -->
 	<update id="doDelDocNameDup">
 		UPDATE boardApplyDoc
 		SET
@@ -89,6 +85,13 @@
 		WHERE name = #{name}
 		AND applyStatus = 0
 	</update>
+	
+	<!-- 현재 생성된 board 랜덤 코드가, 기존 board 코드와 중복이 있는가 -->
+	<select id="getBoardCodeDup" resultType="int">
+		SELECT COUNT(`code`) AS cnt
+		FROM board
+		WHERE `code` = #{randomCode}
+	</select>
 	
 	<!-- myPage관련 -->
 	<!-- 내 신청서 리스트 -->
