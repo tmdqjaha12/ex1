@@ -267,10 +267,10 @@
 							<a style="width: 200px; cursor: pointer;"
 							 href="${article.getDetailLink(board.code)}">
 							 	${article.forPrintTitle}
-							 	<c:if test="${article.extra.applyPoint != 0}">
-							 		 &nbsp&nbsp(* ${article.extra.applyPoint})
-							 	</c:if>
 							 </a>
+							 <c:if test="${article.extra.applyPoint != 0}">
+						 		 <span>&nbsp&nbsp(* ${article.extra.applyPoint})</span>
+						 	</c:if>
 						<td class="padding-left-10 writer"><a href="#">${article.extra.writer}</a></td>
 						<td class="text-center regdate"><a style="width: 170px;" href="#">${article.regDate}</a></td>
 						<td class="padding-left-10 view"><a href="#">${article.hit}</a></td>

@@ -124,7 +124,9 @@
 							<th></th>
 							<td class="article-info">
 								<div>
-									조회수 ┃ 추천 ┃ 댓글
+									조회수 ${article.hit} 
+									┃ 추천 ${article.extra.likePoint} 
+									┃ 댓글 ${article.extra.applyPoint}
 								</div>
 							</td>
 						</tr>

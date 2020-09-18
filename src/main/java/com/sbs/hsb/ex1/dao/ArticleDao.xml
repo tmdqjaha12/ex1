@@ -109,11 +109,18 @@
 	
 	<select id="getForPrintArticleById" resultMap="article">
 		SELECT A.*,
-		M.nickname AS extra__writer
+		M.nickname AS extra__writer,
+		IFNULL(SUM(AL.point), 0) AS extra__likePoint,
+		IFNULL(SUM(RL.displayStatus), 0) AS extra__applyPoint
 		FROM article AS A
 		INNER JOIN member AS M
 		ON A.memberId = M.id
+		LEFT JOIN articleLike AS AL
+		ON A.id = AL.articleId
+		LEFT JOIN reply AS RL
+		ON A.id = RL.relId
 		WHERE A.displayStatus = 1
+		AND A.delStatus = 0
 		AND A.id = #{id}
 	</select>
 
