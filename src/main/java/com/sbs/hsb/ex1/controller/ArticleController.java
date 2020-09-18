@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,15 @@ import com.sbs.hsb.ex1.dto.Member;
 import com.sbs.hsb.ex1.dto.Reply;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.ArticleService;
+import com.sbs.hsb.ex1.service.MemberService;
 import com.sbs.hsb.ex1.util.Util;
 
 @Controller
 public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private MemberService memberService;
 
 	// 커뮤니티별 리스트
 	@RequestMapping("/usr/article/{boardCode}-list")
@@ -124,7 +128,7 @@ public class ArticleController {
 
 	// 디테일
 	@RequestMapping("/usr/article/{boardCode}-detail")
-	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, String listUrl) {
+	public String showDetail(Model model, HttpSession session, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, String listUrl) {
 		if ( listUrl == null ) {
 			listUrl = "./" + boardCode + "-list";
 		}
@@ -139,6 +143,11 @@ public class ArticleController {
 		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		Article article = articleService.getForPrintArticleById(loginedMember, id);
 		model.addAttribute("article", article);
+		
+		// 프로필 가져오기
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		Member member = memberService.getProImg(loginedMemberId); // 프로필 가져오기
+		model.addAttribute("member", member);
 
 		return "article/detail";
 	}

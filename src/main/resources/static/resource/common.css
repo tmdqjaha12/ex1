@@ -209,6 +209,7 @@ btn {
 
 .btn:hover {
 	background: linear-gradient(to bottom, #b8b3c6, #ebebf1);
+	/*background-color:#bfbfd2;*/
 }
 
 .btn-success {
@@ -431,30 +432,7 @@ btn {
 	color:black;
 }
 
-.detail-background{
-	margin-bottom:50px;
-}
 
-
-.article-detail-box{
-	margin-top:200px;
-	margin-bottom:50px;
-	border:1px solid white;
-	width:1000px;
-	background-color:#ebebf1;
-}
-
-.article-detail-box td {
-	border-right:none;
-	padding: 10px;
-	text-align: left;
-	color:black;;
-}
-
-.article-detail-box > table{
-	border-collapse : collapse;
-	width:100%;
-} 
 
 .write-btn-box {
 	display:block;
@@ -462,7 +440,7 @@ btn {
 	color:black;
 	margin-bottom:30px;
 }
-
+/*
 .article-apply-box{
 	color:black;
 	background-color:#ebebf1;
@@ -496,6 +474,7 @@ btn {
 	border-collapse : collapse;
 	width:100%;
 }
+*/
 /* 상세 게시물 끝 */
 
 /* Articles 페이징 시작 */
