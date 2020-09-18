@@ -245,6 +245,8 @@
 }
 </style>
 
+<!-- 댓글 수정 -->
+
 	<div class="reply-modify-form-modal">
 		<div class="bg-white">
 			<h1 class="text-align-center">댓글 수정</h1>
@@ -258,33 +260,6 @@
 					</div>
 				</div>
 
-				<c:forEach var="i" begin="1" end="3" step="1">
-					<c:set var="fileNo" value="${String.valueOf(i)}" />
-					<c:set var="fileExtTypeCode"
-						value="${appConfig.getAttachmentFileExtTypeCode('article', i)}" />
-
-					<div class="form-row">
-						<div class="form-control-label">첨부${fileNo}</div>
-						<div class="form-control-box">
-							<input type="file"
-								accept="${appConfig.getAttachemntFileInputAccept('article', i)}"
-								data-name="file__reply__0__common__attachment__${fileNo}">
-						</div>
-						<div style="width: 100%"
-							class="video-box video-box-file-${fileNo}"></div>
-						<div style="width: 100%"
-							class="img-box img-box-auto img-box-file-${fileNo}"></div>
-					</div>
-
-					<div class="form-row">
-						<div class="form-control-label">첨부${fileNo} 삭제</div>
-						<div class="form-control-box">
-							<label><input type="checkbox"
-								data-name="deleteFile__reply__0__common__attachment__${fileNo}"
-								value="Y" /> 삭제 </label>
-						</div>
-					</div>
-				</c:forEach>
 				<div class="form-row">
 					<div class="form-control-label">수정</div>
 					<div class="form-control-box">
@@ -393,44 +368,11 @@
 			var onModifyReplyComplete = function(data) {
 				if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
 					// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
-					$('.reply-list-box tbody > tr[data-id="' + id + '"]').data(
-							'data-originBody', body);
-					$(
-							'.reply-list-box tbody > tr[data-id="' + id
-									+ '"] .reply-body').empty().append(
-							body.replaceAll('\n', '<br>'));
-					$(
-							'.reply-list-box tbody > tr[data-id="' + id
-									+ '"] .video-box').empty();
-					$(
-							'.reply-list-box tbody > tr[data-id="' + id
-									+ '"] .img-box').empty();
-					if (data && data.body && data.body.file__common__attachment) {
-						for ( var fileNo in data.body.file__common__attachment) {
-							var file = data.body.file__common__attachment[fileNo];
-							if (file.fileExtTypeCode == 'video') {
-								var html = '<video controls src="/usr/file/streamVideo?id='
-										+ file.id
-										+ '&updateDate='
-										+ file.updateDate
-										+ '">video not supported</video>';
-								$(
-										'.reply-list-box tbody > tr[data-id="'
-												+ id + '"] [data-file-no="'
-												+ fileNo + '"].video-box')
-										.append(html);
-							} else {
-								var html = '<img src="/usr/file/img?id='
-										+ file.id + '&updateDate='
-										+ file.updateDate + '">';
-								$(
-										'.reply-list-box tbody > tr[data-id="'
-												+ id + '"] [data-file-no="'
-												+ fileNo + '"].img-box')
-										.append(html);
-							}
-						}
-					}
+					$('.reply-list-box tbody > tr[data-id="' + id + '"]').data('data-originBody', body);
+					$('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body').empty().append(body.replaceAll('\n', '<br>'));
+					$('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
+					//$('.reply-list-box tbody > tr[data-id="' + id + '"] .img-box').empty();
+					
 				}
 				if (data.msg) {
 					alert(data.msg);
@@ -457,26 +399,7 @@
 					$el.prop('checked', false);
 				}
 			});
-			for (var fileNo = 1; fileNo <= 3; fileNo++) {
-				$('.reply-modify-form-modal .video-box-file-' + fileNo).empty();
-				var videoName = 'reply__' + id + '__common__attachment__'
-						+ fileNo;
-				var $videoBox = $('.reply-list-box [data-video-name="'
-						+ videoName + '"]');
-				if ($videoBox.length > 0) {
-					$('.reply-modify-form-modal .video-box-file-' + fileNo)
-							.append($videoBox.html());
-				}
-				$('.reply-modify-form-modal .img-box-file-' + fileNo).empty();
-				var imgName = 'reply__' + id + '__common__attachment__'
-						+ fileNo;
-				var $imgBox = $('.reply-list-box [data-img-name="' + imgName
-						+ '"]');
-				if ($imgBox.length > 0) {
-					$('.reply-modify-form-modal .img-box-file-' + fileNo)
-							.append($imgBox.html());
-				}
-			}
+			
 			form.id.value = id;
 			form.body.value = originBody;
 		}
@@ -484,7 +407,7 @@
 			$('html').removeClass('reply-modify-form-modal-actived');
 		}
 		// 1초
-		ReplyList__loadMoreInterval = 1 * 1000;
+		ReplyList__loadMoreInterval = 1 * 100000000;
 		function ReplyList__loadMoreCallback(data) {
 			if (data.body.replies && data.body.replies.length > 0) {
 				ReplyList__lastLodedId = data.body.replies[data.body.replies.length - 1].id;
