@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
+import com.sbs.hsb.ex1.dto.Member;
 import com.sbs.hsb.ex1.dto.ResultData;
+import com.sbs.hsb.ex1.service.ArticleService;
 import com.sbs.hsb.ex1.service.BoardService;
 import com.sbs.hsb.ex1.util.Util;
 
@@ -87,7 +90,7 @@ public class BoardController {
 		int newCreateBoard = boardService.doApplyForCreateBoard(param);// 커뮤니티 보드 만들기
 
 		param.put("boardId", newCreateBoard);
-		boardService.docApplyConfirm(param);// 신청서에 applyStatus = 1
+//		boardService.docApplyConfirm(param);// 신청서에 applyStatus = 1
 		boardService.doDelDocNameDup((String) param.get("name"));// 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다
 		
 		String redirectUri = (String) param.get("redirectUri");
@@ -132,5 +135,27 @@ public class BoardController {
 		
 		return "board/myPageBoardList";
 	}
+	 
+	// 내 커뮤니티 관리	
+	@RequestMapping("/usr/board/{boardCode}-manager")
+	public String showDetail(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		
+		Board board = boardService.getBoardByCodeFromManager(boardCode, loginedMemberId);// 게시판 가져오기
+		model.addAttribute("board", board);
+		
+		return "board/manager";
+	}
 	
+	// 보드 수정
+	@RequestMapping("/usr/board/{boardCode}-doBoardModify")
+	public String doBoardModify(@RequestParam Map<String, Object> param, Model model, @PathVariable("boardCode") String boardCode) {
+		
+		boardService.changeRelIdForBoardDoorImg(param);//대문이미지 relId 변경
+		
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
+
+		return "common/redirect";
+	}
 }

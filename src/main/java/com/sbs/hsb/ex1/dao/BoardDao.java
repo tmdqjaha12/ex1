@@ -22,7 +22,7 @@ public interface BoardDao {
 	void doBoardReject(Map<String, Object> param);
 	
 	// 신청서에 applyStatus = 1
-	void docApplyConfirm(Map<String, Object> param);
+//	void docApplyConfirm(Map<String, Object> param);
 
 	//신청서 저장
 	int setBoardApplyDoc(Map<String, Object> param);
@@ -44,6 +44,9 @@ public interface BoardDao {
 
 	// 현재 생성된 board 랜덤 코드가, 기존 board 코드와 중복이 있는가
 	int getBoardCodeDup(@Param("randomCode") String randomCode);
+
+	// 보드 가져오기
+	Board getBoardByCodeFromManager(@Param("code") String boardCode, @Param("memberId") int loginedMemberId);
 
 
 }

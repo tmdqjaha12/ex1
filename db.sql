@@ -314,3 +314,11 @@ WHERE memberId = 1
 SELECT COUNT(`code`) AS cnt
 FROM board
 WHERE `code` = 'notice'
+
+##
+ALTER TABLE boardApplyDoc DROP COLUMN applyStatus;
+ALTER TABLE board ADD applyStatus INT(1) NOT NULL DEFAULT 0 AFTER delStatus;
+
+# 보드만들기에 applyStatus추가하고, Doc에는 없앰
+# Doc는 승인시 del = 1
+#

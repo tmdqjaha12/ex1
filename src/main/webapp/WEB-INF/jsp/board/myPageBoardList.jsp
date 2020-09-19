@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="내 신청서 목록" />
+<c:set var="pageTitle" value="내 커뮤니티 목록" />
 <%@ include file="../part/head.jspf"%>
 
 <style>
@@ -98,11 +98,7 @@
 
 .list-background >  .list-box-1  .table-tbody td a {
 	display:block;
-	width:80px;
-	text-overflow:ellipsis;  
-	overflow:hidden;  
-	white-space:nowrap;
-	cursor: default;
+	width:100%;
 }
 
 .list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
@@ -140,26 +136,36 @@
 			</colgroup>
 			<thead class="table-thead">
 				<tr>
-					<th>신청번호</th>
+					<th>번호</th>
 					<th>커뮤니티이름</th>
 					<th class="regdate">생성날짜</th>
 				</tr>
 			</thead>
 
 
-
+			
 			<tbody class="table-tbody">
-
+				
+				<c:set var="i" value="1" />
+				
 				<c:forEach items="${myBoardList}" var="myBoard">
-					<tr>
-						<td class="padding-left-10">${myBoard.id}</td>
-						<td class="padding-left-10 list-title-1">
-							<a href="">${myBoard.name}</a>
-						</td>
-						<td class="text-center regdate">${myBoard.regDate}</td>
-					</tr>
+							
+						<tr>
+							
+							<td class="padding-left-10">${i}</td>
+							<td class="padding-left-10 list-title-1">
+								<a href="/usr/board/${myBoard.code}-manager">${myBoard.name}</a>
+							</td>
+							<td class="text-center regdate">${myBoard.regDate}</td>
+						
+						</tr>
+						
+						
+					
+					<c:set var="i" value="${i+1}" />
 				</c:forEach>
 			</tbody>
+			
 		</table>
 	</div>
 	

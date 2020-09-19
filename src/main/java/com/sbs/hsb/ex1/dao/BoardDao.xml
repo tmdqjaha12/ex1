@@ -10,6 +10,7 @@
 		INTO board
 		SET regDate = NOW(),
 		updateDate = NOW(),
+		applyStatus = 1,
 		code = #{code},
 		name = #{name},
 		memberId = #{memberId}
@@ -33,7 +34,7 @@
 		AND boardId = #{boardId}
 	</update>
 	
-	<!-- 신청서에 applyStatus = 1 -->
+	<!-- 신청서에 applyStatus = 1 
 	<update id="docApplyConfirm">
 		UPDATE boardApplyDoc
 		SET
@@ -42,7 +43,7 @@
 		boardId = #{boardId}
 		WHERE memberId = #{memberId}
 		AND name = #{name}
-	</update>
+	</update> -->
 	
 	<!-- 신청서 저장 -->
 	<insert id="setBoardApplyDoc" useGeneratedKeys="true" keyProperty="id">
@@ -73,17 +74,15 @@
 		ON D.memberId = M.id
 		WHERE M.delStatus = 0
 		AND D.delStatus = 0
-		AND D.applyStatus = 0
 	</select>
 	
-	<!-- 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다 -->
+	<!-- 같은 이름으로 신청된 신청서들 전부 삭제 -->
 	<update id="doDelDocNameDup">
 		UPDATE boardApplyDoc
 		SET
 		updateDate = NOW(),
 		delStatus = 1
 		WHERE name = #{name}
-		AND applyStatus = 0
 	</update>
 	
 	<!-- 현재 생성된 board 랜덤 코드가, 기존 board 코드와 중복이 있는가 -->
@@ -108,7 +107,20 @@
 		FROM board
 		WHERE memberId = #{loginedMemberId}
 		AND delStatus = 0
+		ORDER BY id DESC
 	</select>
+	
+	<!-- 보드 가져오기 -->
+	<select id="getBoardByCodeFromManager" resultType="Board">
+		SELECT *
+		FROM
+		board
+		WHERE
+		`code` = #{code}
+		AND delStatus = 0
+		AND memberId = #{memberId}
+	</select>
+	
 	
 	<resultMap type="BoardApplyDoc" id="boardApplyDoc">
 		<id property="id" column="id" />
@@ -116,7 +128,6 @@
 		<id property="updateDate" column="updateDate" />
 		<id property="delDate" column="delDate" />
 		<id property="delStatus" column="delStatus" />
-		<id property="applyStatus" column="applyStatus" />
 		<id property="memberId" column="memberId" />
 		<id property="name" column="name" />
 		<id property="body" column="body" />
@@ -132,6 +143,7 @@
 		<id property="updateDate" column="updateDate" />
 		<id property="delDate" column="delDate" />
 		<id property="delStatus" column="delStatus" />
+		<id property="applyStatus" column="applyStatus" />
 		<id property="code" column="code" />
 		<id property="name" column="name" />
 		<id property="memberId" column="memberId" />

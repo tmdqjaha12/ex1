@@ -1,21 +1,31 @@
 package com.sbs.hsb.ex1.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.hsb.ex1.dao.BoardDao;
+import com.sbs.hsb.ex1.dao.FileDao;
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
+import com.sbs.hsb.ex1.dto.File;
 import com.sbs.hsb.ex1.dto.ResultData;
+import com.sbs.hsb.ex1.util.Util;
 
 @Service
 public class BoardService {
 
 	@Autowired
 	private BoardDao boardDao;
+	@Autowired
+	private FileService fileService;
+	@Autowired
+	private FileDao fileDao;
 	
 	// 커뮤니티 보드 만들기
 	public int doApplyForCreateBoard(Map<String, Object> param) {
@@ -25,9 +35,9 @@ public class BoardService {
 	}
 	
 	// 신청서에 applyStatus = 1
-	public void docApplyConfirm(Map<String, Object> param) {
-		boardDao.docApplyConfirm(param);
-	}
+//	public void docApplyConfirm(Map<String, Object> param) {
+//		boardDao.docApplyConfirm(param);
+//	}
 	
 	// 커뮤니티 신청 거절
 	public void doBoardReject(Map<String, Object> param) {
@@ -94,6 +104,68 @@ public class BoardService {
 			}
 		}
 		return boardCodedup;
+	}
+
+	// 보드 가져오기
+	public Board getBoardByCodeFromManager(String boardCode, int loginedMemberId) {
+		Board board = boardDao.getBoardByCodeFromManager(boardCode, loginedMemberId);
+		
+//		updateForPrintInfo(member);
+		
+		List<File> files = fileService.getFiles("board", board.getId() , "common", "doorImg");
+
+		Map<String, File> filesMap = new HashMap<>();
+
+		for (File file : files) {
+			filesMap.put(file.getFileNo() + "", file);
+		}
+		
+		System.out.println("filesMap : " + filesMap);
+
+		Util.putExtraVal(board, "file__common__doorImg", filesMap);
+		
+		return board;
+	}
+
+	
+	// 대문이미지 relId변경
+	public void changeRelIdForBoardDoorImg(Map<String, Object> param) {
+		int id = Util.getAsInt(param.get("id"));
+		
+
+		if(param.get("fileIdsStr").toString().length() != 0) { // input한 이미지가 있을 경우에만
+			fileDao.deleteFiles("board", id);// 기존 회원 프로필 삭제
+		}
+
+
+		String fileIdsStr = (String) param.get("fileIdsStr");
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			fileIdsStr = fileIdsStr.trim();
+
+			if (fileIdsStr.startsWith(",")) {
+				fileIdsStr = fileIdsStr.substring(1);
+			}
+		}
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			fileIdsStr = fileIdsStr.trim();
+
+			if (fileIdsStr.equals(",")) {
+				fileIdsStr = "";
+			}
+		}
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim())).collect(Collectors.toList());
+
+			// 파일이 먼저 생성된 후에, 관련 데이터가 생성되는 경우에는, file의 relId가 일단 0으로 저장된다.
+			// 그것을 뒤늦게라도 이렇게 고처야 한다.
+			for (int fileId : fileIds) {
+				fileService.changeRelId(fileId, id);
+			}
+		}
+		
 	}
 
 }
