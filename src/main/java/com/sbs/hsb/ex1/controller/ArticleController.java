@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.hsb.ex1.dto.Article;
 import com.sbs.hsb.ex1.dto.Board;
@@ -144,9 +145,8 @@ public class ArticleController {
 		Article article = articleService.getForPrintArticleById(loginedMember, id);
 		model.addAttribute("article", article);
 		
-		// 프로필 가져오기
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		Member member = memberService.getProImg(loginedMemberId); // 프로필 가져오기
+	
+		Member member = memberService.getProImg(article.getMemberId()); // 게시글 프로필 가져오기
 		model.addAttribute("member", member);
 
 		return "article/detail";
@@ -276,46 +276,61 @@ public class ArticleController {
 		return "common/redirect";
 	}
 	
+	// 게시물 신고 기능(리포트 저장)
+	@RequestMapping("/usr/article/doSingoAjax")
+	@ResponseBody
+	public ResultData doSingoAjax(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		param.put("loginedMemberId", loginedMemberId);
+		
+		// 본인 게시물 신고 방지 (굳이 필요한가? jstl에서 방지했는데, 우선 보류.....!)ㄴㄴ
+		// if() {
+		// }				
+		// articleBadPoint 말고 report 저장
+		
+		return articleService.setReportDoc(param);
+	}
+	
 	//////////////////////////////////////////MYPAGE START//////////////////////////////////////////
 	
 	// 내 글 목록
-		@RequestMapping("/usr/article/myPageArticleList")
-		public String showMyPageArticleList(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
-			int loginedMemberId = (int) req.getAttribute("loginedMemberId");
-			
-			//기본값 넣어주자
-			int boardId = 1;
-			int page = 1; 		
-			String searchKeywordType = ""; 
-			String searchKeyword = "";
-			
-			if(param.get("page") != null) {
-				page = Integer.parseInt((String) param.get("page"));
-			}
-
-			
-			int itemsInAPage = 10;
-			int totalCount = articleService.getNotBoardIdForPrintListArticlesCount(searchKeywordType, searchKeyword);
-			int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
-			
-			int nowPage = page;
-			
-			if(page % 5 != 0) {
-				page = page/5;
-				page = (page*5)+1;
-			} else if(page % 5 == 0) {
-				page = page - 4;
-			}
-
-			req.setAttribute("page", page);		
-			req.setAttribute("totalCount", totalCount);
-			req.setAttribute("totalPage", totalPage);
-			req.setAttribute("cPagedoReply", page);
-			
-			List<Article> articles = articleService.getMyPageArticles(nowPage, itemsInAPage, loginedMemberId);
-
-			model.addAttribute("articles", articles);
-			
-			return "article/myPageArticleList";
+	@RequestMapping("/usr/article/myPageArticleList")
+	public String showMyPageArticleList(Model model, HttpServletRequest req, @RequestParam Map<String, Object> param ) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		
+		//기본값 넣어주자
+		int boardId = 1;
+		int page = 1; 		
+		String searchKeywordType = ""; 
+		String searchKeyword = "";
+		
+		if(param.get("page") != null) {
+			page = Integer.parseInt((String) param.get("page"));
 		}
+
+		
+		int itemsInAPage = 10;
+		int totalCount = articleService.getNotBoardIdForPrintListArticlesCount(searchKeywordType, searchKeyword);
+		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+		
+		int nowPage = page;
+		
+		if(page % 5 != 0) {
+			page = page/5;
+			page = (page*5)+1;
+		} else if(page % 5 == 0) {
+			page = page - 4;
+		}
+
+		req.setAttribute("page", page);		
+		req.setAttribute("totalCount", totalCount);
+		req.setAttribute("totalPage", totalPage);
+		req.setAttribute("cPagedoReply", page);
+		
+		List<Article> articles = articleService.getMyPageArticles(nowPage, itemsInAPage, loginedMemberId);
+
+		model.addAttribute("articles", articles);
+		
+		return "article/myPageArticleList";
+	}
 }

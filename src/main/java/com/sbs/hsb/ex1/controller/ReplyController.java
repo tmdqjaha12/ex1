@@ -37,6 +37,8 @@ public class ReplyController {
 		param.put("actor", loginedMember);
 		List<Reply> replies = replyService.getForPrintReplies(param);
 		rsDataBody.put("replies", replies);
+		
+		System.out.println("replies :: " + replies);
 
 		return new ResultData("S-1", String.format("%d개의 댓글을 불러왔습니다.", replies.size()), rsDataBody);
 	}

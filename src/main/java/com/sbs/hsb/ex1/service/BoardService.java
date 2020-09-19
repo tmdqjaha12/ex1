@@ -14,6 +14,7 @@ import com.sbs.hsb.ex1.dao.FileDao;
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
 import com.sbs.hsb.ex1.dto.File;
+import com.sbs.hsb.ex1.dto.ReportDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.util.Util;
 
@@ -166,6 +167,12 @@ public class BoardService {
 			}
 		}
 		
+	}
+	
+	
+	// 신고Doc 리스트 가져오기
+	public ReportDoc getBAReportList(int id) {
+		return boardDao.getBAReportList(id);
 	}
 
 }

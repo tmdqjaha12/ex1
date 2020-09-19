@@ -27,16 +27,16 @@ public class ReplyService {
 	public List<Reply> getForPrintReplies(@RequestParam Map<String, Object> param) {
 		List<Reply> replies = replyDao.getForPrintReplies(param);
 
-		List<Integer> replyIds = replies.stream().map(reply -> reply.getId()).collect(Collectors.toList());
+		List<Integer> replyIds = replies.stream().map(reply -> reply.getMemberId()).collect(Collectors.toList());
 		if (replyIds.size() > 0) {
-			Map<Integer, Map<Integer, File>> filesMap = fileService.getFilesMapKeyRelIdAndFileNo("reply", replyIds,
-					"common", "attachment");
+			Map<Integer, Map<Integer, File>> filesMap = fileService.getFilesMapKeyRelIdAndFileNo("member", replyIds,
+					"common", "proImg");
 
 			for (Reply reply : replies) {
-				Map<Integer, File> filesMap2 = filesMap.get(reply.getId());
+				Map<Integer, File> filesMap2 = filesMap.get(reply.getMemberId());
 
 				if (filesMap2 != null) {
-					reply.getExtra().put("file__common__attachment", filesMap2);
+					reply.getExtra().put("file__common__proImg", filesMap2);
 				}
 			}
 		}

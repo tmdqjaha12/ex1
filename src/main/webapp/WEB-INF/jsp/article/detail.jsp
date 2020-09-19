@@ -81,7 +81,121 @@
 	width: 33px;
 	height: 33px;
 }
+
+/* 신고 */
+.singo{
+	text-align: right;
+	margin-bottom:2px;
+}
+
+.singo-form-modal-actived, singo-form-modal-actived>body {
+	overflow: hidden;
+}
+
+.singo-form-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+	z-index: 20;
+}
+
+.singo-form-modal>div {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	max-width: 100vw;
+	min-width: 320px;
+	max-height: 100vh;
+	overflow-y: auto;
+	border: 3px solid black;
+	box-sizing: border-box;
+}
+
+.singo-form-modal-actived .singo-form-modal {
+	display: flex;
+}
+
+.singo-form-modal .form-control-label {
+	width: 60px;
+}
+
+.singo-form-modal .form-control-box {
+	flex: 1 0 0;
+}
+
+.singo-form-modal .video-box {
+	width: 100px;
+}
 </style>
+
+<script>
+/* 신고 */
+
+function Singo__showSingoFormModal(el) {
+			$('html').addClass('singo-form-modal-actived');
+			var $tr = $(el).closest('tr');
+			var form = $('.singo-form-modal form').get(0);
+			$(form).find('[data-name]').each(function(index, el) {
+				var $el = $(el);
+				var name = $el.attr('data-name');
+				name = name.replaceAll('__0__', '__' + id + '__');
+				$el.attr('name', name);
+				if ($el.prop('type') == 'file') {
+					$el.val('');
+				} else if ($el.prop('type') == 'checkbox') {
+					$el.prop('checked', false);
+				}
+			});
+
+		}
+function Singo__hideSingoFormModal() {
+	$('html').removeClass('singo-form-modal-actived');
+}
+
+
+
+
+var singo__submitSingoFormDone = false;
+function singo__submitSingoForm(form) {
+	if (singo__submitSingoFormDone) {
+		alert('처리중입니다.');
+		return;
+	}
+
+	var SingoFormData = new FormData(form);
+	$.ajax({
+		url : './../article/doSingoAjax',
+		data : SingoFormData,
+		processData : false,
+		contentType : false,
+		dataType : "json",
+		type : 'POST',
+		success : onSingoComplete
+	});
+
+	
+	Singo__hideSingoFormModal();
+	singo__submitSingoFormDone = false;
+	
+	var onSingoComplete = function(data) {
+		var fileIdsStr = '';
+		if (data && data.body && data.body.fileIdsStr) {
+			fileIdsStr = data.body.fileIdsStr;
+		}
+		if (data.msg) {
+			alert(data.msg);
+		}
+		//submit();
+	};
+}
+</script>
+
+
 
 <div class="detail-background con">
 
@@ -139,12 +253,78 @@
 			<script type="text/x-template">${article.body}</script>
 			<div class="toast-editor toast-editor-viewer"></div>
 		</div>
-	
+		
+		<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 불가 -->
+			<div class="singo">
+				<button class="btn btn-info" type="button" onclick="Singo__showSingoFormModal(this);">신고</button>
+			</div>
+		</c:if>
 	</div>
 
 </div>
 
+<div class="singo-form-modal">
+	<div class="bg-white">
+		<h3 class="text-align-center" style="margin-left:10px;">신고하기</h3>
+		<form action="" class="form1 padding-10" onsubmit="singo__submitSingoForm(this); return false;">
+			<input type="hidden" name="articleId" value="${article.id}"/>
+			<input type="hidden" name="boardId" value="${board.id}"/>
+			
+			<div class="form-row" style="margin-top:10px;">
+				<table border="1">
+					<tbody>
+						<tr>
+							<th>제목</th>
+							<td>${article.title }</td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td>${article.extra.writer }</td>
+						</tr>
+						<tr>
+							<th>신고사유</th>
+							<td>
+								<p class="desc5">해당하는 사유 1개를 선택해 주세요 </p>
+				                <ul class="list_type">
+				                    <li>
+				                        <input type="radio" name="reportType" id="rdo_illegal" value="ba1" class="input_rdo" checked="checked"><label for="rdo_illegal">&nbsp;부적절한 홍보 게시글</label>
+				                      
+				                    </li>
+				                    <li>
+				                        <input type="radio" name="reportType" id="rdo_obscenity" value="ba2" class="input_rdo"> <label for="rdo_obscenity">음란성 또는 청소년에게 부적합한 내용</label>
+				                    </li>
+				                    <li>
+				                        <input type="radio" name="reportType" id="rdo_libel" value="ba3" class="input_rdo"> <label for="rdo_libel">명예훼손/사생활 침해 및 저작권침해등</label>
+				                    </li>
+				                    <li>
+				                        <input type="radio" name="reportType" id="rdo_etc" value="ba4" class="input_rdo"> <label for="rdo_etc">기타</label>
+				                    </li>
+				                </ul>
+		                
+		                		<textarea name="reportBody" id="etcTxtBox" cols="50" rows="5" class="txt_area" style="margin-left:10px; width:405px; height:80px;" placeholder="내용"></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="form-row">
+				<div class="form-control-label">수정</div>
+				<div class="form-control-box">
+					<button class="btn btn-primary" type="submit">신고</button>
+					<button class="btn btn-info" type="button" onclick="Singo__hideSingoFormModal();">취소</button>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
+
+
+
+
 <style>
+/* 댓글 리스트 */
 .reply-list-box * {
 	color:black !important;
 	word-break: break-all; /* 영어 줄바꿈 */
@@ -180,11 +360,11 @@
 <div class="reply-list-box table-box con">
 		<table border="1">
 			<colgroup>
-				<col class="table-first-col table-first-col-tight">
-				<col width="180" class="visible-on-md-up">
-				<col width="180" class="visible-on-md-up">
-				<col>
-				<col width="200" class="visible-on-md-up">
+				<col class="table-first-col table-first-col-tight" width="50">
+				<col width="170" class="visible-on-md-up">
+				<col width="300" class="visible-on-md-up">
+				<col width="50">
+				<col width="70" class="visible-on-md-up">
 			</colgroup>
 			<thead>
 				<tr>
@@ -251,11 +431,10 @@
 
 	<div class="reply-modify-form-modal">
 		<div class="bg-white">
-			<h1 class="text-align-center">댓글 수정</h1>
-			<form action="" class="form1 padding-10"
-				onsubmit="ReplyList__submitModifyForm(this); return false;">
+			<h3 class="text-align-center" style="margin-left:10px;">댓글 수정</h3>
+			<form action="" class="form1 padding-10" onsubmit="ReplyList__submitModifyForm(this); return false;">
 				<input type="hidden" name="id" />
-				<div class="form-row">
+				<div class="form-row" style="margin-top:10px;">
 					<div class="form-control-label">내용</div>
 					<div class="form-control-box">
 						<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
@@ -445,48 +624,32 @@
 
 		
 	
-		
+		var i = 1;
 		function ReplyList__drawReply(reply) {
 			var html = '';
 			html += '<tr data-id="' + reply.id + '">';
-			html += '<td>' + reply.id + '</td>';
+			html += '<td>' + i + '</td>';
 			
 			html += '<td class="visible-on-md-up">';
-			html += '<c:forEach var="i" begin="1" end="1" step="1">';
-			html += '<c:set var="fileNo" value="${String.valueOf(i)}" />';
-			html += '<c:set var="file" value="${member.extra.file__common__proImg[fileNo]}" />';
-			html += '<c:if test="${file != null && file.fileExtTypeCode == \'img\'}">';
-			html += '<div class="img-box img-box-auto pro-img">';
-			html += '<img style="float:left;" src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="ㅎㅇㅎㅇ" />';
-			html += '<a class="nickname" href="#">&nbsp' + reply.extra.writer + '</a>';
-			html += '<a class="regdate" style="white-space:nowrap; ">&nbsp' + reply.regDate + '</a>';
-			html += '</div>';
-			html += '</c:if>';
-			html += '</c:forEach>';
+			for (var fileNo = 1; fileNo <= 1; fileNo++) {
+				var file = null;
+				if (reply.extra.file__common__proImg && reply.extra.file__common__proImg[fileNo]) {
+					file = reply.extra.file__common__proImg[fileNo];
+				}
+				html += '</div>';
+				html += '<div class="img-box img-box-auto pro-img" data-img-name="reply__' + reply.memberId + '__common__proImg__' + fileNo + '" data-file-no="' + fileNo + '">';
+				if (file && file.fileExtTypeCode == 'img') {
+					html += '<img style="float:left;" src="/usr/file/img?id=' + file.id + '&updateDate=' + file.updateDate + '">';
+				}
+				html += '<a class="nickname" href="#">&nbsp' + reply.extra.writer + '</a>';
+				html += '<a class="regdate" style="white-space:nowrap; ">&nbsp' + reply.regDate + '</a>';
+				html += '</div>';
+			}
 			html += '</td>';
 
 			html += '<td>';
 			html += '<div class="reply-body">' + reply.forPrintBody + '</div>';
-			for (var fileNo = 1; fileNo <= 3; fileNo++) {
-				var file = null;
-				if (reply.extra.file__common__attachment
-						&& reply.extra.file__common__attachment[fileNo]) {
-					file = reply.extra.file__common__attachment[fileNo];
-				}
-				html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
-				if (file && file.fileExtTypeCode == 'video') {
-					html += '<video controls src="/usr/file/streamVideo?id='
-							+ file.id + '&updateDate=' + file.updateDate
-							+ '">video not supported</video>';
-				}
-				html += '</div>';
-				html += '<div class="img-box img-box-auto" data-img-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
-				if (file && file.fileExtTypeCode == 'img') {
-					html += '<img src="/usr/file/img?id=' + file.id
-							+ '&updateDate=' + file.updateDate + '">';
-				}
-				html += '</div>';
-			}
+			
 			html += '<div class="visible-on-sm-down margin-top-10">';
 			
 			html += '</div>';
@@ -505,6 +668,7 @@
 			}
 			html += '</td>';
 			html += '</tr>';
+			i++
 			var $tr = $(html);
 			$tr.data('data-originBody', reply.body);
 			ReplyList__$tbody.prepend($tr);

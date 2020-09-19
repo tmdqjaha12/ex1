@@ -251,6 +251,7 @@
 					<th>신고 목록</th>
 					<td>
 						<div class="form-control-box">
+							<a href="/usr/board/${board.code}-reportList">이동하기</a>
 						</div>
 					</td>
 				</tr>

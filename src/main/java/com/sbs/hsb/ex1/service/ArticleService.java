@@ -260,4 +260,11 @@ public class ArticleService {
 		return articleDao.getMyPageArticles(param);
 	}
 
+	// 신고(리포트저장)
+	public ResultData setReportDoc(Map<String, Object> param) {
+		articleDao.setReportDoc(param);
+		
+		return new ResultData("S-1", "신고접수 완료!");
+	}
+
 }

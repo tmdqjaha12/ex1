@@ -51,9 +51,14 @@ public interface ArticleDao {
 
 	List<Article> getMethForArticles(@Param("boardId") int boardId, @Param("limit") int limit);
 
+	// 신고(리포트저장)
+	void setReportDoc(Map<String, Object> param);
+	
 //////////////////////////////////////////MYPAGE START//////////////////////////////////////////
 
 	// 내 글 목록
 	List<Article> getMyPageArticles(Map<String, Object> param);
+
+
 	
 }

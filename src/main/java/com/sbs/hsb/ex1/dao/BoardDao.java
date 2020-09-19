@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
+import com.sbs.hsb.ex1.dto.ReportDoc;
 
 @Mapper
 public interface BoardDao {
@@ -47,6 +48,9 @@ public interface BoardDao {
 
 	// 보드 가져오기
 	Board getBoardByCodeFromManager(@Param("code") String boardCode, @Param("memberId") int loginedMemberId);
+
+	// 신고Doc 리스트 가져오기
+	ReportDoc getBAReportList(@Param("boardId") int id);
 
 
 }

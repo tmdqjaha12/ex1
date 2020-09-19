@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
-import com.sbs.hsb.ex1.dto.Member;
+import com.sbs.hsb.ex1.dto.ReportDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
-import com.sbs.hsb.ex1.service.ArticleService;
 import com.sbs.hsb.ex1.service.BoardService;
 import com.sbs.hsb.ex1.util.Util;
 
@@ -109,6 +108,22 @@ public class BoardController {
 		
 		return "common/redirect";
 	}
+	
+	// 신고 목록
+	@RequestMapping("/usr/board/{boardCode}-reportList")
+	public String showReportList(@RequestParam Map<String, Object> param, Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		Board board = boardService.getBoardByCodeFromManager(boardCode, loginedMemberId);// 게시판 가져오기
+		
+		// 신고Doc 리스트 가져오기
+		ReportDoc reportDocs = boardService.getBAReportList(board.getId());
+		model.addAttribute("reportDocs", reportDocs);
+		
+		System.out.println("reportDocs :: " + reportDocs);
+		
+		return "board/reportList";
+	}
+	
 	//////////////////////////////MY-PAGE///////////////////////////////
 	
 	// 내 신청서 목록

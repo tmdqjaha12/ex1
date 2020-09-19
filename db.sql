@@ -318,7 +318,51 @@ WHERE `code` = 'notice'
 ##
 ALTER TABLE boardApplyDoc DROP COLUMN applyStatus;
 ALTER TABLE board ADD applyStatus INT(1) NOT NULL DEFAULT 0 AFTER delStatus;
+ALTER TABLE article ADD badPoint INT(1) NOT NULL DEFAULT 0 AFTER hit;
+ALTER TABLE article MODIFY badPoint INT(10); DEFAULT
+ALTER TABLE article MODIFY badPoint INT(1) NOT NULL DEFAULT 0 AFTER hit; #익명성으로 가고, 횟수를 제한하자
 
 # 보드만들기에 applyStatus추가하고, Doc에는 없앰
 # Doc는 승인시 del = 1
-#
+
+
+
+# attr로 저장하는게 좋을까.. 아니면 따로 table을 주는게 좋을까
+## 우선 테이블을 쓰자
+CREATE TABLE `reportDoc` (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    delDate DATETIME ,
+    delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    boardId INT(10) UNSIGNED NOT NULL,
+    articleId INT(10) UNSIGNED NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    reportType CHAR(20) NOT NULL,
+    reportBody LONGTEXT
+);
+
+
+# 신고에 대한 것을 게시물 자체가아닌, 따로 보고서를 두었기에 삭제..
+ALTER TABLE article DROP badPoint;
+
+> DEFAULT CURRENT_TIMESTAMP
+현재 Timestamp 값을 Insert 시점에 기본값으로 Set 한다.
+
+> ON UPDATE CURRENT_TIMESTAMP
+해당 row가 Update될 경우 자동으로 해당 시점의 Timestamp 값으로 set 된다.
+
+# 신고리스트 
+SELECT RD.*,
+B.name AS extra__Bname,
+A.title AS extra__Atitle,
+M.nickname AS extra__Mnickname
+FROM `reportDoc` AS RD
+INNER JOIN `article` AS A
+ON RD.articleId = A.id
+INNER JOIN `member` AS M
+ON RD.memberId = M.id
+INNER JOIN `board` AS B
+ON RD.boardId = B.id
+WHERE  boardId = 2
+AND delStatus = 0
+ORDER BY id DESC

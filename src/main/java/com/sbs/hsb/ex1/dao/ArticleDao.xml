@@ -215,6 +215,16 @@
 		LIMIT 0, #{limit}
 	</select>
 	
+	<insert id="setReportDoc" parameterType="map">
+		INSERT INTO reportDoc
+		SET regDate = NOW(),
+		boardId = #{boardId},
+		articleId = #{articleId},
+		memberId = #{loginedMemberId},
+		reportType = #{reportType},
+		reportBody = #{reportBody}
+	</insert>
+	
 	<resultMap type="Board" id="board">
 		<id property="id" column="id" />
 		<id property="regDate" column="regDate" />

@@ -530,11 +530,11 @@
 			<a href="/usr/article/notice-list">공지사항</a>	
 		</div>
 		<ul>
-			<c:forEach items="${notices}" var="article">
+			<c:forEach items="${notices}" var="notice">
 				<li>			
-					<a href="${article.getDetailLink('update')}">
-						<div class="article-regDate">${article.regDate}</div>
-						<div class="article-title">${article.title}</div>
+					<a href="${notice.getDetailLink('notice')}">
+						<div class="article-regDate">${notice.regDate}</div>
+						<div class="article-title">${notice.title}</div>
 					</a>
 				</li>
 			</c:forEach>
@@ -546,11 +546,11 @@
 			<a href="/usr/article/update-list"">업데이트</a>
 		</div>
 		<ul>
-			<c:forEach items="${updates}" var="article">
+			<c:forEach items="${updates}" var="update">
 				<li>			
-					<a href="${article.getDetailLink('update')}">
-						<div class="article-regDate">${article.regDate}</div>
-						<div class="article-title">${article.title}</div>
+					<a href="${update.getDetailLink('update')}">
+						<div class="article-regDate">${update.regDate}</div>
+						<div class="article-title">${update.title}</div>
 					</a>
 				</li>
 			</c:forEach>
@@ -562,11 +562,11 @@
 			<a href="/usr/article/question-list">문의</a>
 		</div>
 		<ul>
-			<c:forEach items="${questions}" var="article">
+			<c:forEach items="${questions}" var="question">
 				<li>			
-					<a href="${article.getDetailLink('update')}">
-						<div class="article-regDate">${article.regDate}</div>
-						<div class="article-title">${article.title}</div>
+					<a href="${question.getDetailLink('question')}">
+						<div class="article-regDate">${question.regDate}</div>
+						<div class="article-title">${question.title}</div>
 					</a>
 				</li>
 			</c:forEach>
