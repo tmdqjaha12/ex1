@@ -255,10 +255,18 @@ function singo__submitSingoForm(form) {
 		</div>
 		
 		<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 좋아요 불가 -->
-			<div class="likeit">
-				<a href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
-					onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }">좋아요</a>
-			</div>
+			<c:if test="${liked}">
+				<div class="likeit" style="margin-left:20px;">
+					<a href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
+						onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }"><i class="fab fa-gratipay" style="font-size: 1.5rem;"></i></a>
+				</div>
+			</c:if>
+			<c:if test="${!liked}">
+				<div style="margin-left:20px;">
+					<i class="fab fa-gratipay" style="font-size: 1.5rem; color:red;"></i>
+				</div>
+			</c:if>
+			
 			<div class="singo">
 				<button class="btn btn-info" type="button" onclick="Singo__showSingoFormModal(this);">신고</button>
 			</div>
@@ -707,12 +715,7 @@ function singo__submitSingoForm(form) {
 </style>
 
 
-
-<!-- 댓글 작성 -->
-	<c:if test="${isLogined}">
-		<c:if test="${userLever > 5}">
-
-		<script>
+<script>
 		var WriteReplyForm__submitDone = false;
 		function WriteReplyForm__submit(form) {
 			if (isNowLoading()) {
@@ -780,36 +783,74 @@ function singo__submitSingoForm(form) {
 			});
 		}
 	</script>
-		<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
-			<input type="hidden" name="relTypeCode" value="article" />
-			<input type="hidden" name="relId" value="${article.id}" />
 
-			<table border="1">
-				<colgroup>
-					<col class="table-first-col">
-				</colgroup>
-				<tbody>
-					<tr>
-						<th>내용</th>
-						<td>
-							<div class="form-control-box">
-								<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300" style="resize: none; width: 420px;"></textarea>
-							</div>
-						</td>
-					</tr>
-					<tr class="tr-do">
-						<th>작성</th>
-						<td>
-							<input style="width:100%;" class="btn btn-primary" type="submit" value="작성">
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+
+<!-- 댓글 작성 --><!-- 댓글 권한 설정 -->
+	<c:if test="${isLogined}">
+		<c:choose>
+		<c:when test="${board.code == 'notice' || board.code == 'update' || board.code == 'question'}">
+			<c:if test="${userLever > 5}">
+			
+				<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
+					<input type="hidden" name="relTypeCode" value="article" />
+					<input type="hidden" name="relId" value="${article.id}" />
+		
+					<table border="1">
+						<colgroup>
+							<col class="table-first-col">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th>내용</th>
+								<td>
+									<div class="form-control-box">
+										<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300" style="resize: none; width: 420px;"></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr class="tr-do">
+								<th>작성</th>
+								<td>
+									<input style="width:100%;" class="btn btn-primary" type="submit" value="작성">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				
+			</c:if>
+		</c:when>
+		<c:otherwise>
+			<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
+				<input type="hidden" name="relTypeCode" value="article" />
+				<input type="hidden" name="relId" value="${article.id}" />
+	
+				<table border="1">
+					<colgroup>
+						<col class="table-first-col">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>내용</th>
+							<td>
+								<div class="form-control-box">
+									<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300" style="resize: none; width: 420px;"></textarea>
+								</div>
+							</td>
+						</tr>
+						<tr class="tr-do">
+							<th>작성</th>
+							<td>
+								<input style="width:100%;" class="btn btn-primary" type="submit" value="작성">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+	    </c:otherwise>	
+		</c:choose>
 	</c:if>
-	</c:if>
-
-
+	
 
 
 <%@ include file="../part/foot.jspf"%>
