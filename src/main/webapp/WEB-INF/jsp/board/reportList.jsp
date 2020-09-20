@@ -90,11 +90,21 @@
 .table-tbody td a.detail{
 	font-weight: bold;
 }
-.table-tbody td a.detail:hover{
+.table-tbody td a.detail:hover, .table-tbody td.del a:hover{
 	color:red;
 }
-.table-tbody td a.detail:active{
+.table-tbody td a.detail:active, .table-tbody td.del a:active{
 	color:blue;
+}
+
+.table-tbody td.del:hover{
+	background-color:white;
+}
+
+.table-tbody td.del a {
+	cursor:pointer;
+	font-weight: bold; 
+	display:block;
 }
 
 .list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
@@ -111,6 +121,23 @@
 </style>
 
 
+<script>
+
+function ReportList__delete(id) {
+	if (confirm('삭제 하시겠습니까?') == false) {
+		return;
+	}
+	$.post('./../board/doDeleteReportAjax', {
+		id : id
+	}, function(data) {
+		if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+			alert(data.msg);
+
+		}
+		location.reload();
+	}, 'json');
+}
+</script>
 
 
 <div class="list-background">
@@ -141,6 +168,7 @@
 					<th class="regDate">날짜</th>
 					<th>신고게시물(이동)</th>
 					<th>신고자</th>
+					<th>비고</th>
 				</tr>
 			</thead>
 
@@ -149,13 +177,15 @@
 			<tbody class="table-tbody">
 				<c:set var="i" value="1" />
 				<c:forEach items="${reportDocs}" var="reportDoc">
-					<tr>
+					<tr id="${reportDoc.id}">
 						<td class="padding-left-10">${i}</td>
 						<td class="padding-left-10">${ reportDoc.reportType}</td>
 						<td class="text-center body"><a>${reportDoc.reportBody}</a></td>
 						<td class="text-center regDate">${reportDoc.regDate}</td>
 						<td><a class="detail" href="/usr/article/${boardCode}-detail?id=${reportDoc.articleId}">이동</a></td>
 						<td class="padding-left-10">${reportDoc.extra.Mnickname}</td>
+						<td class="del"><a onclick="ReportList__delete(${reportDoc.id});">삭제</a></td>
+						
 						
 					</tr>
 					<c:set var="i" value="${i+1}" />

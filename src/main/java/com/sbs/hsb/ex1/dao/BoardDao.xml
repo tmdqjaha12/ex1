@@ -133,6 +133,15 @@
 		ORDER BY RD.id DESC
 	</select>
 	
+	<!-- 신고Doc 삭제 deleteReport-->
+	<update id="deleteReport">
+		UPDATE reportDoc
+		SET
+		delDate = NOW(),
+		delStatus = 1
+		WHERE id = #{id}
+	</update>
+	
 	<resultMap type="ReportDoc" id="reportDoc">
 		<id property="id" column="id" />
 		<id property="regDate" column="regDate" />

@@ -178,5 +178,10 @@ public class BoardService {
 		return boardDao.getBAReportList(id);
 	}
 
+	// 신고Doc 삭제
+	public void deleteReport(int id) {
+		boardDao.deleteReport(id);
+	}
+
 
 }

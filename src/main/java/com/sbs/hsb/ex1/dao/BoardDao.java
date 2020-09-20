@@ -52,5 +52,8 @@ public interface BoardDao {
 	// 신고Doc 리스트 가져오기
 	List<ReportDoc> getBAReportList(@Param("boardId") int id);
 
+	// 신고Doc 삭제
+	void deleteReport(@Param("id") int id);
+
 
 }

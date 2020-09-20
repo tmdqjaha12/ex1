@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.BoardApplyDoc;
+import com.sbs.hsb.ex1.dto.Member;
+import com.sbs.hsb.ex1.dto.Reply;
 import com.sbs.hsb.ex1.dto.ReportDoc;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.BoardService;
@@ -142,6 +144,22 @@ public class BoardController {
 	
 		
 		return "board/reportList";
+	}
+	
+	// 신고 삭제
+	@RequestMapping("/usr/board/doDeleteReportAjax")
+	@ResponseBody
+	public ResultData doDeleteReportAjax(int id, HttpServletRequest req) {
+//		Member loginedMember = (Member) req.getAttribute("loginedMember");
+//		Reply reply = replyService.getForPrintReplyById(id);
+//
+//		if (replyService.actorCanDelete(loginedMember, reply) == false) {
+//			return new ResultData("F-1", String.format("%d번 댓글을 삭제할 권한이 없습니다.", id));
+//		}
+
+		boardService.deleteReport(id);
+
+		return new ResultData("S-1", String.format("삭제되었습니다.", id));
 	}
 	
 	//////////////////////////////MY-PAGE///////////////////////////////
