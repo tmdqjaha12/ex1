@@ -249,7 +249,7 @@ CREATE TABLE boardApplyDoc (
 
 ALTER TABLE `boardApplyDoc` ADD COLUMN boardId INT(10) UNSIGNED DEFAULT 0 NOT NULL;
 		
-#검색
+#검색  !!!!!!!!!!!!!!!!!!!!!!!오류 발견
 SELECT A.*, 
 M.nickname AS extra__writer,
 IFNULL(SUM(AL.point), 0) AS extra__likePoint,

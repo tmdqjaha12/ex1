@@ -254,7 +254,11 @@ function singo__submitSingoForm(form) {
 			<div class="toast-editor toast-editor-viewer"></div>
 		</div>
 		
-		<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 불가 -->
+		<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 좋아요 불가 -->
+			<div class="likeit">
+				<a href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
+					onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }">좋아요</a>
+			</div>
 			<div class="singo">
 				<button class="btn btn-info" type="button" onclick="Singo__showSingoFormModal(this);">신고</button>
 			</div>
@@ -262,6 +266,7 @@ function singo__submitSingoForm(form) {
 	</div>
 
 </div>
+
 
 <div class="singo-form-modal">
 	<div class="bg-white">

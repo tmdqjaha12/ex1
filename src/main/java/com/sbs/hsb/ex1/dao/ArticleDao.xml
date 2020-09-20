@@ -16,6 +16,8 @@
 	</select>
 	
 	<!-- not null boardId articleList -->
+	<!-- left조인 두개 실패, 질문 후, 안되면 댓글수 따로 빼자... -->
+	<!-- reply에는 조건으로 AL.del관련 추가 필요성 -->
 	<select id="getForPrintListArticles" resultMap="article">
 		SELECT A.*, 
 		M.nickname AS extra__writer,
@@ -40,6 +42,7 @@
 	</select>
 	
 	<!-- null boardId articleList-->
+	<!-- left조인 두개 실패, 질문 후, 안되면 댓글수 따로 빼자... -->
 	<select id="getNotBoardIdForPrintListArticles" resultMap="article">
 		SELECT A.*, 
 		M.nickname AS extra__writer,
@@ -107,6 +110,9 @@
 	</select>
 	
 	
+	<!-- left조인 두개 실패, 질문 후, 안되면 댓글수 따로 빼자... -->
+	<!-- boardCode 는 WHERE 하지 않아도 되는가? -->
+	<!-- reply에는 조건으로 AL.del관련 추가 필요성  -->
 	<select id="getForPrintArticleById" resultMap="article">
 		SELECT A.*,
 		M.nickname AS extra__writer,
