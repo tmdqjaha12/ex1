@@ -34,7 +34,7 @@ public interface BoardDao {
 	//신청서 리스트
 	List<BoardApplyDoc> getAllBoardApplyDocs();
 
-	// 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다
+	// 같은 이름으로 신청된 신청서들 전부 삭제
 	void doDelDocNameDup(@Param("name") String name);
 
 	// 내 신청서 목록
@@ -50,7 +50,7 @@ public interface BoardDao {
 	Board getBoardByCodeFromManager(@Param("code") String boardCode, @Param("memberId") int loginedMemberId);
 
 	// 신고Doc 리스트 가져오기
-	ReportDoc getBAReportList(@Param("boardId") int id);
+	List<ReportDoc> getBAReportList(@Param("boardId") int id);
 
 
 }

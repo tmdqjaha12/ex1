@@ -15,7 +15,6 @@ public class BoardApplyDoc {
 	private String updateDate;
 	private String delDate;
 	private boolean delStatus;
-	private boolean applyStatus;
 	private int memberId;
 	private String name;
 	private String body;

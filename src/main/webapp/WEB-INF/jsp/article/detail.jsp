@@ -360,11 +360,11 @@ function singo__submitSingoForm(form) {
 <div class="reply-list-box table-box con">
 		<table border="1">
 			<colgroup>
-				<col class="table-first-col table-first-col-tight" width="50">
-				<col width="170" class="visible-on-md-up">
-				<col width="300" class="visible-on-md-up">
+				<col class="table-first-col table-first-col-tight" width="30">
+				<col width="120" class="visible-on-md-up">
+				<col width="400" class="visible-on-md-up">
 				<col width="50">
-				<col width="70" class="visible-on-md-up">
+				<col width="50" class="visible-on-md-up">
 			</colgroup>
 			<thead>
 				<tr>
@@ -420,6 +420,11 @@ function singo__submitSingoForm(form) {
 
 .reply-modify-form-modal .form-control-box {
 	flex: 1 0 0;
+}
+
+.reply-modify-form-modal .form-control-box textarea{
+	width:100%;
+	height:100px;
 }
 
 .reply-modify-form-modal .video-box {

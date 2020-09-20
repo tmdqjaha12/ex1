@@ -61,9 +61,10 @@
 		WHERE id = #{id}
 	</update>
 	
+	<!-- 아이디 탈퇴, delDate로 -->
 	<update id="doSecssion" useGeneratedKeys="true" keyProperty="id">
 		UPDATE member
-		SET updateDate = NOW(),
+		SET delDate = NOW(),
 		delStatus = 1
 		WHERE id = #{id}
 	</update>

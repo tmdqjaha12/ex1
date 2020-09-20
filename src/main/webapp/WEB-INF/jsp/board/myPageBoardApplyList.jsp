@@ -137,7 +137,6 @@
 					<th>커뮤니티이름</th>
 					<th class="Rbody">커뮤니티설명</th>
 					<th class="regdate">신청날짜</th>
-					<th>승인여부</th>
 				</tr>
 			</thead>
 
@@ -151,10 +150,6 @@
 						<td class="padding-left-10">${myBoard.name}</td>
 						<td class="padding-left-10 Rbody">${myBoard.body}</td>
 						<td class="text-center regdate">${myBoard.regDate}</td>
-						<td class="text-center">
-							<c:if test="${myBoard.applyStatus == true}">승인완료</c:if>
-							<c:if test="${myBoard.applyStatus == false}">미승인</c:if>
-						</td>
 						
 					</tr>
 				</c:forEach>

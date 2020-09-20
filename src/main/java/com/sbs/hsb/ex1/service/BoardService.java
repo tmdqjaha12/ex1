@@ -77,7 +77,7 @@ public class BoardService {
 		return boardDao.getAllBoardApplyDocs();
 	}
 
-	// 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다
+	// 같은 이름으로 신청된 신청서들 전부 삭제
 	public void doDelDocNameDup(String name) {
 		boardDao.doDelDocNameDup(name);
 	}
@@ -107,11 +107,9 @@ public class BoardService {
 		return boardCodedup;
 	}
 
-	// 보드 가져오기
+	// 보드 가져오기 + 보드 대문 이미지 (본인 것만)
 	public Board getBoardByCodeFromManager(String boardCode, int loginedMemberId) {
 		Board board = boardDao.getBoardByCodeFromManager(boardCode, loginedMemberId);
-		
-//		updateForPrintInfo(member);
 		
 		List<File> files = fileService.getFiles("board", board.getId() , "common", "doorImg");
 
@@ -126,6 +124,11 @@ public class BoardService {
 		Util.putExtraVal(board, "file__common__doorImg", filesMap);
 		
 		return board;
+	}
+	
+	// 순수 보드만 가져오기 (본인 것만)
+	public Board getBoardByCodeAndMId(String boardCode, int loginedMemberId) {
+		return boardDao.getBoardByCodeFromManager(boardCode, loginedMemberId);
 	}
 
 	
@@ -171,8 +174,9 @@ public class BoardService {
 	
 	
 	// 신고Doc 리스트 가져오기
-	public ReportDoc getBAReportList(int id) {
+	public List<ReportDoc> getBAReportList(int id) {
 		return boardDao.getBAReportList(id);
 	}
+
 
 }

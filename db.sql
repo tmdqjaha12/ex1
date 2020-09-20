@@ -353,16 +353,15 @@ ALTER TABLE article DROP badPoint;
 
 # 신고리스트 
 SELECT RD.*,
-B.name AS extra__Bname,
-A.title AS extra__Atitle,
 M.nickname AS extra__Mnickname
 FROM `reportDoc` AS RD
-INNER JOIN `article` AS A
-ON RD.articleId = A.id
 INNER JOIN `member` AS M
 ON RD.memberId = M.id
-INNER JOIN `board` AS B
-ON RD.boardId = B.id
-WHERE  boardId = 2
-AND delStatus = 0
-ORDER BY id DESC
+WHERE RD.boardId = 1
+AND RD.delStatus = 0
+ORDER BY RD.id DESC
+
+# 멤버 탈퇴관련
+ALTER TABLE MEMBER DROP delStatus;
+ALTER TABLE MEMBER ADD COLUMN delDate DATETIME AFTER updateDate;
+ALTER TABLE MEMBER ADD COLUMN delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 AFTER delDate;

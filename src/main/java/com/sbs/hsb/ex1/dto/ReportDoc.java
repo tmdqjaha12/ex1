@@ -19,6 +19,5 @@ public class ReportDoc {
 	private int memberId;
 	private String reportType;
 	private String reportBody;
-	
 	private Map<String, Object> extra;
 }

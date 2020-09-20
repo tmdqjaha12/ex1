@@ -90,7 +90,7 @@ public class BoardController {
 
 		param.put("boardId", newCreateBoard);
 //		boardService.docApplyConfirm(param);// 신청서에 applyStatus = 1
-		boardService.doDelDocNameDup((String) param.get("name"));// 같은 이름으로 신청된 신청서들 전부 삭제 단, applyStatus = 1인 신청서 하나만 남긴다
+		boardService.doDelDocNameDup((String) param.get("name"));// 같은 이름으로 신청된 신청서들 전부 삭제 
 		
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
@@ -111,15 +111,35 @@ public class BoardController {
 	
 	// 신고 목록
 	@RequestMapping("/usr/board/{boardCode}-reportList")
-	public String showReportList(@RequestParam Map<String, Object> param, Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req) {
+	public String showReportList(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req) {
+		model.addAttribute("boardCode", boardCode);
+		
+		
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
-		Board board = boardService.getBoardByCodeFromManager(boardCode, loginedMemberId);// 게시판 가져오기
+		Board board = boardService.getBoardByCodeAndMId(boardCode, loginedMemberId);// 게시판 가져오기
 		
 		// 신고Doc 리스트 가져오기
-		ReportDoc reportDocs = boardService.getBAReportList(board.getId());
-		model.addAttribute("reportDocs", reportDocs);
+		List<ReportDoc> reportDocs = boardService.getBAReportList(board.getId());
 		
-		System.out.println("reportDocs :: " + reportDocs);
+		
+		for(ReportDoc reportDoc : reportDocs) {
+			if(reportDoc.getReportType().equals("ba1")) {
+				reportDoc.setReportType("부적절한 홍보 게시글");
+			}
+			if(reportDoc.getReportType().equals("ba2")) {
+				reportDoc.setReportType("음란성 또는 청소년에게 부적합한 내용");
+			}
+			if(reportDoc.getReportType().equals("ba3")) {
+				reportDoc.setReportType("명예훼손/사생활 침해 및 저작권침해등");
+			}
+			if(reportDoc.getReportType().equals("ba4")) {
+				reportDoc.setReportType("기타");
+			}
+		}
+		
+		
+		model.addAttribute("reportDocs", reportDocs);
+	
 		
 		return "board/reportList";
 	}

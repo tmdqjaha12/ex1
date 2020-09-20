@@ -122,21 +122,15 @@
 	</select>
 	
 	<!-- 신고Doc 가져오기 -->
-	<select id="getBAReportList" resultType="reportDoc">
+	<select id="getBAReportList" resultMap="reportDoc">
 		SELECT RD.*,
-		B.name AS extra__Bname,
-		A.title AS extra__Atitle,
 		M.nickname AS extra__Mnickname
 		FROM `reportDoc` AS RD
-		INNER JOIN `article` AS A
-		ON RD.articleId = A.id
 		INNER JOIN `member` AS M
 		ON RD.memberId = M.id
-		INNER JOIN `board` AS B
-		ON RD.boardId = B.id
 		WHERE RD.boardId = #{boardId}
 		AND RD.delStatus = 0
-		ORDER BY id DESC
+		ORDER BY RD.id DESC
 	</select>
 	
 	<resultMap type="ReportDoc" id="reportDoc">
@@ -150,8 +144,6 @@
 		<id property="reportType" column="reportType" />
 		<id property="reportBody" column="reportBody" />
 		<association property="extra" javaType="map">
-			<id property="Bname" column="extra__Bname" />
-			<id property="Atitle" column="extra__Atitle" />
 			<id property="Mnickname" column="extra__Mnickname" />
 		</association>
 	</resultMap>
@@ -178,7 +170,6 @@
 		<id property="updateDate" column="updateDate" />
 		<id property="delDate" column="delDate" />
 		<id property="delStatus" column="delStatus" />
-		<id property="applyStatus" column="applyStatus" />
 		<id property="code" column="code" />
 		<id property="name" column="name" />
 		<id property="memberId" column="memberId" />

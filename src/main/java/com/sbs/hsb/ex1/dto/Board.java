@@ -18,6 +18,7 @@ public class Board {
 	private String name;
 	private String code;
 	private boolean applyStatus;
+	private String memberId;
 	
 	
 	private Map<String, Object> extra;

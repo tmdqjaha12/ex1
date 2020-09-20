@@ -5,7 +5,7 @@
 <%@ include file="../part/head.jspf"%>
 
 <style>
-/* myPageArticleList */
+
 .list-background {
 	background-color:white;
 	margin:0 auto;
@@ -29,21 +29,6 @@
 }
 
 .page-box a {
-}
-
-/*글쓰기*/
-.write-box {
-	float:right;
-	margin-bottom:4px;
-}
-
-.go-write-form {
-	background-color:white;
-	text-align: right;
-}
-
-.go-write-form input{
-	padding: 20px 40px;
 }
 
 /*테이블*/
@@ -96,13 +81,20 @@
 
 }
 
-.list-background >  .list-box-1  .table-tbody td a {
+.table-tbody td.body a{
 	display:block;
-	width:80px;
-	text-overflow:ellipsis;  
-	overflow:hidden;  
-	white-space:nowrap;
-	cursor: default;
+	width:600px;
+	word-break: break-all;
+}
+
+.table-tbody td a.detail{
+	font-weight: bold;
+}
+.table-tbody td a.detail:hover{
+	color:red;
+}
+.table-tbody td a.detail:active{
+	color:blue;
 }
 
 .list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
@@ -134,10 +126,12 @@
 		
 		<table border="1">
 			<colgroup>
-				<col width="80" />
-				<col width="450" />
-				<col width="180" />
+				<col width="50" />
+				<col width="100" />
+				<col width="200" />
 				<col width="150" />
+				<col width="50" />
+				<col width="50" />
 			</colgroup>
 			<thead class="table-thead">
 				<tr>
@@ -153,17 +147,18 @@
 
 
 			<tbody class="table-tbody">
-
+				<c:set var="i" value="1" />
 				<c:forEach items="${reportDocs}" var="reportDoc">
 					<tr>
-						<td class="padding-left-10">````</td>
-						<td class="padding-left-10">reportDoc.reportType</td>
-						<td class="text-center regDate">${reportDoc.reportBody}</td>
-						<td class="text-center">${reportDoc.regDate}</td>
-						<td class="padding-left-10">${reportDoc.extra.Atitle}</td>
+						<td class="padding-left-10">${i}</td>
+						<td class="padding-left-10">${ reportDoc.reportType}</td>
+						<td class="text-center body"><a>${reportDoc.reportBody}</a></td>
+						<td class="text-center regDate">${reportDoc.regDate}</td>
+						<td><a class="detail" href="/usr/article/${boardCode}-detail?id=${reportDoc.articleId}">이동</a></td>
 						<td class="padding-left-10">${reportDoc.extra.Mnickname}</td>
 						
 					</tr>
+					<c:set var="i" value="${i+1}" />
 				</c:forEach>
 			</tbody>
 		</table>
