@@ -99,11 +99,6 @@
 			<h1>문의하기</h1>
 		</div>
 	</c:if>
-	<c:if test="${board.code != 'question'}">
-		<div class="write-page-title">
-			<h1>${pageTitle}</h1>
-		</div>
-	</c:if>
 
 	<form method="POST" class="write-form table-box con form1"
 		action="${board.code}-doWrite"
@@ -117,9 +112,9 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th>게시판</th>
+					<th>글쓰기</th>
 					<td>
-						<div style="font-weight: bold;">${board.name}게시판</div>
+						<div style="font-weight: bold;">${board.name}게시판 글쓰기</div>
 					</td>
 				</tr>
 				<tr>

@@ -129,13 +129,11 @@ function ArticleModifyForm__submit(form) {
 }
 </script>
 
-<div class="write-background">
 
-	<div class="write-page-title">
-		<h1>${pageTitle}</h1>
-	</div>
+<div class="modify-background">
 
-	<form method="POST" class="write-form table-box con form1" action="${board.code}-doModify" onsubmit="ArticleModifyForm__submit(this); return false;">
+	<form method="POST" class="write-form table-box con form1" action="${board.code}-doModify"
+	 style="background-color:#c6bcda;" onsubmit="ArticleModifyForm__submit(this); return false;">
 		<input type="hidden" name="fileIdsStr" /> 
 		<input type="hidden" name="body" /> 
 		<input type="hidden" name="redirectUri" value="/usr/article/${board.code}-detail?id=${article.id}" /> 
@@ -147,9 +145,9 @@ function ArticleModifyForm__submit(form) {
 			</colgroup>
 			<tbody>
 				<tr>
-					<th>게시판</th>
+					<th>게시판수정</th>
 					<td>
-						<div style="font-weight: bold;">${board.name}게시판</div>
+						<div style="font-weight: bold;">${board.name}게시판 *수정</div>
 					</td>
 				</tr>
 				<tr>
