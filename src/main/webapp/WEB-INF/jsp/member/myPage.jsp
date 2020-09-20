@@ -160,14 +160,6 @@
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<th>내 신고 진행상황 목록</th>
-					<td>
-						<div class="form-control-box">
-							<a href="/usr/article/question-list">이동</a> 
-						</div>
-					</td>
-				</tr>
 				<c:if test="${userLever > 5}">
 					<tr>
 						<th>*관리자 전용*</th>

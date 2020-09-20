@@ -149,12 +149,15 @@ public class ArticleController {
 		Member member = memberService.getProImg(article.getMemberId()); // 게시글 프로필 가져오기
 		model.addAttribute("member", member);
 		
-		Map<String, Object> articleLikeAvailableRs = articleService.getArticleLikeAvailable(id, loginedMember.getId());
+		if(loginedMember != null) {// 추천 가능여부는 로그인이 되어있을때만
+			Map<String, Object> articleLikeAvailableRs = articleService.getArticleLikeAvailable(id, loginedMember.getId());
 
-		model.addAttribute("liked", true);
-		if (((String) articleLikeAvailableRs.get("resultCode")).startsWith("F-")) {
-			model.addAttribute("liked", false);
+			model.addAttribute("liked", true);
+			if (((String) articleLikeAvailableRs.get("resultCode")).startsWith("F-")) {
+				model.addAttribute("liked", false);
+			}
 		}
+		
 
 		return "article/detail";
 	}

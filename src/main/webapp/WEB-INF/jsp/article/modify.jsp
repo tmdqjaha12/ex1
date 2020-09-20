@@ -206,7 +206,8 @@ function ArticleModifyForm__submit(form) {
 					<th>작성</th>
 					<td>
 						<button class="btn btn-primary" type="submit" style="margin-bottom: 12px;">수정</button> 
-						<a class="btn btn-info" style="padding: 10px;" href="${listUrl}">리스트</a>
+						<a href="javascript:window.history.back();" class="cancel">뒤로가기</a>
+						<a href="${listUrl}" class="btn btn-info">목록으로</a>
 					</td>
 				</tr>
 			</tbody>

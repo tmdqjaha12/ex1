@@ -127,14 +127,6 @@
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<th>고객센터 문의 내역 관리</th><!-- 낮은 단계의 관리자가 이용 가능하도록. -->
-					<td>
-						<div class="form-control-box">
-							<a href="/usr/article/question-list">이동</a> 
-						</div>
-					</td>
-				</tr>
 			</tbody>
 		</table>
 	</form>

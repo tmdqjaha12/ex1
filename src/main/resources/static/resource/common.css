@@ -193,7 +193,7 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 /* 버튼관련 */
-btn {
+.btnX {
 	width:100%;
 	margin:0 auto;
 	padding: 10px 15px;

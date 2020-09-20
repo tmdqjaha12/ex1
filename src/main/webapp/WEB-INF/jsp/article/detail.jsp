@@ -85,7 +85,7 @@
 /* 신고 */
 .singo{
 	text-align: right;
-	margin-bottom:2px;
+	margin-bottom:-28px;
 }
 
 .singo-form-modal-actived, singo-form-modal-actived>body {
@@ -130,6 +130,51 @@
 
 .singo-form-modal .video-box {
 	width: 100px;
+}
+
+.write-btn-box{
+	margin-right: 10px;
+}
+
+.write-btn-box:after{
+	content: "";
+	display: block;
+	clear: both;	
+}
+
+.write-btn-box a {
+	appearance: button;
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(buttontext, rgb(170, 170, 170));
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(74, 74, 74));
+    box-sizing: border-box;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(195, 195, 195));
+    border-image: initial;
+    text-decoration: none;
+    font-weight: bold;
+    float: right;
+    border-radius:10%;
+    border:1.5px solid #ababab;
+    
+}
+
+.write-btn-box a:last-child {
+	background-color:#efefef;
 }
 </style>
 
@@ -201,6 +246,7 @@ function singo__submitSingoForm(form) {
 
 	<div class="backA" style="margin-top:-30px;">
 		<a href="javascript:window.history.back();" class="cancel">뒤로가기</a>
+		<a href="${listUrl}" class="btn btn-info">목록으로</a>
 	</div>
 	
 	<div class="article-detail-box con">
@@ -249,31 +295,82 @@ function singo__submitSingoForm(form) {
 			</div>
 		</div>
 		
+		<!-- body -->
 		<div class="article-body">
 			<script type="text/x-template">${article.body}</script>
 			<div class="toast-editor toast-editor-viewer"></div>
 		</div>
 		
-		<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 좋아요 불가 -->
-			<c:if test="${liked}">
-				<div class="likeit" style="margin-left:20px;">
-					<a href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
-						onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }"><i class="fab fa-gratipay" style="font-size: 1.5rem;"></i></a>
-				</div>
-			</c:if>
-			<c:if test="${!liked}">
-				<div style="margin-left:20px;">
-					<i class="fab fa-gratipay" style="font-size: 1.5rem; color:red;"></i>
-				</div>
+		<!-- 첨부파일 -->
+		<table border="1" style="width:100%;">
+			<c:forEach var="i" begin="1" end="3" step="1">
+				<c:set var="fileNo" value="${String.valueOf(i)}" />
+				<c:set var="file"
+					value="${article.extra.file__common__attachment[fileNo]}" />
+				<c:if test="${file != null}">
+					<tbody>
+						<tr>
+							<th>첨부파일 ${fileNo}</th>
+							<td>
+								<c:if test="${file.fileExtTypeCode == 'video'}">
+									<div class="video-box">
+										<video controls
+											src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}">video
+											not supported
+										</video>
+									</div>
+								</c:if> 
+								<c:if test="${file.fileExtTypeCode == 'img'}">
+									<div class="img-box img-box-auto">
+										<img src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}" alt="" />
+									</div>
+								</c:if>
+							</td>
+						</tr>
+					</tbody>
+				</c:if>
+			</c:forEach>
+		</table>
+
+		<c:if test="${isLogined}">	<!-- 로그인일 때만 -->
+			<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 좋아요 불가 -->
+				<!-- 좋아요 -->
+				<c:if test="${liked}">
+					<div class="likeit" style="margin-left:20px;">
+						<a href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
+							onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }"><i class="fab fa-gratipay" style="font-size: 1.5rem;"></i></a>
+					</div>
+				</c:if>
+				<c:if test="${!liked}">
+					<div style="margin-left:20px; margin-bottom:20px;">
+						<i class="fab fa-gratipay" style="font-size: 1.5rem; color:red;"></i>
+					</div>
+				</c:if>
+				<!-- 끝 -->
+				<!-- 신고 -->
+				<c:if test="${board.code != 'notice' && board.code != 'update' && board.code != 'question'}">
+					<div class="singo">
+						<button class="btn btn-info" type="button" onclick="Singo__showSingoFormModal(this);">신고</button>
+					</div>
+				</c:if>
+				<!-- 끝 -->
 			</c:if>
 			
-			<div class="singo">
-				<button class="btn btn-info" type="button" onclick="Singo__showSingoFormModal(this);">신고</button>
+			<!-- 게시물 수정 삭제 리스트 -->
+			<div class="write-btn-box con margin-top-20  con" >
+				<c:if test="${article.extra.actorCanDelete}">
+					<a class="btn btn-danger" href="${board.code}-doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
+				</c:if>
+				<c:if test="${article.extra.actorCanModify}">
+					<a class="btn btn-info" href="${board.code}-modify?id=${article.id}&listUrl=${Util.getUriEncoded(listUrl)}">수정</a>
+				</c:if>
 			</div>
-		</c:if>
+			<!-- 끝 -->
+		</c:if>	
 	</div>
 
 </div>
+
 
 
 <div class="singo-form-modal">
