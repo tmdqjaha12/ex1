@@ -372,3 +372,27 @@ SET
 delDate = NOW(),
 delStatus = 1
 WHERE id = #{id}
+
+# 상세 게시물 , 작성자, 조회수, 추천수
+SELECT A.*,
+SUM(AL.point) AS extra__likePoint
+FROM (
+    SELECT A.*,
+    M.nickname AS extra__writer,
+    COUNT(DISTINCT RL.id) AS extra__repliesCount
+    FROM article AS A
+    INNER JOIN `member` AS M
+    ON A.memberId = M.id
+    LEFT JOIN reply AS RL
+    ON A.id = RL.relId
+    AND RL.relTypeCode = 'article'
+    AND RL.displayStatus = 1
+    AND RL.delStatus = 0
+    WHERE A.displayStatus = 1
+    AND A.delStatus = 0
+    AND A.id = 21
+    GROUP BY A.id
+) AS A
+INNER JOIN articleLike AS AL
+ON A.id = AL.articleId
+GROUP BY A.id

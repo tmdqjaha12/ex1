@@ -286,7 +286,7 @@ function singo__submitSingoForm(form) {
 								<div>
 									조회수 ${article.hit} 
 									┃ 추천 ${article.extra.likePoint} 
-									┃ 댓글 ${article.extra.applyPoint}
+									┃ 댓글 ${article.extra.repliesCount}
 								</div>
 							</td>
 						</tr>
