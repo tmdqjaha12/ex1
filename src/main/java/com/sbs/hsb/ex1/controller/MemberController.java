@@ -515,7 +515,10 @@ public class MemberController {
 		String authCode = memberService.genEmailAuthCode(loginedMemberId);
 
 		Member member = memberService.getProImg(loginedMemberId); // 프로필 가져오기
-
+		
+		boolean isMailAuthed = memberService.isValidEmailAuthed(loginedMemberId); // 이메일 인증 여부
+		
+		model.addAttribute("isMailAuthed", isMailAuthed);
 		model.addAttribute("member", member);
 		model.addAttribute("authCode", authCode);
 

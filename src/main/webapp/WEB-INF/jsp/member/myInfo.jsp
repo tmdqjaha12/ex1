@@ -212,7 +212,7 @@
 				<th>이메일</th>
 				<td>${loginedMember.email}</td>
 			</tr>
-			<c:if test="${!isMailAuthed}"><!-- 레벨로 수정 -->
+			<c:if test="${!isMailAuthed}">
 			<tr>
 				<th>비고</th>
 				<td>
