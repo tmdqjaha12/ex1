@@ -49,11 +49,47 @@ var param = ${paramJson};
 
 	.top-bn-img > img{
 	}
+	
+	.outer-ul-1 {
+		margin-right: 20px;
+	}
+	
+	.outer-ul-1:after{
+		content: "";
+		display: block;
+		clear: both;
+	}
+	
+	.outer-ul-1 > li{
+		float: right;
+	}
+	
+	.outer-ul-1 > li:hover > a{
+		color:blue;
+	}
+	
+	.outer-ul-1 > li > a{
+		display: block;
+		padding: 0 5px;
+	}
 </style>
 
 </head>
 	<body>
 		<div class="outer-box">
+		
+			<ul class="outer-ul-1">
+				<c:if test="${isLogined}">
+					<li><a href="#">문의하기</a></li>
+					<li style="margin-top:4px;"><a href="/usr/member/myPage">MyPage</a></li>
+					<li><a href="/usr/member/doLogout">로그아웃</li>
+				</c:if>
+				<c:if test="${!isLogined}">
+					<li><a href="/usr/member/login">ex1 로그인</a></li>
+					<li><a href="/usr/member/join">회원가입</a></li>
+				</c:if>
+			</ul>
+		
 			<div class="top-bn-img">
 				<img src="" />
 				<div style="background-color:pink; height:160px; width:100%; text-align: center; border-bottom:3px solid #6b6880;">
