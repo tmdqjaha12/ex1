@@ -268,7 +268,7 @@
 							 href="${article.getDetailLink(board.code)}">
 							 	${article.forPrintTitle}
 							 </a>
-							 <c:if test="${article.extra.applyPoint != 0}">
+							 <c:if test="${article.extra.repliesCount != 0}">
 						 		 <span>&nbsp&nbsp(* ${article.extra.repliesCount})</span>
 						 	</c:if>
 						<td class="padding-left-10 writer"><a href="#">${article.extra.writer}</a></td>
