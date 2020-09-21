@@ -19,23 +19,30 @@
 	<!-- left조인 두개 실패, 질문 후, 안되면 댓글수 따로 빼자... -->
 	<!-- reply에는 조건으로 AL.del관련 추가 필요성 -->
 	<select id="getForPrintListArticles" resultMap="article">
-		SELECT A.*, 
-		M.nickname AS extra__writer,
-		IFNULL(SUM(AL.point), 0) AS extra__likePoint,
-		IFNULL(SUM(RL.displayStatus), 0) AS extra__applyPoint
-		FROM article AS A
-		INNER JOIN member AS M
-		ON A.memberId = M.id
+		SELECT A.*,
+		SUM(IFNULL(AL.point, 0)) AS extra__likePoint
+		FROM (
+		    SELECT A.*,
+		    M.nickname AS extra__writer,
+		    COUNT(DISTINCT RL.id) AS extra__repliesCount
+		    FROM article AS A
+		    INNER JOIN `member` AS M
+		    ON A.memberId = M.id
+		    AND M.delStatus = 0
+		    LEFT JOIN reply AS RL
+		    ON A.id = RL.relId
+		    AND RL.relTypeCode = 'article'
+		    AND RL.displayStatus = 1
+		    AND RL.delStatus = 0
+		    WHERE A.displayStatus = 1
+		    AND A.delStatus = 0
+		    AND A.boardId = #{boardId}
+		   	<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+			<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+		    GROUP BY A.id
+		) AS A
 		LEFT JOIN articleLike AS AL
 		ON A.id = AL.articleId
-		LEFT JOIN reply AS RL
-		ON A.id = RL.relId
-		WHERE A.displayStatus = 1
-		AND A.delStatus = 0
-		AND M.delStatus = 0
-		AND boardId = #{boardId}
-		<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
-		<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
 		GROUP BY A.id
 		ORDER BY A.id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
@@ -44,22 +51,29 @@
 	<!-- null boardId articleList-->
 	<!-- left조인 두개 실패, 질문 후, 안되면 댓글수 따로 빼자... -->
 	<select id="getNotBoardIdForPrintListArticles" resultMap="article">
-		SELECT A.*, 
-		M.nickname AS extra__writer,
-		IFNULL(SUM(AL.point), 0) AS extra__likePoint,
-		IFNULL(SUM(RL.displayStatus), 0) AS extra__applyPoint
-		FROM article AS A
-		INNER JOIN member AS M
-		ON A.memberId = M.id
+		SELECT A.*,
+		SUM(IFNULL(AL.point, 0)) AS extra__likePoint
+		FROM (
+		    SELECT A.*,
+		    M.nickname AS extra__writer,
+		    COUNT(DISTINCT RL.id) AS extra__repliesCount
+		    FROM article AS A
+		    INNER JOIN `member` AS M
+		    ON A.memberId = M.id
+		    AND M.delStatus = 0
+		    LEFT JOIN reply AS RL
+		    ON A.id = RL.relId
+		    AND RL.relTypeCode = 'article'
+		    AND RL.displayStatus = 1
+		    AND RL.delStatus = 0
+		    WHERE A.displayStatus = 1
+		    AND A.delStatus = 0
+		   	<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+			<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+		    GROUP BY A.id
+		) AS A
 		LEFT JOIN articleLike AS AL
 		ON A.id = AL.articleId
-		LEFT JOIN reply AS RL
-		ON A.id = RL.relId
-		WHERE A.displayStatus = 1
-		AND A.delStatus = 0
-		AND M.delStatus = 0
-		<if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
-		<if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
 		GROUP BY A.id
 		ORDER BY A.id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
@@ -115,7 +129,7 @@
 	<!-- reply에는 조건으로 AL.del관련 추가 필요성  -->
 	<select id="getForPrintArticleById" resultMap="article">
 		SELECT A.*,
-		SUM(AL.point) AS extra__likePoint
+		SUM(IFNULL(AL.point, 0)) AS extra__likePoint
 		FROM (
 		    SELECT A.*,
 		    M.nickname AS extra__writer,
@@ -123,6 +137,7 @@
 		    FROM article AS A
 		    INNER JOIN `member` AS M
 		    ON A.memberId = M.id
+		    AND M.delStatus = 0
 		    LEFT JOIN reply AS RL
 		    ON A.id = RL.relId
 		    AND RL.relTypeCode = 'article'
@@ -133,7 +148,7 @@
 		    AND A.id = #{id}
 		    GROUP BY A.id
 		) AS A
-		INNER JOIN articleLike AS AL
+		LEFT JOIN articleLike AS AL
 		ON A.id = AL.articleId
 		GROUP BY A.id
 	</select>

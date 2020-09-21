@@ -76,6 +76,7 @@ public class ArticleController {
 				searchKeywordType, searchKeyword);
 
 		model.addAttribute("articles", articles);
+		System.out.println("articles ~~ : " + articles);
 		
 		return "article/list";
 	}

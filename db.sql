@@ -396,3 +396,57 @@ FROM (
 INNER JOIN articleLike AS AL
 ON A.id = AL.articleId
 GROUP BY A.id
+
+# 상세 게시물 , 작성자, 조회수, 추천수 수정!!!!!!!
+SELECT A.*,
+SUM(IFNULL(AL.point, 0)) AS extra__likePoint
+FROM (
+    SELECT A.*,
+    M.nickname AS extra__writer,
+    COUNT(DISTINCT RL.id) AS extra__repliesCount
+    FROM article AS A
+    INNER JOIN `member` AS M
+    ON A.memberId = M.id
+    AND M.delStatus = 0
+    LEFT JOIN reply AS RL
+    ON A.id = RL.relId
+    AND RL.relTypeCode = 'article'
+    AND RL.displayStatus = 1
+    AND RL.delStatus = 0
+    WHERE A.displayStatus = 1
+    AND A.delStatus = 0
+    AND A.id = 20
+    GROUP BY A.id
+) AS A
+LEFT JOIN articleLike AS AL
+ON A.id = AL.articleId
+GROUP BY A.id
+
+## 검색 수정
+SELECT A.*,
+SUM(IFNULL(AL.point, 0)) AS extra__likePoint
+FROM (
+    SELECT A.*,
+    M.nickname AS extra__writer,
+    COUNT(DISTINCT RL.id) AS extra__repliesCount
+    FROM article AS A
+    INNER JOIN `member` AS M
+    ON A.memberId = M.id
+    AND M.delStatus = 0
+    LEFT JOIN reply AS RL
+    ON A.id = RL.relId
+    AND RL.relTypeCode = 'article'
+    AND RL.displayStatus = 1
+    AND RL.delStatus = 0
+    WHERE A.displayStatus = 1
+    AND A.delStatus = 0
+    AND A.boardId = #{boardId}
+    <if test="searchKeywordType.equals('title')">AND A.title LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+    <if test="searchKeywordType.equals('body')">AND A.body LIKE CONCAT('%' , #{searchKeyword}, '%')</if>
+    GROUP BY A.id
+) AS A
+LEFT JOIN articleLike AS AL
+ON A.id = AL.articleId
+GROUP BY A.id
+ORDER BY A.id DESC
+LIMIT #{limitFrom}, #{itemsInAPage}
