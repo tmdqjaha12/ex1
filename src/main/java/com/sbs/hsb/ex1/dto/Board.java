@@ -22,4 +22,8 @@ public class Board {
 	
 	
 	private Map<String, Object> extra;
+	
+	public String getBoardLink(String boardCode) {
+		return "/usr/article/" + boardCode + "-list";
+	}
 }

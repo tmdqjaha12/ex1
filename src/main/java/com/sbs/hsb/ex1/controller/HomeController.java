@@ -2,9 +2,6 @@ package com.sbs.hsb.ex1.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sbs.hsb.ex1.dto.Article;
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.service.ArticleService;
+import com.sbs.hsb.ex1.service.BoardService;
 import com.sbs.hsb.ex1.service.MemberService;
 
 @Controller
@@ -21,6 +19,8 @@ public class HomeController {
 	private MemberService memberService;
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private BoardService boardService;
 
 	@RequestMapping("/usr/home/main")
 	public String showMain(Model model) {
@@ -38,6 +38,18 @@ public class HomeController {
 		//문의
 		List<Article> questions = articleService.getMethForArticles("question", 5);
 		model.addAttribute("questions", questions);
+		
+		//HOT 게시물
+		List<Article> hotArticles = articleService.getHotArticles();
+		model.addAttribute("hotArticles", hotArticles);
+		
+		//HOT 커뮤니티
+		List<Board> hotBoards = boardService.getHotBoards();
+		model.addAttribute("hotBoards", hotBoards);
+		
+		//NEW 커뮤니티
+		List<Board> newBoards = boardService.getNewBoards();
+		model.addAttribute("newBoards", newBoards);
 		
 		return "home/main";
 	}

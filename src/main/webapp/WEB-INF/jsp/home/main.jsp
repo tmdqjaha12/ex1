@@ -578,12 +578,14 @@
 			<a href="#">HOT 게시글</a>
 		</div>
 		<ul>
-			<li>
-				<a href="#">
-					<div class="article-regDate">날짜</div>
-					<div class="article-title">제목</div>
-				</a>
-			</li>
+			<c:forEach items="${hotArticles}" var="hotArticle">
+				<li>			
+					<a href="${hotArticle.getDetailLink('hotArticle.extra.boardCode')}">
+						<div class="article-regDate">${hotArticle.regDate}</div>
+						<div class="article-title">${hotArticle.title}</div>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
 	
@@ -592,12 +594,14 @@
 			<a href="#">HOT 커뮤니티</a>
 		</div>
 		<ul>
-			<li>
-				<a href="#">
-					<div class="article-regDate">날짜</div>
-					<div class="article-title">제목</div>
-				</a>
-			</li>
+			<c:forEach items="${hotBoards}" var="hotBoard">
+				<li>			
+					<a href="${hotBoard.getBoardLink(hotBoard.code)}">
+						<div class="article-regDate">${hotBoard.regDate}</div>
+						<div class="article-title">${hotBoard.name}</div>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
 	
@@ -606,12 +610,14 @@
 			<a href="#">NEW 커뮤니티</a>
 		</div>
 		<ul>
-			<li>
-				<a href="#">
-					<div class="article-regDate">날짜</div>
-					<div class="article-title">제목</div>
-				</a>
-			</li>
+			<c:forEach items="${newBoards}" var="newBoard">
+				<li>			
+					<a href="${newBoard.getBoardLink(newBoard.code)}">
+						<div class="article-regDate">${newBoard.regDate}</div>
+						<div class="article-title">${newBoard.name}</div>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>
 	<!-- 중 하단 아이템 박스 *6 끝 -->

@@ -142,6 +142,30 @@
 		WHERE id = #{id}
 	</update>
 	
+	<!-- HOT 커뮤니티 -->
+	<select id="getHotBoards" resultMap="board">
+		SELECT B.*
+		FROM (
+		    SELECT B.*,
+		    COUNT(DISTINCT A.id) AS extra_articleCount
+		    FROM board AS B
+		    INNER JOIN article AS A
+		    ON B.id = A.boardId
+		    WHERE DATE(A.regDate) >= DATE_SUB(NOW(), INTERVAL 2 DAY)
+		    GROUP BY B.id
+		    ORDER BY extra_articleCount DESC
+		) AS B
+		LIMIT 0, 5
+	</select>
+	
+	<!-- NEW 커뮤니티 -->
+	<select id="getNewBoards" resultMap="board">
+		SELECT *
+		FROM board d
+		ORDER BY id DESC
+		LIMIT 0, 5;
+	</select>
+	
 	<resultMap type="ReportDoc" id="reportDoc">
 		<id property="id" column="id" />
 		<id property="regDate" column="regDate" />
@@ -182,5 +206,8 @@
 		<id property="code" column="code" />
 		<id property="name" column="name" />
 		<id property="memberId" column="memberId" />
+		<association property="extra" javaType="map">
+			<id property="articleCount" column="extra_articleCount" />
+		</association>
 	</resultMap>
 </mapper>

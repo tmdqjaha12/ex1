@@ -183,5 +183,13 @@ public class BoardService {
 		boardDao.deleteReport(id);
 	}
 
-
+	//HOT 커뮤니티
+	public List<Board> getHotBoards() {
+		return boardDao.getHotBoards();
+	}
+	
+	//NEW 커뮤니티
+	public List<Board> getNewBoards() {
+		return boardDao.getNewBoards();
+	}
 }

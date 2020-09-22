@@ -450,3 +450,74 @@ ON A.id = AL.articleId
 GROUP BY A.id
 ORDER BY A.id DESC
 LIMIT #{limitFrom}, #{itemsInAPage}
+
+## 게시글에 해당되는 회원닉네임과 추천수 가져오기(추천수, 조회수 순으로 가져오기
+SELECT A.*,
+M.nickname AS extra__writer,
+IFNULL(SUM(AL.point), 0) AS extra__likePoint
+FROM article AS A
+INNER JOIN MEMBER AS M
+ON A.memberId = M.id
+LEFT JOIN articleLike AS AL
+ON A.id = AL.articleId
+WHERE A.delStatus = 0
+AND A.displayStatus = 1
+GROUP BY A.id
+ORDER BY extra__likePoint DESC, hit DESC
+
+
+## HOT 게시물 - 게시글에 해당되는 회원닉네임과 추천수 가져오기(추천수, 조회수 순으로 가져오기
+SELECT A.*,
+M.nickname AS extra__writer,
+B.code AS extra__boardCode,
+IFNULL(SUM(AL.point), 0) AS extra__likePoint
+FROM article AS A
+INNER JOIN MEMBER AS M
+ON A.memberId = M.id
+INNER JOIN board AS B
+ON A.boardId = B.id
+LEFT JOIN articleLike AS AL
+ON A.id = AL.articleId
+WHERE A.delStatus = 0
+AND A.displayStatus = 1
+AND M.delStatus = 0
+GROUP BY A.id
+ORDER BY extra__likePoint DESC, hit DESC
+LIMIT 0, 5;
+
+## NEW 커뮤니티 (attrX)
+SELECT *
+FROM board d
+ORDER BY id DESC
+LIMIT 0, 5;
+
+# 최근 24시간 내의 게시물의 갯수
+# 그 갯수를 기준으로 게시판을 출력
+## HOT 커뮤니티 - 최근 게시글이 많이 롤라온 순서????
+SELECT B.*
+FROM (
+    SELECT B.*,
+    COUNT(DISTINCT A.id) AS extra_articleCount
+    FROM board AS B
+    INNER JOIN article AS A
+    ON B.id = A.boardId
+    GROUP BY B.id
+    ORDER BY extra_articleCount DESC
+) AS B
+
+
+# 최근 2일 내의 게시물의 갯수
+# 그 갯수를 기준으로 게시판을 출력
+## HOT 커뮤니티 - 최근 게시글이 많이 롤라온 순서????
+SELECT B.*
+FROM (
+    SELECT B.*,
+    COUNT(DISTINCT A.id) AS extra_articleCount
+    FROM board AS B
+    INNER JOIN article AS A
+    ON B.id = A.boardId
+    WHERE DATE(A.regDate) >= DATE_SUB(NOW(), INTERVAL 2 DAY)
+    GROUP BY B.id
+    ORDER BY extra_articleCount DESC
+) AS B
+LIMIT 0, 5;

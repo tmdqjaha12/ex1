@@ -267,4 +267,8 @@ public class ArticleService {
 		return new ResultData("S-1", "신고접수 완료!");
 	}
 
+	public List<Article> getHotArticles() {
+		return articleDao.getHotArticles();
+	}
+
 }

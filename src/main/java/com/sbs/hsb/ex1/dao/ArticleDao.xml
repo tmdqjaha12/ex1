@@ -161,6 +161,7 @@
 		id = #{id}
 	</select>
 	
+	<!-- 보드code로 BOARD 가져오기 -->
 	<select id="getBoardByCode" resultType="Board">
 		SELECT *
 		FROM
@@ -233,7 +234,7 @@
 		`point` = 1
 	</insert>
 	
-	<!-- main에 일정 수의 개시글 가져오기 -->
+	<!-- 보드Id로 해당 게시물 가져오기 -->
 	<select id="getMethForArticles" resultMap="article">
 		SELECT *
 		FROM article
@@ -244,6 +245,7 @@
 		LIMIT 0, #{limit}
 	</select>
 	
+	<!-- 신고 리포트 저장 -->
 	<insert id="setReportDoc" parameterType="map">
 		INSERT INTO reportDoc
 		SET regDate = NOW(),
@@ -253,6 +255,28 @@
 		reportType = #{reportType},
 		reportBody = #{reportBody}
 	</insert>
+	
+	<!-- HOT 게시물 가져오기 -->
+	<select id="getHotArticles" resultMap="article">
+		SELECT A.*,
+		M.nickname AS extra__writer,
+		B.code AS extra__boardCode,
+		IFNULL(SUM(AL.point), 0) AS extra__likePoint
+		FROM article AS A
+		INNER JOIN MEMBER AS M
+		ON A.memberId = M.id
+		INNER JOIN board AS B
+		ON A.boardId = B.id
+		LEFT JOIN articleLike AS AL
+		ON A.id = AL.articleId
+		WHERE A.delStatus = 0
+		AND A.displayStatus = 1
+		AND M.delStatus = 0
+		GROUP BY A.id
+		ORDER BY extra__likePoint DESC, hit DESC
+		LIMIT 0, 5;
+	</select>
+	
 	
 	<resultMap type="Board" id="board">
 		<id property="id" column="id" />
@@ -284,6 +308,7 @@
 			<id property="likePoint" column="extra__likePoint" />
 			<id property="repliesCount" column="extra__repliesCount" />
 			<id property="boardName" column="extra__boardName" />
+			<id property="boardCode" column="extra__boardCode" />
 		</association>
 	</resultMap>
 </mapper>

@@ -55,5 +55,9 @@ public interface BoardDao {
 	// 신고Doc 삭제
 	void deleteReport(@Param("id") int id);
 
-
+	// HOT 커뮤니티
+	List<Board> getHotBoards();
+	
+	// NEW 커뮤니티
+	List<Board> getNewBoards();
 }

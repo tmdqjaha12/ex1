@@ -59,6 +59,8 @@ public interface ArticleDao {
 	// 내 글 목록
 	List<Article> getMyPageArticles(Map<String, Object> param);
 
+	List<Article> getHotArticles();
+
 
 	
 }
