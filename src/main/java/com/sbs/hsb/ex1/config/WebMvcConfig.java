@@ -66,5 +66,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		// level 2미만에서 접속할 수 없는 URI 전부 기술(이메일인증)
 				registry.addInterceptor(needToUserTwoLevelInterceptor).addPathPatterns("/usr/article/*-write")
 				.addPathPatterns("/usr/reply/doWriteReplyAjax").addPathPatterns("/usr/board/createBoard");
-	}
+	}//
 }
