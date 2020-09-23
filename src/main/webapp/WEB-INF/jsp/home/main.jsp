@@ -580,7 +580,7 @@
 		<ul>
 			<c:forEach items="${hotArticles}" var="hotArticle">
 				<li>			
-					<a href="${hotArticle.getDetailLink('hotArticle.extra.boardCode')}">
+					<a href="${hotArticle.getDetailLink(hotArticle.extra.boardCode)}">
 						<div class="article-regDate">${hotArticle.regDate}</div>
 						<div class="article-title">${hotArticle.title}</div>
 					</a>

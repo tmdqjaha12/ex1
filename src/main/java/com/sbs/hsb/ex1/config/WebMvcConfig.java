@@ -24,10 +24,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Qualifier("needToLogoutInterceptor")
 	HandlerInterceptor needToLogoutInterceptor;
 	
-	// needToUserLevelInterceptor 인터셉터 불러오기
+	// needToUserSixLevelInterceptor 인터셉터 불러오기
 	@Autowired
-	@Qualifier("needToUserLevelInterceptor")
-	HandlerInterceptor needToUserLevelInterceptor;
+	@Qualifier("needToUserSixLevelInterceptor")
+	HandlerInterceptor needToUserSixLevelInterceptor;
+	
+	// needToUserTwoLevelInterceptor
+	@Autowired
+	@Qualifier("needToUserTwoLevelInterceptor")
+	HandlerInterceptor needToUserTwoLevelInterceptor;
 
 	// 이 함수는 인터셉터를 적용하는 역할을 합니다.
 	@Override
@@ -54,8 +59,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/usr/member/doJoin");
 		
 		// level 6미만에서 접속할 수 없는 URI 전부 기술
-		registry.addInterceptor(needToUserLevelInterceptor).addPathPatterns("/usr/home/adminPage")
+		registry.addInterceptor(needToUserSixLevelInterceptor).addPathPatterns("/usr/home/adminPage")
 				.addPathPatterns("/usr/board/boardApplyList").addPathPatterns("/usr/board/doBoardApply")
 				.addPathPatterns("/usr/board/doBoardReject");
+		
+		// level 2미만에서 접속할 수 없는 URI 전부 기술(이메일인증)
+				registry.addInterceptor(needToUserTwoLevelInterceptor).addPathPatterns("/usr/article/*-write")
+				.addPathPatterns("/usr/reply/doWriteReplyAjax").addPathPatterns("/usr/board/createBoard");
 	}
 }

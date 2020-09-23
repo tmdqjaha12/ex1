@@ -336,13 +336,13 @@ function singo__submitSingoForm(form) {
 			<c:if test="${article.memberId != loginedMemberId }"><!-- 본인 게시물은 신고 좋아요 불가 -->
 				<!-- 좋아요 -->
 				<c:if test="${liked}">
-					<div class="likeit" style="margin-left:20px;">
+					<div class="likeit" style="margin-left:20px; margin-top:10px;">
 						<a href="/usr/article/doLike?id=${article.id}&redirectUrl=/usr/article/${board.code}-detail?id=${article.id}"
 							onclick="if ( confirm('추천하시겠습니까?') == false ) { return false; }"><i class="fab fa-gratipay" style="font-size: 1.5rem;"></i></a>
 					</div>
 				</c:if>
 				<c:if test="${!liked}">
-					<div style="margin-left:20px; margin-bottom:20px;">
+					<div style="margin-left:20px; margin-bottom:20px; margin-top:10px;">
 						<i class="fab fa-gratipay" style="font-size: 1.5rem; color:red;"></i>
 					</div>
 				</c:if>
