@@ -113,45 +113,45 @@
     .writer  { display: none; }
 }
 
-.list-background >  .list-box-1 {
+.list-background .list-box-1 {
 	margin:0 20px;
 }
 
-.list-background >  .list-box-1 > table {
+.list-background .list-box-1 > table {
 	width:100%;
 }
 
-.list-background >  .list-box-1 .table-thead{
+.list-background .list-box-1 .table-thead{
 	background-color:#6b6880;
 	color:#ebebf1;
 }
 
-.list-background >  .list-box-1 .table-thead > tr{
+.list-background .list-box-1 .table-thead > tr{
 	height:70px;
 }
 
-.list-background >  .list-box-1 .table-tbody > tr {
+.list-background .list-box-1 .table-tbody > tr {
 	height: 44px;
 }
 
-.list-background >  .list-box-1 .table-tbody > tr a {
+.list-background .list-box-1 .table-tbody > tr a {
 	text-decoration: none;
 }
 
-.list-background >  .list-box-1 .table-tbody > tr:hover{
+.list-background .list-box-1 .table-tbody > tr:hover{
 	background-color:#c6bcda;
 }
 
-.list-background >  .list-box-1  colgroup{
+.list-background .list-box-1  colgroup{
 	background-color:#ebebf1;
 }
 
-.list-background >  .list-box-1 > table {
+.list-background .list-box-1 > table {
 	border-spacing : 5px;
 
 }
 
-.list-background >  .list-box-1  .table-tbody td a {
+.list-background .list-box-1  .table-tbody td a {
 	display:block;
 	width:80px;
 	text-overflow:ellipsis;  
@@ -166,12 +166,12 @@
   }
 }
 */
-.list-background >  .list-box-1 .table-tbody  .list-title-1 > a:hover {
+.list-background .list-box-1 .table-tbody  .list-title-1 > a:hover {
 	text-decoration:underline;
 	color:blue;
 }
 
-.list-background >  .list-box-1 .table-tbody  .list-title-1 > a:active {
+.list-background .list-box-1 .table-tbody  .list-title-1 > a:active {
 	color:red;
 }
 
@@ -194,6 +194,54 @@
 }
 </style>
 
+
+<!-- 선택 삭제 script -->
+<script>
+	var SelectDeleteForm__submitDone = false;
+	function SelectDeleteForm__submit(form) {
+
+		var checkedCount = $(form).find('[name^="delArticle-"][type="checkbox"]:checked').length;
+		if ( checkedCount == 0 ) {
+			alert('삭제할 게시물을 체크해주세요.');
+			return;
+		}
+		
+		if (confirm('삭제 하시겠습니까?') == false) {
+			return;
+		}
+		
+		if (SelectDeleteForm__submitDone) {
+			alert('처리중입니다.');
+			return;
+		}
+
+		var startDeleteArticles = function(onSuccess) {
+			var articleDeleteFormData = new FormData(form);
+			$.ajax({
+				url : './../article/selectDelete',
+				data : articleDeleteFormData,
+				processData : false,
+				contentType : false,
+				dataType : "json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+		
+		SelectDeleteForm__submitDone = true;
+		
+		startDeleteArticles(function(data) {
+			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+				alert(data.msg);
+
+			}
+			location.reload();
+			form.submit();
+	
+		});
+	}
+
+</script>
 
 
 
@@ -247,16 +295,19 @@
 	</div>
 	
 	
-
+	<form action="" method="" onsubmit="SelectDeleteForm__submit(this); return false;">
 	<div class="list-box-1">
 		<table border="1">
 			<colgroup>
 				<col width="100" />
-				<col width="1000" />
-				<col width="150" />
-				<col width="200" />
-				<col width="100" />
-				<col width="100" />
+				<col width="1100" />
+				<col width="160" />
+				<col width="210" />
+				<col width="50" />
+				<col width="50" />
+				<c:if test="${board.memberId == loginedMemberId}">
+					<col width="20" />
+				</c:if>
 			</colgroup>
 			<thead class="table-thead">
 				<tr>
@@ -266,6 +317,9 @@
 					<th class="regdate">작성시간</th>
 					<th class="view">조회수</th>
 					<th class="recommed ">추천수</th>
+					<c:if test="${board.memberId == loginedMemberId}">
+						<th>비고</th>
+					</c:if>
 				</tr>
 			</thead>
 
@@ -292,6 +346,10 @@
 								<td class="text-center regdate"><a style="width: 170px;" href="#">${notice.regDate}</a></td>
 								<td class="padding-left-10 view"><a href="#">${notice.hit}</a></td>
 								<td class="padding-left-10 recommed "><a href="#">${notice.extra.likePoint}</a></td>
+								<c:if test="${board.memberId == loginedMemberId}">
+									<td>
+									</td>
+								</c:if>
 							</tr>
 						</c:forEach>
 						
@@ -311,36 +369,47 @@
 								<td class="text-center regdate"><a style="width: 170px;" href="#">${comuNotice.regDate}</a></td>
 								<td class="padding-left-10 view"><a href="#">${comuNotice.hit}</a></td>
 								<td class="padding-left-10 recommed "><a href="#">${comuNotice.extra.likePoint}</a></td>
+								<c:if test="${board.memberId == loginedMemberId}">
+									<td>
+									</td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</c:if>
 				</c:if>
 				
-				
-
 				<!-- 일반 글 -->
-				<c:forEach items="${articles}" var="article">
-
-
-					<tr>
-						<td class="padding-left-10"><a href="#">${article.id}</a></td>
-						<td class="padding-left-10 list-title-1">
-							<a style="width: 200px; cursor: pointer;"
-							 href="${article.getDetailLink(board.code)}">
-							 	${article.forPrintTitle}
-							 </a>
-							 <c:if test="${article.extra.repliesCount != 0}">
-						 		 <span>&nbsp&nbsp(* ${article.extra.repliesCount})</span>
-						 	</c:if>
-						<td class="padding-left-10 writer"><a href="#">${article.extra.writer}</a></td>
-						<td class="text-center regdate"><a style="width: 170px;" href="#">${article.regDate}</a></td>
-						<td class="padding-left-10 view"><a href="#">${article.hit}</a></td>
-						<td class="padding-left-10 recommed "><a href="#">${article.extra.likePoint}</a></td>
-					</tr>
-				</c:forEach>
+					<c:forEach items="${articles}" var="article">
+	
+	
+						<tr>
+							<td class="padding-left-10"><a href="#">${article.id}</a></td>
+							<td class="padding-left-10 list-title-1">
+								<a style="width: 200px; cursor: pointer;"
+								 href="${article.getDetailLink(board.code)}">
+								 	${article.forPrintTitle}
+								 </a>
+								 <c:if test="${article.extra.repliesCount != 0}">
+							 		 <span>&nbsp&nbsp(* ${article.extra.repliesCount})</span>
+							 	</c:if>
+							<td class="padding-left-10 writer"><a href="#">${article.extra.writer}</a></td>
+							<td class="text-center regdate"><a style="width: 170px;" href="#">${article.regDate}</a></td>
+							<td class="padding-left-10 view"><a href="#">${article.hit}</a></td>
+							<td class="padding-left-10 recommed "><a href="#">${article.extra.likePoint}</a></td>
+							<c:if test="${board.memberId == loginedMemberId}">
+								<td>
+									<input type="checkbox" name="delArticle-${article.id}" 
+									value="${loginedMemberId}__${board.id}__${article.id}"/>삭제
+								</td>
+							</c:if>
+						</tr>
+					</c:forEach>
+					
 			</tbody>
 		</table>
 	</div>
+	<input type="submit" value="선택삭제"/>
+	</form>
 	
 	<!-- 게시물 페이징 시작 -->
 	<div class="con page-box">

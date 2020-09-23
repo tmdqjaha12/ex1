@@ -262,6 +262,7 @@ public class ArticleController {
 		return "redirect:" + redirectUri;
 	}
 	
+	// 삭제
 	@RequestMapping("/usr/article/{boardCode}-doDelete")
 	public String doDelete(Model model, @PathVariable("boardCode") String boardCode, HttpServletRequest req) {
 		Board board = articleService.getBoardByCode(boardCode);
@@ -275,6 +276,26 @@ public class ArticleController {
 		model.addAttribute("msg", "삭제 완료");
 		
 		return "common/redirect";
+	}
+	
+	// 선택 삭제
+	@RequestMapping("/usr/article/selectDelete")
+	@ResponseBody
+	public ResultData doSelectDelete(@RequestParam Map<String, Object> param, Model model, HttpServletRequest req) {
+
+		System.out.println("papapa : " + param);
+		
+		for(String key : param.keySet()){
+			 
+            String value = (String) param.get(key);
+ 
+            String[] values = value.split("__");
+            
+            articleService.doDelete(Integer.parseInt(values[0]), Integer.parseInt(values[1]), Integer.parseInt(values[2]));
+            
+        }
+		
+		return new ResultData("S-1", String.format("삭제되었습니다."));
 	}
 	
 	//좋아요 기능
