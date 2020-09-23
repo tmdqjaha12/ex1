@@ -271,4 +271,14 @@ public class ArticleService {
 		return articleDao.getHotArticles();
 	}
 
+	// 공지사항
+	public List<Article> getForPrintNotices() {
+		return articleDao.getForPrintNotices();
+	}
+
+	// 커뮤니티 공지사항
+	public List<Article> getForPrintComuNotices(int boardId) {
+		return articleDao.getForPrintComuNotices(boardId);
+	}
+
 }

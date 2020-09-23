@@ -375,7 +375,7 @@ WHERE id = #{id}
 
 # 상세 게시물 , 작성자, 조회수, 추천수
 SELECT A.*,
-SUM(AL.point) AS extra__likePoint
+SUM(IFNULL(AL.point, 0)) AS extra__likePoint
 FROM (
     SELECT A.*,
     M.nickname AS extra__writer,
@@ -383,17 +383,18 @@ FROM (
     FROM article AS A
     INNER JOIN `member` AS M
     ON A.memberId = M.id
+    AND M.delStatus = 0
     LEFT JOIN reply AS RL
     ON A.id = RL.relId
     AND RL.relTypeCode = 'article'
     AND RL.displayStatus = 1
     AND RL.delStatus = 0
-    WHERE A.displayStatus = 1
+    <![CDATA[ WHERE A.displayStatus > 0 AND A.displayStatus < 3]]>
     AND A.delStatus = 0
-    AND A.id = 21
+    AND A.id = #{id}
     GROUP BY A.id
 ) AS A
-INNER JOIN articleLike AS AL
+LEFT JOIN articleLike AS AL
 ON A.id = AL.articleId
 GROUP BY A.id
 

@@ -117,6 +117,16 @@
 						<div style="font-weight: bold;">${board.name}게시판 글쓰기</div>
 					</td>
 				</tr>
+				<c:if test="${board.code != 'notice' && board.code != 'update' && board.code != 'question'}">
+					<c:if test="${board.memberId == loginedMemberId }">
+						<tr>
+							<th>비고</th>
+							<td>
+								<input type="checkbox" name="displayStatus" value="2" >공지사항
+							</td>
+						</tr>
+					</c:if>
+				</c:if>
 				<tr>
 					<th>제목</th>
 					<td>

@@ -59,7 +59,14 @@ public interface ArticleDao {
 	// 내 글 목록
 	List<Article> getMyPageArticles(Map<String, Object> param);
 
+	// hot 게시물
 	List<Article> getHotArticles();
+
+	// 공지사항
+	List<Article> getForPrintNotices();
+
+	// 커뮤니티 공지사항
+	List<Article> getForPrintComuNotices(@Param("boardId") int boardId);
 
 
 	

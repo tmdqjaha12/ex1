@@ -177,6 +177,21 @@
 
 
 /* 게시판 리스트 끝 */
+/* 공지사항 시작 */
+.notice-list-3{
+	background-color:#faa7b4; 
+	border:2px solid red;
+}
+.notice-list-3:hover{
+	background-color:#f76f83 !important;
+}
+
+.comu-notice-list{
+	background-color: #b1baf8;
+}
+.comu-notice-list:hover {
+	background-color: #8d8df3 !important;
+}
 </style>
 
 
@@ -257,7 +272,53 @@
 
 
 			<tbody class="table-tbody">
+				<!-- 현재 페이지가 첫페이지 일때만 -->
+				<c:if test="${nowPage == 1 || nowPage == null}">
+					<!-- 공지, 업뎃, 문의 게시판 빼고 -->
+					<c:if test="${board.code != 'notice' && board.code != 'update' && board.code != 'question'}">
+						<!-- 전체 공지 -->
+						<c:forEach items="${notices}" var="notice">
+							<tr class="notice-list-3" >
+								<td class="padding-left-10"><a href="#">${notice.id}</a></td>
+								<td class="padding-left-10 list-title-1">
+									<a style="width: 200px; cursor: pointer;"
+									 href="${notice.getDetailLink('notice')}">
+									 	<span style="font-weight: bold;">(전체공지)&nbsp</span>${notice.forPrintTitle}
+									 </a>
+									 <c:if test="${notice.extra.repliesCount != 0}">
+								 		 <span>&nbsp&nbsp(* ${notice.extra.repliesCount})</span>
+								 	</c:if>
+								<td class="padding-left-10 writer"><a href="#">${notice.extra.writer}</a></td>
+								<td class="text-center regdate"><a style="width: 170px;" href="#">${notice.regDate}</a></td>
+								<td class="padding-left-10 view"><a href="#">${notice.hit}</a></td>
+								<td class="padding-left-10 recommed "><a href="#">${notice.extra.likePoint}</a></td>
+							</tr>
+						</c:forEach>
+						
+						<!-- 커뮤니티 공지 -->
+						<c:forEach items="${comuNotices}" var="comuNotice">
+							<tr class="comu-notice-list" >
+								<td class="padding-left-10"><a href="#">${comuNotice.id}</a></td>
+								<td class="padding-left-10 list-title-1">
+									<a style="width: 200px; cursor: pointer;"
+									 href="${comuNotice.getDetailLink(board.code)}">
+									 	<span style="font-weight: bold;">(커뮤니티공지)&nbsp</span>${comuNotice.forPrintTitle}
+									 </a>
+									 <c:if test="${comuNotice.extra.repliesCount != 0}">
+								 		 <span>&nbsp&nbsp(* ${comuNotice.extra.repliesCount})</span>
+								 	</c:if>
+								<td class="padding-left-10 writer"><a href="#">${comuNotice.extra.writer}</a></td>
+								<td class="text-center regdate"><a style="width: 170px;" href="#">${comuNotice.regDate}</a></td>
+								<td class="padding-left-10 view"><a href="#">${comuNotice.hit}</a></td>
+								<td class="padding-left-10 recommed "><a href="#">${comuNotice.extra.likePoint}</a></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+				</c:if>
+				
+				
 
+				<!-- 일반 글 -->
 				<c:forEach items="${articles}" var="article">
 
 

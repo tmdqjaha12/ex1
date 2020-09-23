@@ -67,6 +67,7 @@ public class ArticleController {
 			page = page - 4;
 		}
 
+		req.setAttribute("nowPage", nowPage);	
 		req.setAttribute("page", page);		
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("totalPage", totalPage);
@@ -74,9 +75,13 @@ public class ArticleController {
 		
 		List<Article> articles = articleService.getForPrintListArticles(nowPage, itemsInAPage, boardId,
 				searchKeywordType, searchKeyword);
-
 		model.addAttribute("articles", articles);
-		System.out.println("articles ~~ : " + articles);
+		
+		List<Article> notices = articleService.getForPrintNotices();
+		model.addAttribute("notices", notices);
+		
+		List<Article> comuNotices = articleService.getForPrintComuNotices(boardId);
+		model.addAttribute("comuNotices", comuNotices);
 		
 		return "article/list";
 	}
@@ -208,9 +213,14 @@ public class ArticleController {
 	// 수정 실행
 	@RequestMapping("/usr/article/{boardCode}-doModify")
 	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, @PathVariable("boardCode") String boardCode, Model model) {
+		
+		if(param.get("displayStatus") == null){
+			param.put("displayStatus", 1);
+		}
+		
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
-		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr", "articleId", "id");
+		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr", "articleId", "id", "displayStatus");
 		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
 		ResultData checkActorCanModifyResultData = articleService.checkActorCanModify(loginedMember, id);
@@ -235,10 +245,15 @@ public class ArticleController {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
 		
-		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr");
+		if(param.get("displayStatus") == null){
+			param.put("displayStatus", 1);
+		}
+		
+		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr", "displayStatus");
 		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
 		newParam.put("boardId", board.getId());
 		newParam.put("memberId", loginedMemberId);
+		
 		int newArticleId = articleService.write(newParam);
 
 		String redirectUri = (String) param.get("redirectUri");
