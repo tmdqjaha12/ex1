@@ -533,8 +533,8 @@ public class MemberController {
 		return new ResultData("S-1", String.format("해당회원 밴 완료!"));
 	}
 	
-	//회원 밴 자동 초기화(1일)//86400
-	@Scheduled(fixedDelay = 10000000) 
+	//회원 밴 자동 초기화(1일)//1시간마다 작동@Scheduled(cron = "* * * * * *")
+	@Scheduled(fixedDelay = 3600000) 
 	public void hi() {
 		memberService.userBanAttrDelete();
 		System.out.println("hihihihihihhi");
