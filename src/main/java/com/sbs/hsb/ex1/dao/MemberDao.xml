@@ -5,7 +5,7 @@
 <mapper namespace="com.sbs.hsb.ex1.dao.MemberDao">
 	<select id="getMemberById" resultType="Member">
 		SELECT *
-		FROM member
+		FROM `member`
 		WHERE
 		id = #{id}
 	</select>
@@ -13,7 +13,7 @@
 	<!-- 닉네임으로 회원찾기 -->
 	<select id="getMemberByName" resultType="Member">
 		SELECT *
-		FROM member
+		FROM `member`
 		WHERE
 		nickname = #{nickname}
 	</select>
@@ -21,41 +21,41 @@
 	<select id="getLoginIdDupCount" resultType="int">
 		SELECT COUNT(*) AS
 		cnt
-		FROM member
+		FROM `member`
 		WHERE loginId = #{loginId}
 	</select>
 	
 	<select id="getNickNameDupCount" resultType="int">
 		SELECT COUNT(*) AS
 		cnt
-		FROM member
+		FROM `member`
 		WHERE nickname = #{nickname}
 	</select>
 	
 	<select id="getEmailDupCount" resultType="int">
 		SELECT COUNT(*) AS
 		cnt
-		FROM member
+		FROM `member`
 		WHERE email = #{email}
 	</select>
 	
 	<select id="getMemberByLoginId" resultType="Member">
 		SELECT *
-		FROM member
+		FROM `member`
 		WHERE loginId = #{loginId}
 		AND delStatus = 0
 	</select>
 	
 	<select id="getStringForFindId" resultType="String">
 		SELECT loginId
-		FROM member
+		FROM `member`
 		WHERE name = #{name}
 		AND email = #{email}
 	</select>
 	
 	<select id="getMemberIdByLoginIdAndNameAndEmail" resultType="int">
 		SELECT id
-		FROM member
+		FROM `member`
 		WHERE loginId = #{loginId}
 		AND name = #{name}
 		AND email = #{email}
@@ -63,7 +63,7 @@
 	
 	<!-- 비밀번호 변경 -->
 	<update id="setModifyPassword" useGeneratedKeys="true" keyProperty="id">
-		UPDATE member
+		UPDATE `member`
 		SET updateDate = NOW(),
 		loginPw = #{loginPwReal}
 		WHERE id = #{id}
@@ -71,14 +71,14 @@
 	
 	<!-- 아이디 탈퇴, delDate로 -->
 	<update id="doSecssion" useGeneratedKeys="true" keyProperty="id">
-		UPDATE member
+		UPDATE `member`
 		SET delDate = NOW(),
 		delStatus = 1
 		WHERE id = #{id}
 	</update>
 	
 	<update id="doMemberModify" useGeneratedKeys="true" keyProperty="id">
-		UPDATE member
+		UPDATE `member`
 		SET updateDate = NOW(),
 		nickname = #{nickname},
 		email = #{email}
@@ -87,7 +87,7 @@
 
 	<insert id="join" useGeneratedKeys="true" keyProperty="id">
 		INSERT
-		INTO member
+		INTO `member`
 		SET regDate = NOW(),
 		updateDate = NOW(),
 		loginId = #{loginId},

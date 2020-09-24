@@ -8,7 +8,7 @@
 		SELECT AR.*,
 		M.nickname AS extra__writer
 		FROM reply AS AR
-		INNER JOIN member AS M
+		INNER JOIN `member` AS M
 		ON AR.memberId = M.id
 		WHERE AR.relId = #{relId}
 		AND AR.relTypeCode = #{relTypeCode}
@@ -37,7 +37,7 @@
 		M.nickname AS extra__writer
 		FROM reply AS
 		AR
-		INNER JOIN member AS M
+		INNER JOIN `member` AS M
 		ON
 		AR.memberId = M.id
 		WHERE AR.id = #{id}

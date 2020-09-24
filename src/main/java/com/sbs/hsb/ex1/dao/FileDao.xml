@@ -41,7 +41,7 @@
 		SELECT id, regDate, updateDate, relTypeCode, relId, originFileName,
 		fileExt, typeCode, type2Code, fileExtTypeCode, fileExtType2Code,
 		fileNo, fileSize
-		FROM file
+		FROM `file`
 		WHERE 1
 		AND relId IN
 		<foreach item="relId" index="index" collection="relIds"
@@ -61,7 +61,7 @@
 		SELECT id, regDate, updateDate, relTypeCode, relId, originFileName,
 		fileExt, typeCode, type2Code, fileExtTypeCode, fileExtType2Code,
 		fileNo, fileSize
-		FROM file
+		FROM `file`
 		WHERE 1
 		AND relId IN
 		<foreach item="relId" index="index" collection="relIds"
@@ -82,7 +82,7 @@
 		fileExt, typeCode, type2Code, fileExtTypeCode,
 		fileExtType2Code,
 		fileNo, fileSize
-		FROM file
+		FROM `file`
 		WHERE 1
 		AND relId = #{relId}
 		AND relTypeCode = #{relTypeCode}
@@ -98,7 +98,7 @@
 		typeCode,
 		type2Code, fileExtTypeCode, fileExtType2Code, fileNo, body,
 		fileSize
-		FROM file
+		FROM `file`
 		WHERE 1
 		AND id = #{id}
 	</select>
@@ -113,20 +113,20 @@
 	</update>
 
 	<delete id="deleteFiles">
-		DELETE FROM file
+		DELETE FROM `file`
 		WHERE relId = #{relId}
 		AND relTypeCode
 		= #{relTypeCode}
 	</delete>
 
 	<delete id="deleteFile">
-		DELETE FROM file
+		DELETE FROM `file`
 		WHERE id = #{id}
 	</delete>
 
 	<select id="getFileId" resultType="int">
 		SELECT id
-		FROM file
+		FROM `file`
 		WHERE
 		relTypeCode = #{relTypeCode}
 		AND relId = #{relId}
