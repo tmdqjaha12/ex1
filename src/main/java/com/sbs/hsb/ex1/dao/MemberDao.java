@@ -33,4 +33,7 @@ public interface MemberDao {
 
 	int getMemberIdByLoginIdAndNameAndEmail(Map<String, Object> param);
 
+	// 닉네임으로 회원 찾기
+	Member getMemberByName(@Param("nickname") String nickname);
+
 }

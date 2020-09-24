@@ -39,6 +39,11 @@ public class MemberService {
 	public Member getMemberById(int id) {
 		return memberDao.getMemberById(id);
 	}
+	
+	// 닉네임으로 회원 찾기
+	public Member getMemberByName(String nickname) {
+		return memberDao.getMemberByName(nickname);
+	}
 
 	// 회원 가입
 	public int join(Map<String, Object> param) {
@@ -217,10 +222,10 @@ public class MemberService {
 	}
 	
 	// 회원 레벨 가져오기
-	public boolean isValidAdmined(int level) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	public boolean isValidAdmined(int level) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 
 	
 	// attr //
@@ -251,15 +256,14 @@ public class MemberService {
 		return authCode;
 	}// 회원정보 수정시 Code
 	
-//	public int removeUseTempPassword(int actorId) {
-//	    attrService.setValue("member__" + actorId + "__extra__useTempPassword", "");
-//		return 0;
-//	}// 임시패스워드 삭제 (비우기)
-	
 	public void genUseTempPassword(String loginId, String useTemp) {
 		System.out.println("임시패스워드 : " + loginId + " " + useTemp );
 		attrService.setValue("member__" + loginId + "__extra__useTempPassword", useTemp);
 	}// 임시패스워드 & 회원이 패스워드 변경여부,  임시패스워드발급=1  .. 비밀번호변경=0
+	
+	public void genUserBan(int actorId, String boardCode) {
+		attrService.setValue("member__" + actorId + "__" + boardCode +"__userBanBoardCode" , boardCode);
+	}// 회원 밴 하기
 	
 	//▼get▼
 	public boolean isValidEmailAuthCode(String actorId, String authCode) {
@@ -294,6 +298,17 @@ public class MemberService {
 		}
 		return false;
 	}// 임시패스워드 여부 가져오기
+	
+	public boolean isValidUserBan(int actorId, String boardCode) {
+		String banBoardCode = ""; 
+		if(attrService.getValue("member__" + actorId + "__" + boardCode + "__userBanBoardCode") != null) {
+			banBoardCode = attrService.getValue("member__" + actorId + "__" + boardCode + "__userBanBoardCode");
+			if(banBoardCode.equals(boardCode)) {
+				return true;
+			}
+		}
+		return false;
+	}// 회원 밴 가져오기
 
 	//remove▼
 	public int removeUseTempPassword(int actorId) {
@@ -306,8 +321,6 @@ public class MemberService {
 	
 	public Member getProImg(int loginedMemberId) {
 		Member member = memberDao.getMemberById(loginedMemberId);
-		
-//		updateForPrintInfo(member);
 		
 		List<File> files = fileService.getFiles("member", loginedMemberId, "common", "proImg");
 
@@ -322,7 +335,5 @@ public class MemberService {
 		Util.putExtraVal(member, "file__common__proImg", filesMap);
 		
 		return member;
-	}
-	
-
+	}	
 }

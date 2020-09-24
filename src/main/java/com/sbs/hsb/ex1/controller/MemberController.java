@@ -466,14 +466,10 @@ public class MemberController {
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		String oldEmail = (String) param.get("email");
 		
-//		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr");
-
-		
 		if (memberService.getEmailAuthed(loginedMemberId).equals(oldEmail) == false) {// 기존 이메일과 다를 시
 			memberService.genEmailAuthed(loginedMemberId, "");// 이메일 인증 초기화
 		}
 
-//		System.out.println("param :: " + param);
 		param.put("id", loginedMemberId);
 		memberService.doMemberModify(param);// 수정
 
@@ -483,12 +479,6 @@ public class MemberController {
 		return "common/redirect";
 	}
 
-	// 회원 정보 수정 끝 //
-
-//	@RequestMapping("/usr/member/administrate")
-//	public String showAdministrate() {
-//		return "member/administrate";
-//	}
 
 	// MY PAGE
 	@RequestMapping("/usr/member/myPage")
@@ -523,5 +513,22 @@ public class MemberController {
 		model.addAttribute("authCode", authCode);
 
 		return "member/myInfo";
+	}
+	
+	// 회원 밴 기능
+	@RequestMapping("/usr/member/ban")
+	@ResponseBody
+	public ResultData doUserBan(@RequestParam Map<String,Object> param, Model model, HttpServletRequest req) {
+		
+		Member member = memberService.getMemberByName((String) param.get("name"));
+		
+		if( member == null ) {
+			return new ResultData("S-1", String.format("존재하지 않는 회원입니다."));
+		}
+		
+		memberService.genUserBan(member.getId(), (String) param.get("boardCode"));
+		
+		
+		return new ResultData("S-1", String.format("해당회원 밴 완료!"));
 	}
 }

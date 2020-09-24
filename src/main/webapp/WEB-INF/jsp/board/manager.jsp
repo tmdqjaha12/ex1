@@ -256,6 +256,14 @@
 					</td>
 				</tr>
 				<tr>
+					<th>밴 유저 목록</th>
+					<td>
+						<div class="form-control-box">
+							<a href="/usr/board/${board.code}-banList">이동하기</a>
+						</div>
+					</td>
+				</tr>
+				<tr>
 					<th>수정</th>
 					<td>
 						<button class="modify-btn" type="submit">수정</button>
@@ -264,6 +272,58 @@
 				</tr>
 			</tbody>
 		</table>
+	</form>
+	
+	<script>
+	var UserBanForm__submitDone = false;
+	function UserBanForm__submit(form) {
+
+		if( form.name.value.length == 0 ){
+			alert('유저네임을 입력해주세요.');
+			return;
+		}
+		
+		if (confirm('해당 유저를 일일 밴 하시겠습니까?') == false) {
+			return;
+		}
+		
+		if (UserBanForm__submitDone) {
+			alert('처리중입니다.');
+			return;
+		}
+
+		var doBanUser = function(onSuccess) {
+			var userBanFormData = new FormData(form);
+			$.ajax({
+				url : './../member/ban',
+				data : userBanFormData,
+				processData : false,
+				contentType : false,
+				dataType : "json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+		
+		UserBanForm__submit = true;
+		
+		doBanUser(function(data) {
+			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+				alert(data.msg);
+
+			}
+			location.reload();
+			form.submit();
+	
+		});
+	}
+	</script>
+	
+	<form action="" method="" onsubmit="UserBanForm__submit(this); return false;" style="border:2px solid red; padding:10px; text-align: center;">
+		<div style="display: inline-block;">하루 밴</div>
+		<input type="hidden" name="boardCode" value="${board.code}" />
+		<input type="text" name="name" placeholder="유저네임"/>
+		<input type="submit" value="확인" />									
 	</form>
 </div>
 <%@ include file="../part/foot.jspf"%>

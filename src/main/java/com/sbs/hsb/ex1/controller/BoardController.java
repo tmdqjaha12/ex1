@@ -150,18 +150,11 @@ public class BoardController {
 	@RequestMapping("/usr/board/doDeleteReportAjax")
 	@ResponseBody
 	public ResultData doDeleteReportAjax(int id, HttpServletRequest req) {
-//		Member loginedMember = (Member) req.getAttribute("loginedMember");
-//		Reply reply = replyService.getForPrintReplyById(id);
-//
-//		if (replyService.actorCanDelete(loginedMember, reply) == false) {
-//			return new ResultData("F-1", String.format("%d번 댓글을 삭제할 권한이 없습니다.", id));
-//		}
-
 		boardService.deleteReport(id);
 
 		return new ResultData("S-1", String.format("삭제되었습니다.", id));
 	}
-	
+
 	//////////////////////////////MY-PAGE///////////////////////////////
 	
 	// 내 신청서 목록

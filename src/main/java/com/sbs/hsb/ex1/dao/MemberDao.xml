@@ -9,6 +9,14 @@
 		WHERE
 		id = #{id}
 	</select>
+	
+	<!-- 닉네임으로 회원찾기 -->
+	<select id="getMemberByName" resultType="Member">
+		SELECT *
+		FROM member
+		WHERE
+		nickname = #{nickname}
+	</select>
 
 	<select id="getLoginIdDupCount" resultType="int">
 		SELECT COUNT(*) AS

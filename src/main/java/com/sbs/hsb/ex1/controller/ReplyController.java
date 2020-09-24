@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sbs.hsb.ex1.dto.Member;
 import com.sbs.hsb.ex1.dto.Reply;
 import com.sbs.hsb.ex1.dto.ResultData;
+import com.sbs.hsb.ex1.service.MemberService;
 import com.sbs.hsb.ex1.service.ReplyService;
 import com.sbs.hsb.ex1.util.Util;
 
@@ -24,6 +25,8 @@ import com.sbs.hsb.ex1.util.Util;
 public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private MemberService memberService;
 
 	@RequestMapping("/usr/reply/getForPrintReplies")
 	@ResponseBody
@@ -46,10 +49,14 @@ public class ReplyController {
 	@RequestMapping("/usr/reply/doWriteReplyAjax")
 	@ResponseBody
 	public ResultData doWriteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
-		System.out.println("리플라이");
 		Map<String, Object> rsDataBody = new HashMap<>();
-
 		param.put("memberId", request.getAttribute("loginedMemberId"));
+		
+		boolean isValidBan = memberService.isValidUserBan((int)param.get("memberId"), (String)param.get("boardCode"));
+		System.out.println("과연 " + isValidBan);
+		if(isValidBan) {
+			return new ResultData("B-1", String.format("회원님은 해당커뮤니티 밴 상태입니다."), rsDataBody);
+		}
 
 		int newReplyId = replyService.writeReply(param);
 		rsDataBody.put("replyId", newReplyId);

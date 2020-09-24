@@ -193,19 +193,18 @@ public class ArticleController {
 			listUrl = "./" + boardCode + "-list";
 		}
 		
-		if(boardCode.equals("notice")) {
-			Member loginedMember = (Member)req.getAttribute("loginedMember");
-			if(loginedMember.getLevel() != 10) {
-				model.addAttribute("historyBack", true);
-				model.addAttribute("msg", "관리자 권한이 필요합니다.");
-				
-				return "common/redirect";
-			}
-		}
-		
 		model.addAttribute("listUrl", listUrl);
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
+		
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		boolean isValidBan = memberService.isValidUserBan(loginedMember.getId(), boardCode);
+		if(isValidBan) {
+			model.addAttribute("redirectUri", listUrl);
+			model.addAttribute("alertMsg", "회원님은 해당커뮤니티 밴 상태입니다.");
+			return "common/redirect";
+		}
+		
 		
 		return "article/write";
 	}

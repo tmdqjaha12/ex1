@@ -17,7 +17,7 @@ public class NeedToUserTwoLevelInterceptor implements HandlerInterceptor {
 		boolean isAjax = (boolean) request.getAttribute("isAjax");
 
 		
-		if(userLever < 2) {
+		if(userLever < 1) {
 			if (isAjax == false) {
 				response.setContentType("text/html; charset=UTF-8");
 				response.getWriter().append("<script>");

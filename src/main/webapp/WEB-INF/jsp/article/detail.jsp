@@ -857,6 +857,7 @@ function singo__submitSingoForm(form) {
 					data : {
 						fileIdsStr : fileIdsStr,
 						body : form.body.value,
+						boardCode : form.boardCode.value,
 						relTypeCode : form.relTypeCode.value,
 						relId : form.relId.value
 					},
@@ -898,7 +899,7 @@ function singo__submitSingoForm(form) {
 						</colgroup>
 						<tbody>
 							<tr>
-								<th>내용</th>
+								<th></th>
 								<td>
 									<div class="form-control-box">
 										<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300" style="resize: none; width: 420px;"></textarea>
@@ -921,6 +922,7 @@ function singo__submitSingoForm(form) {
 			<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
 				<input type="hidden" name="relTypeCode" value="article" />
 				<input type="hidden" name="relId" value="${article.id}" />
+				<input type="hidden" name="boardCode" value="${board.code}" />
 	
 				<table border="1">
 					<colgroup>
