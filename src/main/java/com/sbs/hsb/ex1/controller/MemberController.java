@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -530,5 +531,12 @@ public class MemberController {
 		
 		
 		return new ResultData("S-1", String.format("해당회원 밴 완료!"));
+	}
+	
+	//회원 밴 자동 초기화(1일)//86400
+	@Scheduled(fixedDelay = 10000000) 
+	public void hi() {
+		memberService.userBanAttrDelete();
+		System.out.println("hihihihihihhi");
 	}
 }

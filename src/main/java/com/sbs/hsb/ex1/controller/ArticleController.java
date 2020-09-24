@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sbs.hsb.ex1.dto.Article;
 import com.sbs.hsb.ex1.dto.Board;
 import com.sbs.hsb.ex1.dto.Member;
-import com.sbs.hsb.ex1.dto.Reply;
 import com.sbs.hsb.ex1.dto.ResultData;
 import com.sbs.hsb.ex1.service.ArticleService;
 import com.sbs.hsb.ex1.service.MemberService;
@@ -379,4 +379,5 @@ public class ArticleController {
 		
 		return "article/myPageArticleList";
 	}
+
 }

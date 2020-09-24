@@ -31,4 +31,11 @@
 		AND `type2Code` = #{type2Code}
 	</delete>
 	
+	<delete id="userBanAttrDelete">
+		DELETE FROM `attr`
+		<![CDATA[WHERE DATE(regDate) < DATE_SUB(NOW(), INTERVAL 1 DAY)]]>
+		AND type2Code = 'userBanBoardCode'
+	</delete>
+	
+	
 </mapper>

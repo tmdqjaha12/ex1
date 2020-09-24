@@ -335,5 +335,10 @@ public class MemberService {
 		Util.putExtraVal(member, "file__common__proImg", filesMap);
 		
 		return member;
+	}
+
+	// 밴 자동 해제 
+	public void userBanAttrDelete() {
+		attrService.userBanAttrDelete();
 	}	
 }

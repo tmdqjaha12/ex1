@@ -67,36 +67,9 @@ public class AttrService {
 		
 		return attrDao.remove(param);
 	}	
-
-//	public Attr get(String name) {
-//		String[] nameBits = name.split("__");
-//		String relTypeCode = nameBits[0];
-//		int relId = Integer.parseInt(nameBits[1]);
-//		String typeCode = nameBits[2];
-//		String type2Code = nameBits[3];
-//		
-//		return attrDao.get(relTypeCode, relId, typeCode, type2Code);
-//	}
-
 	
-
-//	public String getValue(String name) {
-//		String[] nameBits = name.split("__");
-//		String relTypeCode = nameBits[0];
-//		int relId = Integer.parseInt(nameBits[1]);
-//		String typeCode = nameBits[2];
-//		String type2Code = nameBits[3];
-//		
-//		return attrDao.getValue(relTypeCode, relId, typeCode, type2Code);
-//	}
-//
-//	public int remove(String name) {
-//		String[] nameBits = name.split("__");
-//		String relTypeCode = nameBits[0];
-//		int relId = Integer.parseInt(nameBits[1]);
-//		String typeCode = nameBits[2];
-//		String type2Code = nameBits[3];
-//		
-//		return attrDao.remove(relTypeCode, relId, typeCode, type2Code);
-//	}
+	// 밴 자동 해제 
+	public void userBanAttrDelete() {
+		attrDao.userBanAttrDelete();
+	}
 }
