@@ -408,7 +408,10 @@
 			</tbody>
 		</table>
 	</div>
-	<input type="submit" value="선택삭제" style="margin-left:auto; margin-right:20px; display: block;"/>
+	<c:if test="${board.memberId == loginedMemberId}">
+		<input type="submit" value="선택삭제" style="margin-left:auto; margin-right:20px; display: block;"/>
+	</c:if>
+	
 	</form>
 	
 	<!-- 게시물 페이징 시작 -->
