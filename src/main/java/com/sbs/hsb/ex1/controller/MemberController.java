@@ -205,7 +205,7 @@ public class MemberController {
 		// 임시 비밀번호 관련
 		boolean isUsedTempPassword = memberService.isValidUseTempPassword(member.getId());
 		if (isUsedTempPassword) {
-			model.addAttribute("redirectUri", "/usr/home/myPage");
+			model.addAttribute("redirectUri", "/usr/member/myInfo");
 			model.addAttribute("alertMsg", "임시비밀번호를 변경해주세요.");
 			return "common/redirect";
 		}
