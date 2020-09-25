@@ -256,14 +256,6 @@
 					</td>
 				</tr>
 				<tr>
-					<th>밴 유저 목록</th>
-					<td>
-						<div class="form-control-box">
-							<a href="/usr/board/${board.code}-banList">이동하기</a>
-						</div>
-					</td>
-				</tr>
-				<tr>
 					<th>수정</th>
 					<td>
 						<button class="modify-btn" type="submit">수정</button>
