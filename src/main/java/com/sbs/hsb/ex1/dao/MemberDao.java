@@ -36,4 +36,7 @@ public interface MemberDao {
 	// 닉네임으로 회원 찾기
 	Member getMemberByName(@Param("nickname") String nickname);
 
+	// 이메일인증 회원레벨2 등업
+	void upLevelOfMember(@Param("id") int loginedMemberId);
+
 }

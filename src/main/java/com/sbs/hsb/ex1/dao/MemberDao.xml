@@ -84,6 +84,14 @@
 		email = #{email}
 		WHERE id = #{id}
 	</update>
+	
+	<!-- 이메일인증 회원레벨2 등업 -->
+	<update id="upLevelOfMember" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `member`
+		SET updateDate = NOW(),
+		`level` = 2
+		WHERE id = #{id}
+	</update>
 
 	<insert id="join" useGeneratedKeys="true" keyProperty="id">
 		INSERT

@@ -340,5 +340,10 @@ public class MemberService {
 	// 밴 자동 해제 
 	public void userBanAttrDelete() {
 		attrService.userBanAttrDelete();
+	}
+
+	// 이메일인증 회원레벨2 등업
+	public void upLevelOfMember(int loginedMemberId) {
+		memberDao.upLevelOfMember(loginedMemberId);
 	}	
 }

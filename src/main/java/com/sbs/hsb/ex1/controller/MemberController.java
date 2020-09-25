@@ -110,10 +110,6 @@ public class MemberController {
 		String email = Util.getString(req, "email");
 		String redirectUri = "/usr/member/passwordForPrivate";
 
-		System.out.println("loginedMemberId : " + loginedMemberId);
-		System.out.println("authCode : " + authCode);
-		System.out.println("email : " + email);
-
 		if (memberService.isValidEmailAuthCode(strLoginedMemberId, authCode) == false) {// attr비교
 			redirectUri = "/usr/home/myPage";
 			model.addAttribute("redirectUri", redirectUri);
@@ -122,6 +118,7 @@ public class MemberController {
 		}
 
 		memberService.genEmailAuthed(loginedMemberId, email);// attr 이메일저장
+		memberService.upLevelOfMember(loginedMemberId);// 이메일인증 회원레벨2 등업
 
 		redirectUri = "/usr/home/main";
 		model.addAttribute("redirectUri", redirectUri);
