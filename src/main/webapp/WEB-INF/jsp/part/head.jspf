@@ -136,8 +136,7 @@ var param = ${paramJson};
 		//alert(window.location.href);
 */
 		</script>
-		
-		내이름은 :
+	
 		
 		<!-- 
 		<c:forEach var="i" begin="1" end="1" step="1">
