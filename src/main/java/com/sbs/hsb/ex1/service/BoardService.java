@@ -192,4 +192,9 @@ public class BoardService {
 	public List<Board> getNewBoards() {
 		return boardDao.getNewBoards();
 	}
+
+	public Board getBoardByCode(Map<String, Object> param) {
+		return boardDao.getBoardByCode(param);
+		
+	}
 }

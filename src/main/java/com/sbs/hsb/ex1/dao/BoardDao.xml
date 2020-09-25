@@ -166,6 +166,13 @@
 		LIMIT 0, 5;
 	</select>
 	
+	
+	<select id="getBoardByCode" resultMap="board">
+		SELECT *
+		FROM board
+		WHERE code = #{code}
+	</select>
+	
 	<resultMap type="ReportDoc" id="reportDoc">
 		<id property="id" column="id" />
 		<id property="regDate" column="regDate" />

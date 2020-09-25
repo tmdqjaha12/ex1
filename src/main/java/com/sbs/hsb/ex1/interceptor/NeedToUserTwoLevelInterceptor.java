@@ -13,6 +13,7 @@ public class NeedToUserTwoLevelInterceptor implements HandlerInterceptor {
 			throws Exception {
 
 		int userLever = (int) request.getAttribute("userLever");
+		System.out.println("userLever : " +  userLever);
 		
 		boolean isAjax = (boolean) request.getAttribute("isAjax");
 

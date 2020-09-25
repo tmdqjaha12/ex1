@@ -204,4 +204,20 @@ public class BoardController {
 
 		return "common/redirect";
 	}
+	
+	
+	// 임시
+	@RequestMapping("/usr/board/getBoard")
+	@ResponseBody
+	public ResultData doGetBoard(@RequestParam Map<String, Object> param, String data) {
+		
+		System.out.println("파람 " + param);
+		System.out.println("아래 : " + data);
+		
+		Board board = boardService.getBoardByCode(param);
+		
+		System.out.println("보드 " + board);
+		
+		return new ResultData("S-1", "hi?", "board", board);
+	}
 }

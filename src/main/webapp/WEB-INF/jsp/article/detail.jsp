@@ -702,8 +702,8 @@ function singo__submitSingoForm(form) {
 		function ReplyList__hideModifyFormModal() {
 			$('html').removeClass('reply-modify-form-modal-actived');
 		}
-		// 1초
-		ReplyList__loadMoreInterval = 1 * 100000000;
+		// 10초
+		ReplyList__loadMoreInterval = 1 * 10000;
 		function ReplyList__loadMoreCallback(data) {
 			if (data.body.replies && data.body.replies.length > 0) {
 				ReplyList__lastLodedId = data.body.replies[data.body.replies.length - 1].id;
@@ -892,6 +892,7 @@ function singo__submitSingoForm(form) {
 				<form class="article-apply-box table-box con form1" onsubmit="WriteReplyForm__submit(this); return false;">
 					<input type="hidden" name="relTypeCode" value="article" />
 					<input type="hidden" name="relId" value="${article.id}" />
+					<input type="hidden" name="boardCode" value="${board.code}" />
 		
 					<table border="1">
 						<colgroup>

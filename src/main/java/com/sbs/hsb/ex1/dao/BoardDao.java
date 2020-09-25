@@ -60,4 +60,7 @@ public interface BoardDao {
 	
 	// NEW 커뮤니티
 	List<Board> getNewBoards();
+
+	//
+	Board getBoardByCode(Map<String, Object> param);
 }
