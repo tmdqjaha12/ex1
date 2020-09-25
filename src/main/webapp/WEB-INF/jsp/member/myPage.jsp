@@ -156,7 +156,7 @@
 					<th>내 문의사항 목록</th>
 					<td>
 						<div class="form-control-box">
-							<a href="/usr/article/question-list">이동</a> 
+							<a href="#">이동</a> 
 						</div>
 					</td>
 				</tr>
